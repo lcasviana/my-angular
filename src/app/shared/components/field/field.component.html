@@ -1,0 +1,25 @@
+<fieldset class="inline-flex flex-col m-0 px-3 py-2 border-px bg-transparent focus-within:border-white">
+  @if (label()) {
+    <label class="text-sm leading-none opacity-75" [for]="inputId()">
+      {{ label() }}
+      @if (true) {
+        <span class="text-red-500">*</span>
+      }
+    </label>
+  }
+  <ng-content />
+</fieldset>
+@if (hint()) {
+  <small class="text-sm opacity-75">{{ hint() }}</small>
+}
+@for (error of errors(); track error.key) {
+  @if (error.key === "required") {
+    <small class="text-red-500">Required</small>
+  } @else if (error.key === "minlength") {
+    <small class="text-red-500">Too short</small>
+  } @else if (error.key === "maxlength") {
+    <small class="text-red-500">Too long</small>
+  } @else {
+    <small class="text-sm text-red-500">{{ error.value }}</small>
+  }
+}

@@ -1,0 +1,42 @@
+@if (control(); as control) {
+  @if (control.formControl; as formControl) {
+    @switch (control.type) {
+      @case ("checkbox") {
+        <input type="checkbox" [formControl]="formControl" />
+      }
+      @case ("color") {
+        <input type="color" [formControl]="formControl" />
+      }
+      @case ("date") {
+        <input type="date" [formControl]="formControl" />
+      }
+      @case ("number") {
+        <input type="number" [formControl]="formControl" />
+      }
+      @case ("password") {
+        <input type="password" [formControl]="formControl" />
+      }
+      @case ("radio") {
+        <input type="radio" [formControl]="formControl" />
+      }
+      @case ("range") {
+        <input type="range" [formControl]="formControl" />
+      }
+      @case ("select") {
+        <select [formControl]="formControl"></select>
+      }
+      @case ("text") {
+        <input type="text" [formControl]="formControl" />
+      }
+      @case ("textarea") {
+        <textarea [formControl]="formControl"></textarea>
+      }
+      @case ("time") {
+        <input type="time" [formControl]="formControl" />
+      }
+      @case ("toggle") {
+        <input type="checkbox" [formControl]="formControl" />
+      }
+    }
+  }
+}

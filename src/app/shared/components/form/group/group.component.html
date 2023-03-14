@@ -1,0 +1,14 @@
+@if (group(); as group) {
+  <span>{{ group | json }}</span>
+  @for (control of group.controls; track $index) {
+    @if (control.instance === "group") {
+      @if (getFormGroup(control.name); as formGroup) {
+        <my-form-group [group]="control" />
+      }
+    } @else {
+      @if (getFormControl(control.name); as formControl) {
+        <my-form-control [control]="control" />
+      }
+    }
+  }
+}
