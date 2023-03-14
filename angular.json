@@ -1,0 +1,121 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "my-angular": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/my-angular",
+      "sourceRoot": "projects/my-angular/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/my-angular",
+            "index": "projects/my-angular/src/index.html",
+            "main": "projects/my-angular/src/main.ts",
+            "polyfills": ["zone.js"],
+            "tsConfig": "projects/my-angular/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": ["projects/my-angular/src/favicon.ico", "projects/my-angular/src/assets"],
+            "styles": ["projects/my-angular/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "my-angular:build:production"
+            },
+            "development": {
+              "browserTarget": "my-angular:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["projects/my-angular/**/*.ts", "projects/my-angular/**/*.html"]
+          }
+        }
+      }
+    },
+    "my-design-system": {
+      "projectType": "library",
+      "root": "projects/my-design-system",
+      "sourceRoot": "projects/my-design-system/src",
+      "prefix": "my",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/my-design-system/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/my-design-system/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/my-design-system/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["projects/my-design-system/**/*.ts", "projects/my-design-system/**/*.html"]
+          }
+        }
+      }
+    },
+    "storybook": {
+      "projectType": "application",
+      "root": "stories",
+      "sourceRoot": "stories",
+      "architect": {
+        "build": {
+          "options": {
+            "tsConfig": ".storybook/tsconfig.json",
+            "styles": [],
+            "scripts": []
+          }
+        }
+      }
+    }
+  }
+}

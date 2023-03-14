@@ -1,0 +1,402 @@
+{
+  "pipes": [],
+  "interfaces": [],
+  "injectables": [],
+  "guards": [],
+  "interceptors": [],
+  "classes": [],
+  "directives": [],
+  "components": [
+    {
+      "name": "AppComponent",
+      "id": "component-AppComponent-9c1ab20d9a258e38d0caae81637ced1d4d1f2a6144eb439a07093b65825f00a6448721d7ef9d88b5f85136882c9f21cb5dc402347c8ebfd4a7869b9e37293aaf",
+      "file": "projects/my-angular/src/app/app.component.ts",
+      "encapsulation": [],
+      "entryComponents": [],
+      "inputs": [],
+      "outputs": [],
+      "providers": [],
+      "selector": "root",
+      "styleUrls": [],
+      "styles": [],
+      "templateUrl": ["app.component.html"],
+      "viewProviders": [],
+      "inputsClass": [],
+      "outputsClass": [],
+      "propertiesClass": [],
+      "methodsClass": [],
+      "deprecated": false,
+      "deprecationMessage": "",
+      "hostBindings": [],
+      "hostListeners": [],
+      "description": "",
+      "rawdescription": "\n",
+      "type": "component",
+      "sourceCode": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'root',\n  templateUrl: 'app.component.html',\n})\nexport class AppComponent {}\n",
+      "assetsDirs": [],
+      "styleUrlsData": "",
+      "stylesData": "",
+      "templateData": "<router-outlet />\n<button my-button>Hello World</button>\n<input my-input />\n"
+    },
+    {
+      "name": "ButtonComponent",
+      "id": "component-ButtonComponent-51735160d2e5d5b446fcdcc52e408dbefbd2e498164efa34e979e46557e93fc179d289c170f3cbf119aed0be8f4e03e17c73629489c5cf199902261b8bcc8d0d",
+      "file": "projects/my-design-system/src/lib/components/button/button.component.ts",
+      "changeDetection": "ChangeDetectionStrategy.OnPush",
+      "encapsulation": ["ViewEncapsulation.None"],
+      "entryComponents": [],
+      "inputs": [],
+      "outputs": [],
+      "providers": [],
+      "selector": "button[my-button]",
+      "styleUrls": ["button.component.scss"],
+      "styles": [],
+      "template": "<ng-content />",
+      "templateUrl": [],
+      "viewProviders": [],
+      "inputsClass": [],
+      "outputsClass": [],
+      "propertiesClass": [
+        {
+          "name": "class",
+          "defaultValue": "'my-button'",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "string",
+          "optional": false,
+          "description": "",
+          "line": 11,
+          "decorators": [
+            {
+              "name": "HostBinding",
+              "stringifiedArguments": "'class'"
+            }
+          ],
+          "modifierKind": [122]
+        }
+      ],
+      "methodsClass": [],
+      "deprecated": false,
+      "deprecationMessage": "",
+      "hostBindings": [
+        {
+          "name": "class",
+          "defaultValue": "'my-button'",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "line": 11,
+          "type": "string",
+          "decorators": []
+        }
+      ],
+      "hostListeners": [],
+      "description": "",
+      "rawdescription": "\n",
+      "type": "component",
+      "sourceCode": "import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation } from '@angular/core';\n\n@Component({\n  selector: 'button[my-button]',\n  template: '<ng-content />',\n  styleUrls: ['button.component.scss'],\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class ButtonComponent {\n  @HostBinding('class') protected class: string = 'my-button';\n}\n",
+      "assetsDirs": [],
+      "styleUrlsData": [
+        {
+          "data": "@use '../../styles/constants' as *;\n\n.my-button {\n  background-color: $color-white;\n  border: 1px solid $color-black;\n  color: $color-black;\n\n  &:active {\n    box-shadow: inset 0 0 2px 2px rgba($color-black, 25%);\n  }\n\n  &:focus {\n    box-shadow: 0 0 0 2px rgba($color-black, 25%);\n    outline: none;\n  }\n\n  &:hover {\n    background-color: rgba($color-black, 5%);\n  }\n}\n",
+          "styleUrl": "button.component.scss"
+        }
+      ],
+      "stylesData": ""
+    },
+    {
+      "name": "InputComponent",
+      "id": "component-InputComponent-cc799e1dd2130dc8e8ad4b20a0a1d00526b8adc0fec43f7718b6ab87c7d661f62634919e6b69f4e7c5cc87418da139f24d2883e1493e2d764d5b3aa160b1eca2",
+      "file": "projects/my-design-system/src/lib/components/input/input.component.ts",
+      "changeDetection": "ChangeDetectionStrategy.OnPush",
+      "encapsulation": ["ViewEncapsulation.None"],
+      "entryComponents": [],
+      "inputs": [],
+      "outputs": [],
+      "providers": [],
+      "selector": "input[my-input]",
+      "styleUrls": ["input.component.scss"],
+      "styles": [],
+      "template": "",
+      "templateUrl": [],
+      "viewProviders": [],
+      "inputsClass": [],
+      "outputsClass": [],
+      "propertiesClass": [
+        {
+          "name": "class",
+          "defaultValue": "'my-input'",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "string",
+          "optional": false,
+          "description": "",
+          "line": 11,
+          "decorators": [
+            {
+              "name": "HostBinding",
+              "stringifiedArguments": "'class'"
+            }
+          ],
+          "modifierKind": [122]
+        }
+      ],
+      "methodsClass": [],
+      "deprecated": false,
+      "deprecationMessage": "",
+      "hostBindings": [
+        {
+          "name": "class",
+          "defaultValue": "'my-input'",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "line": 11,
+          "type": "string",
+          "decorators": []
+        }
+      ],
+      "hostListeners": [],
+      "description": "",
+      "rawdescription": "\n",
+      "type": "component",
+      "sourceCode": "import { ChangeDetectionStrategy, Component, HostBinding, ViewEncapsulation } from '@angular/core';\n\n@Component({\n  selector: 'input[my-input]',\n  template: '',\n  styleUrls: ['input.component.scss'],\n  changeDetection: ChangeDetectionStrategy.OnPush,\n  encapsulation: ViewEncapsulation.None,\n})\nexport class InputComponent {\n  @HostBinding('class') protected class: string = 'my-input';\n}\n",
+      "assetsDirs": [],
+      "styleUrlsData": [
+        {
+          "data": ".my-input {\n  background-color: white;\n  border: 1px solid black;\n  color: black;\n}\n",
+          "styleUrl": "input.component.scss"
+        }
+      ],
+      "stylesData": ""
+    }
+  ],
+  "modules": [
+    {
+      "name": "AppModule",
+      "id": "module-AppModule-eb1a8b799f277c0cdc49221b5e2a6c27114592147b85de33496f41c1bb069b7f500bb9d270a480c103908d19fca3712043cc4c34e13e4e23618c0ebafa523b4a",
+      "description": "",
+      "deprecationMessage": "",
+      "deprecated": false,
+      "file": "projects/my-angular/src/app/app.module.ts",
+      "methods": [],
+      "sourceCode": "import { NgModule } from '@angular/core';\nimport { BrowserModule } from '@angular/platform-browser';\nimport { AppComponent } from '@app/app.component';\nimport { AppRoutingModule } from '@app/app.routing';\nimport { MyDesignSystemModule } from '@my-design-system';\n\n@NgModule({\n  bootstrap: [AppComponent],\n  declarations: [AppComponent],\n  imports: [BrowserModule, AppRoutingModule, MyDesignSystemModule],\n})\nexport class AppModule {}\n",
+      "children": [
+        {
+          "type": "providers",
+          "elements": []
+        },
+        {
+          "type": "declarations",
+          "elements": [
+            {
+              "name": "AppComponent"
+            }
+          ]
+        },
+        {
+          "type": "imports",
+          "elements": [
+            {
+              "name": "AppRoutingModule"
+            },
+            {
+              "name": "MyDesignSystemModule"
+            }
+          ]
+        },
+        {
+          "type": "exports",
+          "elements": []
+        },
+        {
+          "type": "bootstrap",
+          "elements": [
+            {
+              "name": "AppComponent"
+            }
+          ]
+        },
+        {
+          "type": "classes",
+          "elements": []
+        }
+      ]
+    },
+    {
+      "name": "AppRoutingModule",
+      "id": "module-AppRoutingModule-0dc291a0afd3272506872fe6fa763d13caf4b8fd5fcd9d9673ea721d0260167c3929f23647cd16ac134dd8c37af92788e0497290e40e237a1993e3e2cd47364b",
+      "description": "",
+      "deprecationMessage": "",
+      "deprecated": false,
+      "file": "projects/my-angular/src/app/app.routing.ts",
+      "methods": [],
+      "sourceCode": "import { NgModule } from '@angular/core';\nimport { RouterModule, Routes } from '@angular/router';\n\nconst routes: Routes = [];\n\n@NgModule({\n  imports: [RouterModule.forRoot(routes)],\n  exports: [RouterModule],\n})\nexport class AppRoutingModule {}\n",
+      "children": [
+        {
+          "type": "providers",
+          "elements": []
+        },
+        {
+          "type": "declarations",
+          "elements": []
+        },
+        {
+          "type": "imports",
+          "elements": []
+        },
+        {
+          "type": "exports",
+          "elements": []
+        },
+        {
+          "type": "bootstrap",
+          "elements": []
+        },
+        {
+          "type": "classes",
+          "elements": []
+        }
+      ]
+    },
+    {
+      "name": "MyDesignSystemModule",
+      "id": "module-MyDesignSystemModule-33cc4a4813e1e58df0557385fbccb0dd497ef25a10b91083d5d39abad8691e59bb161d1ed6ef9204640821abe2e96dc2646689526f8594c4c1e0db46c1a5b7dc",
+      "description": "",
+      "deprecationMessage": "",
+      "deprecated": false,
+      "file": "projects/my-design-system/src/lib/my-design-system.module.ts",
+      "methods": [],
+      "sourceCode": "import { NgModule, Type } from '@angular/core';\nimport { ButtonComponent, InputComponent } from './components';\n\nconst components: Array<Type<unknown>> = [ButtonComponent, InputComponent];\n\n@NgModule({\n  declarations: [...components],\n  exports: [...components],\n})\nexport class MyDesignSystemModule {}\n",
+      "children": [
+        {
+          "type": "providers",
+          "elements": []
+        },
+        {
+          "type": "declarations",
+          "elements": [
+            {
+              "name": "ButtonComponent"
+            },
+            {
+              "name": "InputComponent"
+            }
+          ]
+        },
+        {
+          "type": "imports",
+          "elements": []
+        },
+        {
+          "type": "exports",
+          "elements": [
+            {
+              "name": "ButtonComponent"
+            },
+            {
+              "name": "InputComponent"
+            }
+          ]
+        },
+        {
+          "type": "bootstrap",
+          "elements": []
+        },
+        {
+          "type": "classes",
+          "elements": []
+        }
+      ]
+    }
+  ],
+  "miscellaneous": {
+    "variables": [
+      {
+        "name": "components",
+        "ctype": "miscellaneous",
+        "subtype": "variable",
+        "file": "projects/my-design-system/src/lib/my-design-system.module.ts",
+        "deprecated": false,
+        "deprecationMessage": "",
+        "type": "Array<Type<>>",
+        "defaultValue": "[ButtonComponent, InputComponent]"
+      }
+    ],
+    "functions": [],
+    "typealiases": [],
+    "enumerations": [],
+    "groupedVariables": {
+      "projects/my-design-system/src/lib/my-design-system.module.ts": [
+        {
+          "name": "components",
+          "ctype": "miscellaneous",
+          "subtype": "variable",
+          "file": "projects/my-design-system/src/lib/my-design-system.module.ts",
+          "deprecated": false,
+          "deprecationMessage": "",
+          "type": "Array<Type<>>",
+          "defaultValue": "[ButtonComponent, InputComponent]"
+        }
+      ]
+    },
+    "groupedFunctions": {},
+    "groupedEnumerations": {},
+    "groupedTypeAliases": {}
+  },
+  "routes": {
+    "name": "<root>",
+    "kind": "module",
+    "className": "AppModule",
+    "children": [
+      {
+        "name": "routes",
+        "filename": "projects/my-angular/src/app/app.routing.ts",
+        "module": "AppRoutingModule",
+        "children": [],
+        "kind": "module"
+      }
+    ]
+  },
+  "coverage": {
+    "count": 0,
+    "status": "low",
+    "files": [
+      {
+        "filePath": "projects/my-angular/src/app/app.component.ts",
+        "type": "component",
+        "linktype": "component",
+        "name": "AppComponent",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/my-design-system/src/lib/components/button/button.component.ts",
+        "type": "component",
+        "linktype": "component",
+        "name": "ButtonComponent",
+        "coveragePercent": 0,
+        "coverageCount": "0/3",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/my-design-system/src/lib/components/input/input.component.ts",
+        "type": "component",
+        "linktype": "component",
+        "name": "InputComponent",
+        "coveragePercent": 0,
+        "coverageCount": "0/3",
+        "status": "low"
+      },
+      {
+        "filePath": "projects/my-design-system/src/lib/my-design-system.module.ts",
+        "type": "variable",
+        "linktype": "miscellaneous",
+        "linksubtype": "variable",
+        "name": "components",
+        "coveragePercent": 0,
+        "coverageCount": "0/1",
+        "status": "low"
+      }
+    ]
+  }
+}
