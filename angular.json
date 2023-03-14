@@ -1,0 +1,45 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": false,
+    "cache": { "enabled": false },
+    "packageManager": "bun",
+    "schematicCollections": []
+  },
+  "newProjectRoot": "projects",
+  "projects": {
+    "my-angular": {
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "configurations": {
+            "development": { "optimization": false, "outputHashing": "none", "sourceMap": true },
+            "production": { "optimization": true, "outputHashing": "all", "sourceMap": false }
+          },
+          "defaultConfiguration": "production",
+          "options": {
+            "assets": ["src/favicon.ico"],
+            "browser": "src/main.ts",
+            "index": "src/index.html",
+            "inlineStyleLanguage": "scss",
+            "outputPath": { "base": "dist/my-angular", "browser": "" },
+            "tsConfig": "tsconfig.app.json"
+          }
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "development": { "buildTarget": "my-angular:build:development" },
+            "production": { "buildTarget": "my-angular:build:production" }
+          },
+          "defaultConfiguration": "development"
+        }
+      },
+      "prefix": "my",
+      "projectType": "application",
+      "root": "",
+      "sourceRoot": "src"
+    }
+  },
+  "version": 1
+}
