@@ -1,11 +1,19 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { GraphComponent, GraphData } from './shared/components/graph/graph.component';
 
 @Component({
-  selector: 'app-root',
-  template: ` <router-outlet></router-outlet> `,
+  selector: 'my-root',
+  template: `<my-graph [data]="graph" />`,
   styles: [],
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [GraphComponent],
 })
-export class AppComponent {}
+export class AppComponent {
+  protected graph: Array<GraphData> = [
+    {
+      x: [1, 2, 3, 4],
+      y: [10, 15, 13, 17],
+      type: 'scatter',
+    },
+  ];
+}

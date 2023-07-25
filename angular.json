@@ -42,7 +42,8 @@
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.css"],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": ["plotly.js-basic-dist-min"]
           },
           "configurations": {
             "production": { "buildOptimizer": true, "optimization": true, "outputHashing": "all" },

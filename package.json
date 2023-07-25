@@ -25,8 +25,11 @@
     "@angular/platform-browser": "^16.1.6",
     "@angular/platform-browser-dynamic": "^16.1.6",
     "@angular/router": "^16.1.6",
+    "angular-plotly.js": "^5.2.1",
+    "plotly.js-basic-dist-min": "^2.24.3",
     "rxjs": "~7.8.1",
     "tslib": "^2.6.0",
+    "uuid": "^9.0.0",
     "zone.js": "~0.13.1"
   },
   "devDependencies": {
@@ -37,6 +40,8 @@
     "@angular-eslint/template-parser": "16.1.0",
     "@angular/cli": "~16.1.5",
     "@angular/compiler-cli": "^16.1.6",
+    "@types/plotly.js-basic-dist-min": "^2.12.1",
+    "@types/uuid": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^6.2.0",
     "@typescript-eslint/parser": "^6.2.0",
     "concurrently": "^8.2.0",
