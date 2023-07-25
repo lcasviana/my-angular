@@ -43,7 +43,7 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.css"],
             "scripts": [],
-            "allowedCommonJsDependencies": ["plotly.js-basic-dist-min"]
+            "allowedCommonJsDependencies": ["plotly.js-basic-dist-min", "uuid"]
           },
           "configurations": {
             "production": { "buildOptimizer": true, "optimization": true, "outputHashing": "all" },
