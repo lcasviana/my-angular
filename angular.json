@@ -14,19 +14,21 @@
       "schematics": {
         "@schematics/angular:component": {
           "changeDetection": "OnPush",
+          "flat": true,
           "inlineTemplate": true,
           "inlineStyle": true,
           "skipTests": true,
           "standalone": true,
+          "style": "scss",
           "viewEncapsulation": "None"
         },
         "@schematics/angular:class": { "skipTests": true },
-        "@schematics/angular:directive": { "skipTests": true, "standalone": true },
-        "@schematics/angular:guard": { "skipTests": true },
-        "@schematics/angular:interceptor": { "skipTests": true },
-        "@schematics/angular:pipe": { "skipTests": true, "standalone": true },
-        "@schematics/angular:resolver": { "skipTests": true },
-        "@schematics/angular:service": { "skipTests": true }
+        "@schematics/angular:directive": { "flat": true, "skipTests": true, "standalone": true },
+        "@schematics/angular:guard": { "flat": true, "skipTests": true },
+        "@schematics/angular:interceptor": { "flat": true, "skipTests": true },
+        "@schematics/angular:pipe": { "flat": true, "skipTests": true, "standalone": true },
+        "@schematics/angular:resolver": { "flat": true, "skipTests": true },
+        "@schematics/angular:service": { "flat": true, "skipTests": true }
       },
       "root": "",
       "sourceRoot": "src",
@@ -40,8 +42,9 @@
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.css"],
+            "styles": ["src/styles.scss"],
             "scripts": [],
             "allowedCommonJsDependencies": ["plotly.js-basic-dist-min", "uuid"]
           },
