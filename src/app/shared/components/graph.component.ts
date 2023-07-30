@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
 import { PlotlyModule } from 'angular-plotly.js';
 import * as Plotly from 'plotly.js-basic-dist-min';
 import { Config as GraphConfig, Data as GraphData, Layout as GraphLayout } from 'plotly.js-basic-dist-min';
@@ -22,6 +22,8 @@ PlotlyModule.plotlyjs = Plotly;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GraphComponent implements Graph {
+  @HostBinding('class') protected class = 'inline-block';
+
   @Input() id: string = uuid.v4();
   @Input() data: Array<GraphData> = [];
   @Input() layout: Partial<GraphLayout> | undefined;
