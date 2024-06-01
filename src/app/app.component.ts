@@ -1,22 +1,26 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FieldComponent } from './components/field.component';
+import { InputComponent } from './components/input.component';
 
 @Component({
   selector: 'my-root',
   template: `
     <form class="inline-block" [formGroup]="formGroup">
-      <input type="number" class="w-32" formControlName="number" />
-      <input type="text" class="w-32" formControlName="text" />
+      <fieldset my-field label="Text" for="text">
+        <input my-input #text id="text" type="text" formControlName="text" />
+      </fieldset>
     </form>
   `,
   standalone: true,
-  imports: [ReactiveFormsModule],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ReactiveFormsModule, FieldComponent, InputComponent],
 })
 export class AppComponent {
-  protected formGroup = new FormGroup({
-    number: new FormControl<number>(1, { nonNullable: true }),
-    text: new FormControl<string>('1', { nonNullable: true }),
+  private readonly formBuilder = inject(FormBuilder);
+
+  protected formGroup = this.formBuilder.nonNullable.group({
+    text: ['1'],
   });
 }

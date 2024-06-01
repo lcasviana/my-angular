@@ -5,7 +5,7 @@
     "analytics": false,
     "cache": { "enabled": false },
     "packageManager": "bun",
-    "schematicCollections": ["@angular-eslint/schematics"]
+    "schematicCollections": []
   },
   "newProjectRoot": "projects",
   "projects": {
@@ -40,17 +40,24 @@
             "outputPath": "dist/my-angular",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": [],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
-            "scripts": [],
-            "allowedCommonJsDependencies": []
+            "styles": ["src/styles.scss"]
           },
           "configurations": {
-            "production": { "buildOptimizer": true, "optimization": true, "outputHashing": "all" },
-            "development": { "buildOptimizer": false, "optimization": false, "sourceMap": true }
+            "production": {
+              "buildOptimizer": true,
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "sourceMap": true,
+              "outputHashing": "none"
+            }
           },
           "defaultConfiguration": "production"
         },
