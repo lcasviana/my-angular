@@ -1,4 +1,4 @@
-import { importProvidersFrom } from '@angular/core';
+import { importProvidersFrom, provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { PreloadAllModules, provideRouter, withHashLocation, withPreloading } from '@angular/router';
@@ -11,5 +11,6 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(BrowserModule),
     provideAnimations(),
     provideRouter(appRoutes, withHashLocation(), withPreloading(PreloadAllModules)),
+    provideExperimentalZonelessChangeDetection(),
   ],
 }).catch(err => console.error(err));

@@ -40,13 +40,13 @@
             "outputPath": "dist/my-angular",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": [],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.scss"],
             "scripts": [],
-            "allowedCommonJsDependencies": ["uuid"]
+            "allowedCommonJsDependencies": []
           },
           "configurations": {
             "production": { "buildOptimizer": true, "optimization": true, "outputHashing": "all" },
