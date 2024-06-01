@@ -1,18 +1,38 @@
 // Angular Material
 
 @use '@angular/material' as mat;
+
 @include mat.core();
+
 // prettier-ignore
-$my-theme: mat.define-light-theme((
+$theme-dark: mat.define-theme((
   color: (
-    primary: mat.define-palette(mat.$gray-palette),
-    accent: mat.define-palette(mat.$brown-palette),
-    warn: mat.define-palette(mat.$red-palette),
+    theme-type: dark,
+    primary: mat.$rose-palette,
   ),
-  typography: mat.define-typography-config(),
-  density: 0,
 ));
-@include mat.all-component-themes($my-theme);
+
+// prettier-ignore
+$theme-light: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$rose-palette,
+  ),
+));
+
+html {
+  @include mat.all-component-themes($theme-dark);
+  @media (prefers-color-scheme: light) {
+    @include mat.all-component-colors($theme-light);
+  }
+}
+
+body {
+  background-color: #101010;
+  @media (prefers-color-scheme: light) {
+    background-color: #fefefe;
+  }
+}
 
 // TailwindCSS
 
