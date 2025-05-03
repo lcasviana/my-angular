@@ -12,29 +12,38 @@ This Angular project is a financial tracker application designed to help users m
 
   - `uuid`: Unique identifier for each expense
   - `title`: Name/title of the expense
-  - `startDate`: When the expense begins
-  - `recurrency`: How often the expense occurs (monthly, yearly)
   - `category`: Type/category of expense
+  - `startDate`: When the expense begins
+  - `recurrence`: How often the expense occurs (monthly, yearly)
 
 - **Optional Fields:**
+
+  - `description`: Additional notes about the expense
   - `endDate`: When the expense ends (null for ongoing expenses)
   - `paymentMethod`: Method of payment (credit card, bank transfer, etc.)
-  - `description`: Additional notes about the expense
   - `payments`: List of individual payments for this expense
 
 ### Payment
 
 - **Required Fields:**
+
   - `uuid`: Unique identifier for each payment
-  - `paymentDate`: Date when payment was made
+  - `date`: Date when payment was made
   - `value`: Amount paid
+
+## Project Structure
+
+This project uses Angular v19 (Zoneless) with the following structure:
+
+- Models: Define data structures (expense, payment)
+- Components: UI elements following the requirements below
+- Services: Business logic and data manipulation
+- Store: NgRx state management for the application
 
 ## Tasks
 
 ### Todo
 
-- [ ] Set up basic project structure
-- [ ] Create expense data models based on guidelines
 - [ ] Implement expense creation form
 - [ ] Develop expense listing and filtering functionality
 - [ ] Add payment tracking features
@@ -45,11 +54,13 @@ This Angular project is a financial tracker application designed to help users m
 
 ### Ongoing
 
-- [ ] Setting up project architecture
+- [ ] Implement NgRx state management for expenses
 
 ### Completed
 
 - [x] Project initialization
+- [x] Set up basic project structure
+- [x] Create expense data models based on guidelines
 
 ## Development Guidelines
 
@@ -68,3 +79,10 @@ This Angular project is a financial tracker application designed to help users m
 - Styles must be inline (no separate CSS/SCSS files)
 - Always use Angular's built-in control flow syntax (@if, @for, etc.)
 - Use the inject() function for dependency injection instead of constructor injection
+
+### Tooling
+
+- **Package Manager**: Bun
+- **CSS Framework**: TailwindCSS
+- **Linting**: ESLint + Prettier (enforced via husky pre-commit hooks)
+- **Build**: Angular CLI with custom configurations
