@@ -2,13 +2,15 @@ import { CommonModule, DatePipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, signal } from "@angular/core";
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { v4 as uuidv4 } from "uuid";
+import { ExpenseFilterComponent, ExpenseFilterCriteria } from "./components/expense-filter.component";
 import { Expense } from "./models";
 import { ExpenseStore } from "./store/signal-store/expense.store";
 
 @Component({
   selector: "my-root",
-  standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, DatePipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, DatePipe, ExpenseFilterComponent],
   template: `
     <div class="container mx-auto p-4">
       <header class="mb-8">
@@ -132,80 +134,87 @@ import { ExpenseStore } from "./store/signal-store/expense.store";
         </section>
 
         <!-- Expenses List -->
-        <section class="bg-white p-6 rounded-lg shadow">
-          <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-semibold">Expenses</h2>
-            <div class="flex gap-2">
-              <button
-                class="bg-green-500 hover:bg-green-600 text-white text-sm py-1 px-2 rounded"
-                (click)="loadExpenses()"
-                [disabled]="expenseStore.isLoading()"
-              >
-                Refresh
-              </button>
-            </div>
-          </div>
+        <section>
+          <!-- Filter Component -->
+          <my-expense-filter [categories]="expenseStore.uniqueCategories()" (filterChange)="handleFilterChange($event)" />
 
-          @if (expenseStore.isLoading()) {
-            <div class="flex justify-center items-center py-4">
-              <p class="text-gray-500">Loading...</p>
+          <div class="bg-white p-6 rounded-lg shadow">
+            <div class="flex justify-between items-center mb-4">
+              <div>
+                <h2 class="text-xl font-semibold">Expenses</h2>
+                <p class="text-sm text-gray-500">Showing {{ expenseStore.filteredExpenseCount() }} of {{ expenseStore.expenseCount() }} expenses</p>
+              </div>
+              <div class="flex gap-2">
+                <button
+                  class="bg-green-500 hover:bg-green-600 text-white text-sm py-1 px-2 rounded"
+                  (click)="loadExpenses()"
+                  [disabled]="expenseStore.isLoading()"
+                >
+                  Refresh
+                </button>
+              </div>
             </div>
-          } @else if (expenseStore.allExpenses().length === 0) {
-            <div class="flex justify-center items-center py-4">
-              <p class="text-gray-500">No expenses found</p>
-            </div>
-          } @else {
-            <div class="overflow-x-auto">
-              <table class="min-w-full bg-white">
-                <thead>
-                  <tr>
-                    <th class="py-2 px-4 border-b text-left">Title</th>
-                    <th class="py-2 px-4 border-b text-left">Category</th>
-                    <th class="py-2 px-4 border-b text-left">Start Date</th>
-                    <th class="py-2 px-4 border-b text-left">Recurrence</th>
-                    <th class="py-2 px-4 border-b text-center">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @for (expense of expenseStore.allExpenses(); track expense.uuid) {
+
+            @if (expenseStore.isLoading()) {
+              <div class="flex justify-center items-center py-4">
+                <p class="text-gray-500">Loading...</p>
+              </div>
+            } @else if (expenseStore.filteredExpenses().length === 0) {
+              <div class="flex justify-center items-center py-4">
+                <p class="text-gray-500">No expenses found</p>
+              </div>
+            } @else {
+              <div class="overflow-x-auto">
+                <table class="min-w-full bg-white">
+                  <thead>
                     <tr>
-                      <td class="py-2 px-4 border-b">{{ expense.title }}</td>
-                      <td class="py-2 px-4 border-b">{{ expense.category }}</td>
-                      <td class="py-2 px-4 border-b">{{ expense.startDate | date: "shortDate" }}</td>
-                      <td class="py-2 px-4 border-b">{{ expense.recurrence }}</td>
-                      <td class="py-2 px-4 border-b text-center">
-                        <button class="text-blue-500 hover:text-blue-700 mr-2" (click)="editExpense(expense)">Edit</button>
-                        <button class="text-red-500 hover:text-red-700" (click)="deleteExpense(expense.uuid)">Delete</button>
-                      </td>
+                      <th class="py-2 px-4 border-b text-left">Title</th>
+                      <th class="py-2 px-4 border-b text-left">Category</th>
+                      <th class="py-2 px-4 border-b text-left">Start Date</th>
+                      <th class="py-2 px-4 border-b text-left">Recurrence</th>
+                      <th class="py-2 px-4 border-b text-center">Actions</th>
                     </tr>
-                  }
-                </tbody>
-              </table>
-            </div>
-          }
+                  </thead>
+                  <tbody>
+                    @for (expense of expenseStore.filteredExpenses(); track expense.uuid) {
+                      <tr>
+                        <td class="py-2 px-4 border-b">{{ expense.title }}</td>
+                        <td class="py-2 px-4 border-b">{{ expense.category }}</td>
+                        <td class="py-2 px-4 border-b">{{ expense.startDate | date: "shortDate" }}</td>
+                        <td class="py-2 px-4 border-b">{{ expense.recurrence }}</td>
+                        <td class="py-2 px-4 border-b text-center">
+                          <button class="text-blue-500 hover:text-blue-700 mr-2" (click)="editExpense(expense)">Edit</button>
+                          <button class="text-red-500 hover:text-red-700" (click)="deleteExpense(expense.uuid)">Delete</button>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            }
+          </div>
         </section>
       </div>
     </div>
   `,
   styles: `
-    :host {
+    .my-root {
       display: block;
       background-color: #f9fafb;
       min-height: 100vh;
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
+  host: { class: "my-root" },
 })
 export class AppComponent {
-  private fb = inject(FormBuilder);
-  protected expenseStore = inject(ExpenseStore);
+  private readonly fb = inject(FormBuilder);
+  protected readonly expenseStore = inject(ExpenseStore);
 
   // Signal to track if we're in edit mode
-  protected editMode = signal(false);
+  protected readonly editMode = signal(false);
 
   // Form for creating/editing expenses
-  protected expenseForm: FormGroup = this.fb.group({
+  protected readonly expenseForm: FormGroup = this.fb.group({
     uuid: [""],
     title: ["", Validators.required],
     category: ["", Validators.required],
@@ -216,16 +225,18 @@ export class AppComponent {
     paymentMethod: [""],
   });
 
-  constructor() {
-    // Load expenses when component initializes
-    this.loadExpenses();
-  }
-
   /**
-   * Load all expenses from the store
+   * Load all expenses from the store - used for manual refresh only
    */
   protected loadExpenses(): void {
     this.expenseStore.loadExpenses();
+  }
+
+  /**
+   * Handle filter changes from the filter component
+   */
+  protected handleFilterChange(criteria: ExpenseFilterCriteria): void {
+    this.expenseStore.setFilterCriteria(criteria);
   }
 
   /**

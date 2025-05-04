@@ -52,9 +52,7 @@ This project uses Angular v19 (Zoneless) with the following structure:
 
 ### Ongoing
 
-- [ ] Enhance expense listing with filtering/sorting
-  - [ ] Implement category-based filtering using Signal Store computed properties
-  - [ ] Add date range filtering for expenses
+- [ ] Enhance expense listing with advanced sorting options
 
 ### Completed
 
@@ -66,6 +64,8 @@ This project uses Angular v19 (Zoneless) with the following structure:
 - [x] Develop expense listing functionality
 - [x] Implement local storage persistence
 - [x] Refactor to feature-based Signal Store architecture
+- [x] Implement category-based filtering using Signal Store computed properties
+- [x] Add date range filtering for expenses
 
 ## Development Guidelines
 
@@ -80,13 +80,17 @@ This project uses Angular v19 (Zoneless) with the following structure:
 
 ### Component Requirements
 
-- All components must be standalone (default is true)
-- Change detection must be OnPush for all components
-- View encapsulation must be set to None
-- Templates must be inline (no separate HTML files)
-- Styles must be inline (no separate CSS/SCSS files)
-- Always use Angular's built-in control flow syntax (@if, @for, etc.)
-- Use the inject() function for dependency injection instead of constructor injection
+- Standalone as default (do not explicit set as true)
+- Change detection must be OnPush (changeDetection: ChangeDetectionStrategy.OnPush)
+- View encapsulation must be None (encapsulation: ViewEncapsulation.None)
+- Template must be inline (no separate HTML files)
+- Styles must be inline (no separate CSS files)
+- Must use built-in control flow syntax (@if, @for, @switch, etc)
+- Must use the inject() function for dependency injection instead of constructor injection
+- Selector prefix must be "my" (example: "my-root")
+- Must use readonly signal-based input(), output(), viewChild()
+- Use readonly properties as much as possible
+- Use Context7 as documentation reference
 
 ### Tooling
 
