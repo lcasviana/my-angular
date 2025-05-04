@@ -38,34 +38,42 @@ This project uses Angular v19 (Zoneless) with the following structure:
 - Models: Define data structures (expense, payment)
 - Components: UI elements following the requirements below
 - Services: Business logic and data manipulation
-- Store: NgRx state management for the application
+- Store: Feature-based Signal Store management for the application
 
 ## Tasks
 
 ### Todo
 
-- [ ] Implement expense creation form
-- [ ] Develop expense listing and filtering functionality
 - [ ] Add payment tracking features
 - [ ] Create summary/dashboard view
-- [ ] Implement data persistence (local storage/backend)
+- [ ] Implement data persistence (backend)
 - [ ] Add data export functionality
 - [ ] Create documentation
 
 ### Ongoing
 
-- [ ] Implement NgRx state management for expenses
+- [ ] Enhance expense listing with filtering/sorting
+  - [ ] Implement category-based filtering using Signal Store computed properties
+  - [ ] Add date range filtering for expenses
 
 ### Completed
 
 - [x] Project initialization
 - [x] Set up basic project structure
 - [x] Create expense data models based on guidelines
+- [x] Implement state management for expenses (using NgRx Signal Store)
+- [x] Implement expense creation form
+- [x] Develop expense listing functionality
+- [x] Implement local storage persistence
+- [x] Refactor to feature-based Signal Store architecture
 
 ## Development Guidelines
 
 - Follow Angular best practices
-- Implement proper state management with NgRx
+- Use signal-based state management with NgRx Signal Store
+  - Prefer feature-based organization (withState, withComputed, withMethods, withHooks)
+  - Use functional patchState updates for immutable state changes
+  - Leverage lifecycle hooks for initialization logic
 - Create reusable components
 - Write tests for components and services
 - Follow proper Git workflow
