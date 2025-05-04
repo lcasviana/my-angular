@@ -23,7 +23,11 @@
             "index": "src/index.html",
             "inlineStyleLanguage": "scss",
             "outputPath": { "base": "dist/my-angular", "browser": "" },
-            "tsConfig": "tsconfig.app.json"
+            "tsConfig": "tsconfig.app.json",
+            "styles": ["src/styles.css"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src"]
+            }
           }
         },
         "serve": {
