@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, signal }
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { v4 as uuidv4 } from "uuid";
 import { ExpenseFilterComponent, ExpenseFilterCriteria } from "./components/expense-filter.component";
+import { PaymentListComponent } from "./components/payment-list.component";
 import { Expense } from "./models";
 import { ExpenseStore } from "./store/signal-store/expense.store";
 
@@ -10,7 +11,7 @@ import { ExpenseStore } from "./store/signal-store/expense.store";
   selector: "my-root",
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, DatePipe, ExpenseFilterComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, DatePipe, ExpenseFilterComponent, PaymentListComponent],
   template: `
     <div class="container mx-auto p-4">
       <header class="mb-8">
@@ -138,7 +139,7 @@ import { ExpenseStore } from "./store/signal-store/expense.store";
           <!-- Filter Component -->
           <my-expense-filter [categories]="expenseStore.uniqueCategories()" (filterChange)="handleFilterChange($event)" />
 
-          <div class="bg-white p-6 rounded-lg shadow">
+          <div class="bg-white p-6 rounded-lg shadow mb-6">
             <div class="flex justify-between items-center mb-4">
               <div>
                 <h2 class="text-xl font-semibold">Expenses</h2>
@@ -177,12 +178,24 @@ import { ExpenseStore } from "./store/signal-store/expense.store";
                   </thead>
                   <tbody>
                     @for (expense of expenseStore.filteredExpenses(); track expense.uuid) {
-                      <tr>
-                        <td class="py-2 px-4 border-b">{{ expense.title }}</td>
+                      <tr [class.bg-blue-50]="selectedExpenseId() === expense.uuid">
+                        <td class="py-2 px-4 border-b">
+                          <div class="flex items-center">
+                            <span>{{ expense.title }}</span>
+                            @if (expense.payments && expense.payments.length > 0) {
+                              <span class="ml-2 inline-block bg-green-100 text-green-800 text-xs px-2 rounded-full">
+                                {{ expense.payments.length }} payment{{ expense.payments.length > 1 ? "s" : "" }}
+                              </span>
+                            }
+                          </div>
+                        </td>
                         <td class="py-2 px-4 border-b">{{ expense.category }}</td>
-                        <td class="py-2 px-4 border-b">{{ expense.startDate | date: "shortDate" }}</td>
+                        <td class="py-2 px-4 border-b">{{ expense.startDate | date: "shortDate" : "GMT" }}</td>
                         <td class="py-2 px-4 border-b">{{ expense.recurrence }}</td>
                         <td class="py-2 px-4 border-b text-center">
+                          <button class="text-purple-500 hover:text-purple-700 mr-2" (click)="toggleExpenseSelection(expense.uuid)">
+                            {{ selectedExpenseId() === expense.uuid ? "Hide Payments" : "Show Payments" }}
+                          </button>
                           <button class="text-blue-500 hover:text-blue-700 mr-2" (click)="editExpense(expense)">Edit</button>
                           <button class="text-red-500 hover:text-red-700" (click)="deleteExpense(expense.uuid)">Delete</button>
                         </td>
@@ -193,6 +206,11 @@ import { ExpenseStore } from "./store/signal-store/expense.store";
               </div>
             }
           </div>
+
+          <!-- Payment Management Section -->
+          @if (selectedExpense()) {
+            <my-payment-list [expense]="selectedExpense()" (paymentsUpdated)="handlePaymentUpdate($event)" />
+          }
         </section>
       </div>
     </div>
@@ -213,6 +231,9 @@ export class AppComponent {
   // Signal to track if we're in edit mode
   protected readonly editMode = signal(false);
 
+  // Signal to track selected expense for payment management
+  protected readonly selectedExpenseId = signal<string | null>(null);
+
   // Form for creating/editing expenses
   protected readonly expenseForm: FormGroup = this.fb.group({
     uuid: [""],
@@ -224,6 +245,36 @@ export class AppComponent {
     description: [""],
     paymentMethod: [""],
   });
+
+  /**
+   * Get the currently selected expense
+   */
+  protected selectedExpense(): Expense | null {
+    const id = this.selectedExpenseId();
+    if (!id) return null;
+
+    return this.expenseStore.filteredExpenses().find(e => e.uuid === id) || null;
+  }
+
+  /**
+   * Toggle expense selection for payment management
+   */
+  protected toggleExpenseSelection(id: string): void {
+    if (this.selectedExpenseId() === id) {
+      // Deselect if already selected
+      this.selectedExpenseId.set(null);
+    } else {
+      // Select the expense
+      this.selectedExpenseId.set(id);
+    }
+  }
+
+  /**
+   * Handle payment updates from the payment list component
+   */
+  protected handlePaymentUpdate(updatedExpense: Expense): void {
+    this.expenseStore.updateExpense(updatedExpense);
+  }
 
   /**
    * Load all expenses from the store - used for manual refresh only
@@ -250,11 +301,13 @@ export class AppComponent {
       uuid: formValue.uuid || uuidv4(),
       title: formValue.title,
       category: formValue.category,
-      startDate: new Date(formValue.startDate),
+      startDate: this.createDateInUTC(formValue.startDate),
       recurrence: formValue.recurrence,
-      endDate: formValue.endDate ? new Date(formValue.endDate) : null,
+      endDate: formValue.endDate ? this.createDateInUTC(formValue.endDate) : null,
       description: formValue.description || null,
       paymentMethod: formValue.paymentMethod || null,
+      // Preserve existing payments if we're editing, safely handle possibly undefined payments
+      payments: this.editMode() && this.selectedExpense() && this.selectedExpense()?.payments ? [...this.selectedExpense()!.payments!] : [],
     };
 
     if (this.editMode()) {
@@ -264,6 +317,14 @@ export class AppComponent {
     }
 
     this.resetForm();
+  }
+
+  /**
+   * Creates a Date object in UTC from a date string (YYYY-MM-DD)
+   */
+  private createDateInUTC(dateString: string): Date {
+    const [year, month, day] = dateString.split("-").map(Number);
+    return new Date(Date.UTC(year, month - 1, day));
   }
 
   /**
@@ -282,6 +343,9 @@ export class AppComponent {
       description: expense.description || "",
       paymentMethod: expense.paymentMethod || "",
     });
+
+    // Also select this expense to show its payments
+    this.selectedExpenseId.set(expense.uuid);
   }
 
   /**
@@ -289,6 +353,10 @@ export class AppComponent {
    */
   protected deleteExpense(id: string): void {
     if (confirm("Are you sure you want to delete this expense?")) {
+      // If deleting the currently selected expense, clear the selection
+      if (this.selectedExpenseId() === id) {
+        this.selectedExpenseId.set(null);
+      }
       this.expenseStore.deleteExpense(id);
     }
   }
@@ -318,11 +386,14 @@ export class AppComponent {
   }
 
   /**
-   * Format a Date object for date input (YYYY-MM-DD)
+   * Format a Date object for date input (YYYY-MM-DD) in GMT+0
    */
   private formatDateForInput(date: Date | string): string {
     const d = new Date(date);
-    // Format the date as YYYY-MM-DD
-    return d.toISOString().split("T")[0];
+    // Format the date as YYYY-MM-DD in GMT+0
+    const year = d.getUTCFullYear();
+    const month = String(d.getUTCMonth() + 1).padStart(2, "0");
+    const day = String(d.getUTCDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
   }
 }

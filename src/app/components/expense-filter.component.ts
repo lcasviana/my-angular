@@ -108,12 +108,20 @@ export class ExpenseFilterComponent {
 
     const criteria: ExpenseFilterCriteria = {
       category: formValue.category || null,
-      startDate: formValue.startDate ? new Date(formValue.startDate) : null,
-      endDate: formValue.endDate ? new Date(formValue.endDate) : null,
+      startDate: formValue.startDate ? this.createDateInUTC(formValue.startDate) : null,
+      endDate: formValue.endDate ? this.createDateInUTC(formValue.endDate) : null,
       recurrenceType: formValue.recurrenceType || null,
     };
 
     this.filterChange.emit(criteria);
+  }
+
+  /**
+   * Creates a Date object in UTC from a date string (YYYY-MM-DD)
+   */
+  private createDateInUTC(dateString: string): Date {
+    const [year, month, day] = dateString.split("-").map(Number);
+    return new Date(Date.UTC(year, month - 1, day));
   }
 
   protected clearFilter(): void {

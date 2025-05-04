@@ -13,13 +13,13 @@ This Angular project is a financial tracker application designed to help users m
   - `uuid`: Unique identifier for each expense
   - `title`: Name/title of the expense
   - `category`: Type/category of expense
-  - `startDate`: When the expense begins
+  - `startDate`: When the expense begins (stored in GMT+0)
   - `recurrence`: How often the expense occurs (monthly, yearly)
 
 - **Optional Fields:**
 
   - `description`: Additional notes about the expense
-  - `endDate`: When the expense ends (null for ongoing expenses)
+  - `endDate`: When the expense ends (null for ongoing expenses) (stored in GMT+0)
   - `paymentMethod`: Method of payment (credit card, bank transfer, etc.)
   - `payments`: List of individual payments for this expense
 
@@ -28,7 +28,7 @@ This Angular project is a financial tracker application designed to help users m
 - **Required Fields:**
 
   - `uuid`: Unique identifier for each payment
-  - `date`: Date when payment was made
+  - `date`: Date when payment was made (stored in GMT+0)
   - `value`: Amount paid
 
 ## Project Structure
@@ -44,7 +44,6 @@ This project uses Angular v19 (Zoneless) with the following structure:
 
 ### Todo
 
-- [ ] Add payment tracking features
 - [ ] Create summary/dashboard view
 - [ ] Implement data persistence (backend)
 - [ ] Add data export functionality
@@ -66,6 +65,8 @@ This project uses Angular v19 (Zoneless) with the following structure:
 - [x] Refactor to feature-based Signal Store architecture
 - [x] Implement category-based filtering using Signal Store computed properties
 - [x] Add date range filtering for expenses
+- [x] Add payment tracking features
+- [x] Standardize date handling to use GMT+0 timezone
 
 ## Development Guidelines
 
@@ -77,6 +78,7 @@ This project uses Angular v19 (Zoneless) with the following structure:
 - Create reusable components
 - Write tests for components and services
 - Follow proper Git workflow
+- All dates must be handled as GMT+0 to ensure consistent timezone handling
 
 ### Component Requirements
 
