@@ -44,7 +44,6 @@ This project uses Angular v19 (Zoneless) with the following structure:
 
 ### Todo
 
-- [ ] Create summary/dashboard view
 - [ ] Implement data persistence (backend)
 - [ ] Add data export functionality
 - [ ] Create documentation
@@ -67,6 +66,7 @@ This project uses Angular v19 (Zoneless) with the following structure:
 - [x] Add date range filtering for expenses
 - [x] Add payment tracking features
 - [x] Standardize date handling to use GMT+0 timezone
+- [x] Create summary/dashboard view
 
 ## Development Guidelines
 
