@@ -2,7 +2,9 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
     "analytics": false,
-    "cache": { "enabled": false },
+    "cache": {
+      "enabled": false
+    },
     "packageManager": "bun",
     "schematicCollections": []
   },
@@ -13,8 +15,16 @@
         "build": {
           "builder": "@angular/build:application",
           "configurations": {
-            "development": { "optimization": false, "outputHashing": "none", "sourceMap": true },
-            "production": { "optimization": true, "outputHashing": "all", "sourceMap": false }
+            "development": {
+              "optimization": false,
+              "outputHashing": "none",
+              "sourceMap": true
+            },
+            "production": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false
+            }
           },
           "defaultConfiguration": "production",
           "options": {
@@ -22,19 +32,26 @@
             "browser": "src/main.ts",
             "index": "src/index.html",
             "inlineStyleLanguage": "scss",
-            "outputPath": { "base": "dist/my-angular", "browser": "" },
-            "tsConfig": "tsconfig.app.json",
-            "styles": ["src/styles.css"],
+            "outputPath": {
+              "base": "dist/my-angular",
+              "browser": ""
+            },
             "stylePreprocessorOptions": {
               "includePaths": ["src"]
-            }
+            },
+            "styles": ["src/styles.css"],
+            "tsConfig": "tsconfig.app.json"
           }
         },
         "serve": {
           "builder": "@angular/build:dev-server",
           "configurations": {
-            "development": { "buildTarget": "my-angular:build:development" },
-            "production": { "buildTarget": "my-angular:build:production" }
+            "development": {
+              "buildTarget": "my-angular:build:development"
+            },
+            "production": {
+              "buildTarget": "my-angular:build:production"
+            }
           },
           "defaultConfiguration": "development"
         }
@@ -43,6 +60,32 @@
       "projectType": "application",
       "root": "",
       "sourceRoot": "src"
+    }
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "type": "component"
+    },
+    "@schematics/angular:directive": {
+      "type": "directive"
+    },
+    "@schematics/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:module": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:service": {
+      "type": "service"
     }
   },
   "version": 1

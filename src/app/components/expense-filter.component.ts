@@ -1,4 +1,3 @@
-import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, input, output } from "@angular/core";
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 
@@ -13,7 +12,7 @@ export interface ExpenseFilterCriteria {
   selector: "my-expense-filter",
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [FormsModule, ReactiveFormsModule],
   template: `
     <div class="bg-white p-4 rounded-lg shadow mb-4">
       <h3 class="text-lg font-semibold mb-3">Filter Expenses</h3>

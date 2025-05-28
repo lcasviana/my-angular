@@ -33,7 +33,7 @@ This Angular project is a financial tracker application designed to help users m
 
 ## Project Structure
 
-This project uses Angular v19 (Zoneless) with the following structure:
+This project uses Angular v20 (Zoneless) with the following structure:
 
 - Models: Define data structures (expense, payment)
 - Components: UI elements following the requirements below
@@ -47,10 +47,48 @@ This project uses Angular v19 (Zoneless) with the following structure:
 - [ ] Implement data persistence (backend)
 - [ ] Add data export functionality
 - [ ] Create documentation
+- [ ] Implement unit tests for components and services
+- [ ] Add integration tests for store interactions
+- [ ] Set up E2E testing
+- [ ] Implement lazy loading for feature modules
+- [ ] Add performance monitoring
+- [ ] Optimize bundle size
+- [ ] Implement virtual scrolling for large lists
+- [ ] Add comprehensive error handling
+- [ ] Implement loading states and skeleton screens
+- [ ] Ensure responsive design
+- [ ] Implement accessibility features (WCAG)
+- [ ] Add keyboard navigation support
+- [ ] Implement data validation and error handling
+- [ ] Create data migration strategy
+- [ ] Add backup and restore functionality
+- [ ] Implement offline support
+- [ ] Add data synchronization
+- [ ] Implement security measures (XSS, CSRF, rate limiting)
+- [ ] Set up error tracking
+- [ ] Add user analytics
+- [ ] Implement Storybook for component documentation
+- [ ] Set up automated dependency updates
+- [ ] Configure CI/CD pipeline
+- [ ] Add multi-language support
+- [ ] Implement currency formatting
+- [ ] Add date/time localization
+- [ ] Create expense templates feature
+- [ ] Add bulk operations
+- [ ] Implement advanced reporting
+- [ ] Add budget planning features
+- [ ] Create recurring payment scheduling
+- [ ] Implement state persistence strategy
+- [ ] Add state rehydration
+- [ ] Implement optimistic updates
 
 ### Ongoing
 
 - [ ] Enhance expense listing with advanced sorting options
+- [ ] Implement feature modules organization
+- [ ] Create shared module for common components
+- [ ] Set up core module for singleton services
+- [ ] Improve state management architecture
 
 ### Completed
 
@@ -100,3 +138,50 @@ This project uses Angular v19 (Zoneless) with the following structure:
 - **CSS Framework**: TailwindCSS
 - **Linting**: ESLint + Prettier (enforced via husky pre-commit hooks)
 - **Build**: Angular CLI with custom configurations
+
+### Testing Requirements
+
+- Unit tests must cover:
+  - Component logic and rendering
+  - Service functionality
+  - Store operations
+  - Data transformations
+- Integration tests must verify:
+  - Component interactions
+  - Store integration
+  - Service communication
+- E2E tests must validate:
+  - Critical user flows
+  - Data persistence
+  - Error scenarios
+- Test coverage minimum: 80%
+
+### Security Guidelines
+
+- Implement input sanitization
+- Add XSS protection
+- Configure CSRF protection
+- Set up rate limiting
+- Implement security headers
+- Follow OWASP security best practices
+- Regular security audits
+
+### Performance Guidelines
+
+- Implement lazy loading
+- Use virtual scrolling for large lists
+- Optimize bundle size
+- Monitor performance metrics
+- Implement caching strategies
+- Use web workers for heavy computations
+- Optimize change detection
+
+### Documentation Requirements
+
+- API documentation
+- Component documentation
+- Setup and deployment guides
+- Contributing guidelines
+- Architecture documentation
+- State management documentation
+- Testing documentation

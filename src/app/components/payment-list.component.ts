@@ -13,13 +13,9 @@ import { Expense, ExpensePayment } from "../models";
     <div class="bg-white p-4 rounded-lg shadow">
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-lg font-semibold">Payments</h3>
-        <button
-          class="bg-blue-500 hover:bg-blue-700 text-white text-sm py-1 px-3 rounded"
-          (click)="showPaymentForm.set(true)"
-          *ngIf="!showPaymentForm()"
-        >
-          Add Payment
-        </button>
+        @if (!showPaymentForm()) {
+          <button class="bg-blue-500 hover:bg-blue-700 text-white text-sm py-1 px-3 rounded" (click)="showPaymentForm.set(true)">Add Payment</button>
+        }
       </div>
 
       @if (showPaymentForm()) {
