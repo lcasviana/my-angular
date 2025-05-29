@@ -53,7 +53,10 @@
               "buildTarget": "my-angular:build:production"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 58227
+          }
         }
       },
       "prefix": "my",

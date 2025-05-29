@@ -1,109 +1,91 @@
 import { Injectable } from "@angular/core";
-import { Observable, of, throwError } from "rxjs";
-import { delay } from "rxjs/operators";
+import { from, Observable, of, throwError } from "rxjs";
+import { map, switchMap } from "rxjs/operators";
 
 import { Expense } from "../models";
 import { Uuid } from "../utils";
+import { DatabaseService } from "./database.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class ExpenseService {
-  // For now, we'll use a local storage mock
-  private readonly STORAGE_KEY = "financial-tracker-expenses";
+  private readonly STORE_NAME = "expenses";
+
+  constructor(private dbService: DatabaseService) {}
 
   /**
    * Get all expenses from storage
    */
   getExpenses(): Observable<Expense[]> {
-    try {
-      const expenses = localStorage.getItem(this.STORAGE_KEY);
-      return of(expenses ? JSON.parse(expenses) : []).pipe(delay(300));
-    } catch {
-      return throwError(() => "Failed to load expenses");
-    }
+    return of(null).pipe(
+      switchMap(() => from(this.dbService.getChangesByType(this.STORE_NAME))),
+      map(changes => changes.map(change => change.data as Expense)),
+    );
   }
 
   /**
    * Add a new expense
    */
   createExpense(expense: Expense): Observable<Expense> {
-    try {
-      // Ensure we always have a UUID
-      const newExpense: Expense = {
-        ...expense,
-        uuid: expense.uuid || Uuid.generate().uuid,
-      };
+    // Ensure we always have a UUID
+    const newExpense: Expense = {
+      ...expense,
+      uuid: expense.uuid || Uuid.generate().uuid,
+    };
 
-      const expenses = this.getExpensesFromStorage();
-      expenses.push(newExpense);
-      this.saveExpensesToStorage(expenses);
-
-      return of(newExpense).pipe(delay(300));
-    } catch {
-      return throwError(() => "Failed to create expense");
-    }
+    return of(null).pipe(
+      switchMap(() =>
+        from(
+          this.dbService.addChange({
+            type: this.STORE_NAME,
+            data: newExpense,
+          }),
+        ),
+      ),
+      map(() => newExpense),
+    );
   }
 
   /**
    * Update an existing expense
    */
   updateExpense(expense: Expense): Observable<Expense> {
-    try {
-      const expenses = this.getExpensesFromStorage();
-      const index = expenses.findIndex(e => e.uuid === expense.uuid);
+    return this.getExpenses().pipe(
+      switchMap(expenses => {
+        const index = expenses.findIndex(e => e.uuid === expense.uuid);
+        if (index === -1) {
+          return throwError(() => "Expense not found");
+        }
 
-      if (index === -1) {
-        return throwError(() => "Expense not found");
-      }
-
-      expenses[index] = expense;
-      this.saveExpensesToStorage(expenses);
-
-      return of(expense).pipe(delay(300));
-    } catch {
-      return throwError(() => "Failed to update expense");
-    }
+        return from(
+          this.dbService.addChange({
+            type: this.STORE_NAME,
+            data: expense,
+          }),
+        ).pipe(map(() => expense));
+      }),
+    );
   }
 
   /**
    * Delete an expense
    */
   deleteExpense(id: string): Observable<string> {
-    try {
-      const expenses = this.getExpensesFromStorage();
-      const filteredExpenses = expenses.filter(e => e.uuid !== id);
+    return this.getExpenses().pipe(
+      switchMap(expenses => {
+        const expense = expenses.find(e => e.uuid === id);
+        if (!expense) {
+          return throwError(() => "Expense not found");
+        }
 
-      if (filteredExpenses.length === expenses.length) {
-        return throwError(() => "Expense not found");
-      }
-
-      this.saveExpensesToStorage(filteredExpenses);
-
-      return of(id).pipe(delay(300));
-    } catch {
-      return throwError(() => "Failed to delete expense");
-    }
-  }
-
-  /**
-   * Helper method to get expenses from local storage
-   */
-  private getExpensesFromStorage(): Expense[] {
-    try {
-      const expenses = localStorage.getItem(this.STORAGE_KEY);
-      return expenses ? JSON.parse(expenses) : [];
-    } catch {
-      // If there's an error parsing, return an empty array
-      console.warn("Error parsing expenses from storage, returning empty array");
-      return [];
-    }
-  }
-
-  /**
-   * Helper method to save expenses to local storage
-   */
-  private saveExpensesToStorage(expenses: Expense[]): void {
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(expenses));
+        return from(
+          this.dbService.addChange({
+            type: this.STORE_NAME,
+            data: { ...expense, deleted: true },
+          }),
+        ).pipe(map(() => id));
+      }),
+    );
   }
 }
