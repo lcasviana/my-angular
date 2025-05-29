@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Observable, of, throwError } from "rxjs";
 import { delay } from "rxjs/operators";
-import { v4 as uuidv4 } from "uuid";
 
 import { Expense } from "../models";
+import { Uuid } from "../utils";
 
 @Injectable({
   providedIn: "root",
@@ -32,7 +32,7 @@ export class ExpenseService {
       // Ensure we always have a UUID
       const newExpense: Expense = {
         ...expense,
-        uuid: expense.uuid || uuidv4(),
+        uuid: expense.uuid || Uuid.generate().uuid,
       };
 
       const expenses = this.getExpensesFromStorage();

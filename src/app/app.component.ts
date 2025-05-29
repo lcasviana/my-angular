@@ -6,7 +6,7 @@ import { DashboardComponent } from "./components/dashboard.component";
 import { ExpenseFilterComponent, ExpenseFilterCriteria } from "./components/expense-filter.component";
 import { PaymentListComponent } from "./components/payment-list.component";
 import { Expense } from "./models";
-import { ExpenseStore } from "./store/signal-store/expense.store";
+import { ExpenseStore } from "./store/expense.store";
 
 type AppView = "dashboard" | "expenses";
 
