@@ -2,10 +2,10 @@ import { CommonModule, DatePipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, signal } from "@angular/core";
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { v4 as uuidv4 } from "uuid";
-import { DashboardComponent } from "./components/dashboard.component";
-import { ExpenseFilterComponent, ExpenseFilterCriteria } from "./components/expense-filter.component";
-import { PaymentListComponent } from "./components/payment-list.component";
 import { Expense } from "./models";
+import { DashboardComponent } from "./modules/dashboard.component";
+import { ExpenseFilterComponent, ExpenseFilterCriteria } from "./modules/expense-filter.component";
+import { PaymentListComponent } from "./modules/payment-list.component";
 import { ExpenseStore } from "./store/expense.store";
 
 type AppView = "dashboard" | "expenses";

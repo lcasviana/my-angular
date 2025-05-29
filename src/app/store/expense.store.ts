@@ -3,8 +3,8 @@ import { tapResponse } from "@ngrx/operators";
 import { patchState, signalStore, withComputed, withHooks, withMethods, withState } from "@ngrx/signals";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
 import { pipe, switchMap, tap } from "rxjs";
-import { ExpenseFilterCriteria } from "../components/expense-filter.component";
 import { Expense } from "../models";
+import { ExpenseFilterCriteria } from "../modules/expense-filter.component";
 import { ExpenseService } from "../services/expense.service";
 
 /**

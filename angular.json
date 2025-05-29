@@ -39,7 +39,7 @@
             "stylePreprocessorOptions": {
               "includePaths": ["src"]
             },
-            "styles": ["src/styles.css"],
+            "styles": ["src/styles/index.scss"],
             "tsConfig": "tsconfig.app.json"
           }
         },
