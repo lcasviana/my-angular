@@ -50,7 +50,6 @@ This project uses Angular v20 (Zoneless) with the following structure:
 - [ ] Implement unit tests for components and services
 - [ ] Add integration tests for store interactions
 - [ ] Set up E2E testing
-- [ ] Implement lazy loading for feature modules
 - [ ] Add performance monitoring
 - [ ] Optimize bundle size
 - [ ] Implement virtual scrolling for large lists
@@ -85,9 +84,6 @@ This project uses Angular v20 (Zoneless) with the following structure:
 ### Ongoing
 
 - [ ] Enhance expense listing with advanced sorting options
-- [ ] Implement feature modules organization
-- [ ] Create shared module for common components
-- [ ] Set up core module for singleton services
 - [ ] Improve state management architecture
 
 ### Completed
@@ -120,17 +116,18 @@ This project uses Angular v20 (Zoneless) with the following structure:
 
 ### Component Requirements
 
-- Standalone as default (do not explicit set as true)
+- All components must be standalone
 - Change detection must be OnPush (changeDetection: ChangeDetectionStrategy.OnPush)
 - View encapsulation must be None (encapsulation: ViewEncapsulation.None)
 - Template must be inline (no separate HTML files)
-- Styles must be inline (no separate CSS files)
+- Styles must be inline as a single string (no separate CSS files, no style arrays)
 - Must use built-in control flow syntax (@if, @for, @switch, etc)
 - Must use the inject() function for dependency injection instead of constructor injection
 - Selector prefix must be "my" (example: "my-root")
 - Must use readonly signal-based input(), output(), viewChild()
 - Use readonly properties as much as possible
 - Use Context7 as documentation reference
+- Routes must be defined using standalone components directly, no NgModules
 
 ### Tooling
 
@@ -168,7 +165,6 @@ This project uses Angular v20 (Zoneless) with the following structure:
 
 ### Performance Guidelines
 
-- Implement lazy loading
 - Use virtual scrolling for large lists
 - Optimize bundle size
 - Monitor performance metrics
