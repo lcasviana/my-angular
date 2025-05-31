@@ -5,14 +5,8 @@ import { RouterOutlet } from "@angular/router";
   selector: "my-root",
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
   imports: [RouterOutlet],
-  template: ` <router-outlet /> `,
-  styles: `
-    :host {
-      display: block;
-      min-height: 100vh;
-    }
-  `,
+  template: `<router-outlet />`,
+  host: { class: "block min-h-dvh" },
 })
 export class AppComponent {}
