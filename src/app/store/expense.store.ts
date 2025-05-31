@@ -3,7 +3,7 @@ import { tapResponse } from "@ngrx/operators";
 import { patchState, signalStore, withComputed, withHooks, withMethods, withState } from "@ngrx/signals";
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
 import { pipe, switchMap, tap } from "rxjs";
-import { Expense } from "../models";
+import { Expense, ExpensePayment } from "../models";
 import { ExpenseFilterCriteria } from "../modules/expense-filter.component";
 import { ExpenseService } from "../services/expense.service";
 
@@ -13,6 +13,7 @@ import { ExpenseService } from "../services/expense.service";
 export interface ExpenseState {
   expenses: Expense[];
   selectedExpenseId: string | null;
+  selectedPaymentId: string | null;
   loading: boolean;
   loaded: boolean;
   error: string | null;
@@ -25,6 +26,7 @@ export interface ExpenseState {
 export const initialExpenseState: ExpenseState = {
   expenses: [],
   selectedExpenseId: null,
+  selectedPaymentId: null,
   loading: false,
   loaded: false,
   error: null,
@@ -56,6 +58,7 @@ const withExpenseComputed = withComputed((store: object) => {
     expenses: () => Expense[];
     filterCriteria: () => ExpenseFilterCriteria;
     selectedExpenseId: () => string | null;
+    selectedPaymentId: () => string | null;
     loading: () => boolean;
     loaded: () => boolean;
     error: () => string | null;
@@ -124,6 +127,13 @@ const withExpenseComputed = withComputed((store: object) => {
     selectedExpense: computed(() => {
       const selectedId = state.selectedExpenseId();
       return selectedId ? state.expenses().find((e: Expense) => e.uuid === selectedId) : null;
+    }),
+
+    // Get selected payment
+    selectedPayment: computed(() => {
+      const expense = state.selectedExpenseId() ? state.expenses().find((e: Expense) => e.uuid === state.selectedExpenseId()) : null;
+      const paymentId = state.selectedPaymentId();
+      return expense && paymentId ? expense.payments?.find((p: ExpensePayment) => p.uuid === paymentId) : null;
     }),
 
     // Get loading state
@@ -294,7 +304,14 @@ const withExpenseMethods = withMethods((store, expenseService = inject(ExpenseSe
    * Select an expense
    */
   selectExpense(id: string | null): void {
-    patchState(store, { selectedExpenseId: id });
+    patchState(store, { selectedExpenseId: id, selectedPaymentId: null });
+  },
+
+  /**
+   * Select a payment
+   */
+  selectPayment(id: string | null): void {
+    patchState(store, { selectedPaymentId: id });
   },
 
   /**
