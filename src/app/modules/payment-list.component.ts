@@ -103,6 +103,7 @@ import { Expense, ExpensePayment } from "../models";
     </div>
   `,
   styles: ``,
+  host: { "[class]": "expense()?.payments?.length ? 'bg-white' : 'bg-red-500'" },
 })
 export class PaymentListComponent {
   private readonly fb = inject(FormBuilder);

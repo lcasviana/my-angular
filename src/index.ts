@@ -11,7 +11,7 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(BrowserModule),
     provideAnimations(),
     provideBrowserGlobalErrorListeners(),
-    provideZonelessChangeDetection(),
     provideRouter(routes),
+    provideZonelessChangeDetection(),
   ],
 }).catch(err => console.error(err));

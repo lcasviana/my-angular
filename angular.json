@@ -15,21 +15,27 @@
         "build": {
           "builder": "@angular/build:application",
           "configurations": {
-            "development": {
+            "dev": {
               "optimization": false,
               "outputHashing": "none",
               "sourceMap": true
             },
-            "production": {
+            "prd": {
+              "fileReplacements": [
+                {
+                  "replace": "src/envs/env.ts",
+                  "with": "src/envs/env.prd.ts"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false
             }
           },
-          "defaultConfiguration": "production",
+          "defaultConfiguration": "prd",
           "options": {
             "assets": ["src/favicon.ico"],
-            "browser": "src/main.ts",
+            "browser": "src/index.ts",
             "index": "src/index.html",
             "inlineStyleLanguage": "scss",
             "outputPath": {
@@ -39,21 +45,21 @@
             "stylePreprocessorOptions": {
               "includePaths": ["src"]
             },
-            "styles": ["src/styles/index.scss"],
+            "styles": ["src/index.scss"],
             "tsConfig": "tsconfig.app.json"
           }
         },
         "serve": {
           "builder": "@angular/build:dev-server",
           "configurations": {
-            "development": {
-              "buildTarget": "my-angular:build:development"
+            "dev": {
+              "buildTarget": "my-angular:build:dev"
             },
-            "production": {
-              "buildTarget": "my-angular:build:production"
+            "prd": {
+              "buildTarget": "my-angular:build:prd"
             }
           },
-          "defaultConfiguration": "development",
+          "defaultConfiguration": "dev",
           "options": {
             "port": 58227
           }
