@@ -1,6 +1,6 @@
 import { CommonModule, DatePipe } from "@angular/common";
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from "@angular/core";
-import { ActivatedRoute, Router, RouterLink } from "@angular/router";
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, input } from "@angular/core";
+import { Router, RouterLink } from "@angular/router";
 import { Expense } from "../../models";
 import { ExpenseStore } from "../../store/expense.store";
 import { PaymentListComponent } from "./payments-list.component";
@@ -17,7 +17,7 @@ import { PaymentListComponent } from "./payments-list.component";
         <div class="flex justify-between items-center mb-6">
           <h1 class="text-2xl font-bold">Expense Details</h1>
           <div class="space-x-2">
-            <a [routerLink]="['/expenses', expenseId, 'edit']" class="text-blue-500 hover:text-blue-700">Edit</a>
+            <a [routerLink]="['/expenses', expenseId(), 'edit']" class="text-blue-500 hover:text-blue-700">Edit</a>
             <button (click)="goBack()" class="text-gray-600 hover:text-gray-800">Back to List</button>
           </div>
         </div>
@@ -92,12 +92,13 @@ import { PaymentListComponent } from "./payments-list.component";
   styles: ``,
 })
 export class ExpenseDetailComponent {
-  private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   protected readonly expenseStore = inject(ExpenseStore);
 
-  protected get expenseId(): string {
-    return this.route.snapshot.paramMap.get("id") || "";
+  protected readonly expenseId = input.required<string>();
+
+  constructor() {
+    this.expenseStore.selectExpense(this.expenseId());
   }
 
   protected get selectedExpense() {

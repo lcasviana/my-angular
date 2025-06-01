@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, effect, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, effect, inject, input } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { Expense } from "../../models";
 import { ExpenseStore } from "../../store/expense.store";
 
@@ -10,7 +10,7 @@ import { ExpenseStore } from "../../store/expense.store";
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   template: `
     <div class="container mx-auto p-4">
       <div class="max-w-2xl mx-auto">
@@ -147,29 +147,23 @@ import { ExpenseStore } from "../../store/expense.store";
 })
 export class ExpenseUpdateComponent {
   private readonly fb = inject(FormBuilder);
-  private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   protected readonly expenseStore = inject(ExpenseStore);
+
+  protected readonly expenseId = input.required<string>();
 
   protected readonly expenseForm: FormGroup = this.fb.group({
     title: ["", Validators.required],
     category: ["", Validators.required],
     startDate: ["", Validators.required],
     recurrence: ["monthly", Validators.required],
-    endDate: [null],
+    endDate: [""],
     description: [""],
     paymentMethod: [""],
   });
 
-  protected get selectedExpense() {
-    return this.expenseStore.selectedExpense;
-  }
-
   constructor() {
-    const expenseId = this.route.snapshot.paramMap.get("id");
-    if (expenseId) {
-      this.expenseStore.selectExpense(expenseId);
-    }
+    this.expenseStore.selectExpense(this.expenseId());
 
     // Update form when selected expense changes
     effect(() => {
@@ -188,12 +182,18 @@ export class ExpenseUpdateComponent {
     });
   }
 
+  protected get selectedExpense() {
+    return this.expenseStore.selectedExpense;
+  }
+
   protected updateExpense(): void {
     if (this.expenseForm.invalid || !this.selectedExpense()) return;
 
     const formValue = this.expenseForm.value;
-    const expense: Expense = {
-      ...this.selectedExpense()!,
+    const currentExpense = this.selectedExpense()!;
+
+    const updatedExpense: Expense = {
+      ...currentExpense,
       title: formValue.title,
       category: formValue.category,
       startDate: this.createDateInUTC(formValue.startDate),
@@ -203,21 +203,20 @@ export class ExpenseUpdateComponent {
       paymentMethod: formValue.paymentMethod || null,
     };
 
-    this.expenseStore.updateExpense(expense);
-    this.router.navigate(["/expenses", expense.uuid]);
+    this.expenseStore.updateExpense(updatedExpense);
+    this.router.navigate(["/expenses", currentExpense.uuid]);
   }
 
   protected goBack(): void {
-    const expenseId = this.route.snapshot.paramMap.get("id");
-    this.router.navigate(["/expenses", expenseId]);
+    this.router.navigate(["/expenses", this.expenseId()]);
+  }
+
+  private formatDateForInput(date: Date): string {
+    return date.toISOString().split("T")[0];
   }
 
   private createDateInUTC(dateString: string): Date {
     const [year, month, day] = dateString.split("-").map(Number);
     return new Date(Date.UTC(year, month - 1, day));
-  }
-
-  private formatDateForInput(date: Date): string {
-    return date.toISOString().split("T")[0];
   }
 }

@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, effect, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, effect, inject, input } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { Expense, ExpensePayment } from "../../models";
 import { ExpenseStore } from "../../store/expense.store";
 
@@ -10,7 +10,7 @@ import { ExpenseStore } from "../../store/expense.store";
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   template: `
     <div class="container mx-auto p-4">
       <div class="max-w-2xl mx-auto">
@@ -26,7 +26,15 @@ import { ExpenseStore } from "../../store/expense.store";
           </div>
         }
 
-        @if (expense() && payment()) {
+        @if (expenseStore.isLoading()) {
+          <div class="flex justify-center items-center py-4">
+            <p class="text-gray-500">Loading...</p>
+          </div>
+        } @else if (!expense() || !payment()) {
+          <div class="flex justify-center items-center py-4">
+            <p class="text-gray-500">Payment not found</p>
+          </div>
+        } @else {
           <form [formGroup]="paymentForm" (ngSubmit)="updatePayment()" class="bg-white rounded-lg shadow p-6">
             <div class="mb-6">
               <h2 class="text-lg font-semibold text-gray-700">Expense Details</h2>
@@ -84,11 +92,6 @@ import { ExpenseStore } from "../../store/expense.store";
               </button>
             </div>
           </form>
-        } @else {
-          <div class="text-center py-8">
-            <p class="text-gray-500">Payment not found</p>
-            <button (click)="goBack()" class="text-blue-600 hover:text-blue-800 mt-2">Back to Expenses</button>
-          </div>
         }
       </div>
     </div>
@@ -98,11 +101,13 @@ import { ExpenseStore } from "../../store/expense.store";
 export class PaymentUpdateComponent {
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
   protected readonly expenseStore = inject(ExpenseStore);
 
+  protected readonly expenseId = input.required<string>();
+  protected readonly paymentId = input.required<string>();
+
   protected readonly expense = this.expenseStore.selectedExpense;
-  protected payment = this.expenseStore.selectedPayment;
+  protected readonly payment = this.expenseStore.selectedPayment;
 
   protected readonly paymentForm: FormGroup = this.fb.group({
     date: ["", Validators.required],
@@ -110,12 +115,8 @@ export class PaymentUpdateComponent {
   });
 
   constructor() {
-    const expenseId = this.route.snapshot.paramMap.get("expenseId");
-    const paymentId = this.route.snapshot.paramMap.get("paymentId");
-    if (expenseId && paymentId) {
-      this.expenseStore.selectExpense(expenseId);
-      this.expenseStore.selectPayment(paymentId);
-    }
+    this.expenseStore.selectExpense(this.expenseId());
+    this.expenseStore.selectPayment(this.paymentId());
 
     effect(() => {
       const payment = this.payment();
@@ -151,21 +152,15 @@ export class PaymentUpdateComponent {
   }
 
   protected goBack(): void {
-    const expenseId = this.route.snapshot.paramMap.get("expenseId");
-    if (expenseId) {
-      this.router.navigate(["/expenses", expenseId]);
-    } else {
-      this.router.navigate(["/expenses"]);
-    }
+    this.router.navigate(["/expenses", this.expenseId()]);
+  }
+
+  private formatDateForInput(date: Date): string {
+    return date.toISOString().split("T")[0];
   }
 
   private createDateInUTC(dateString: string): Date {
     const [year, month, day] = dateString.split("-").map(Number);
     return new Date(Date.UTC(year, month - 1, day));
-  }
-
-  private formatDateForInput(date: Date): string {
-    const d = new Date(date);
-    return d.toISOString().split("T")[0];
   }
 }
