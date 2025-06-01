@@ -5,7 +5,7 @@ import { rxMethod } from "@ngrx/signals/rxjs-interop";
 import { pipe, switchMap, tap } from "rxjs";
 import { Expense, ExpensePayment } from "../models";
 import { ExpenseFilterCriteria } from "../modules/expenses/expenses-filter.component";
-import { ExpenseService } from "../services/expense.service";
+import { ExpenseService } from "../services/expenses.service";
 
 /**
  * Interface representing the expense state
