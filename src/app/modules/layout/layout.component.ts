@@ -5,7 +5,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
 import { v4 as uuidv4 } from "uuid";
 import { Expense } from "../../models";
 import { ExpenseStore } from "../../store/expense.store";
-import { ExpenseFilterCriteria } from "../expenses/expense-filter.component";
+import { ExpenseFilterCriteria } from "../expenses/expenses-filter.component";
 
 type AppView = "dashboard" | "expenses";
 

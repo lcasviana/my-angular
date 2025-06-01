@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from "@
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { Expense } from "../../models";
 import { ExpenseStore } from "../../store/expense.store";
-import { PaymentListComponent } from "./payment-list.component";
+import { PaymentListComponent } from "./payments-list.component";
 
 @Component({
   selector: "my-expense-detail",
