@@ -1,17 +1,16 @@
 import { CommonModule, DatePipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation, inject } from "@angular/core";
 import { RouterLink } from "@angular/router";
+
 import { Expense, ExpensePayment } from "../../models";
 import { ExpenseStore } from "../../store/expense.store";
 
 @Component({
-  selector: "my-payment-list",
-  standalone: true,
+  selector: "my-payments-list",
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [CommonModule, DatePipe, RouterLink],
   templateUrl: "./payment-list.component.html",
-  styles: ``,
 })
 export class PaymentListComponent {
   @Input({ required: true }) expense!: Expense;

@@ -2,12 +2,12 @@ import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, effect, inject, input } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Router, RouterLink } from "@angular/router";
+
 import { Expense, ExpensePayment } from "../../models";
 import { ExpenseStore } from "../../store/expense.store";
 
 @Component({
-  selector: "my-payment-update",
-  standalone: true,
+  selector: "my-payments-update",
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
@@ -96,7 +96,6 @@ import { ExpenseStore } from "../../store/expense.store";
       </div>
     </div>
   `,
-  styles: ``,
 })
 export class PaymentUpdateComponent {
   private readonly fb = inject(FormBuilder);

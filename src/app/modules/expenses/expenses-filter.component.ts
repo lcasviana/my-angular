@@ -9,7 +9,7 @@ export interface ExpenseFilterCriteria {
 }
 
 @Component({
-  selector: "my-expense-filter",
+  selector: "my-expenses-filter",
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [FormsModule, ReactiveFormsModule],
@@ -85,7 +85,6 @@ export interface ExpenseFilterCriteria {
       </form>
     </div>
   `,
-  styles: ``,
 })
 export class ExpenseFilterComponent {
   private readonly fb = inject(FormBuilder);

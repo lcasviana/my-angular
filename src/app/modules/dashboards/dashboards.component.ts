@@ -1,5 +1,6 @@
 import { CommonModule, CurrencyPipe, DatePipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, inject } from "@angular/core";
+
 import { Expense } from "../../models";
 import { ExpenseStore } from "../../store/expense.store";
 
@@ -20,8 +21,7 @@ interface UpcomingExpense {
 }
 
 @Component({
-  selector: "my-dashboard",
-  standalone: true,
+  selector: "my-dashboards",
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [CommonModule, DatePipe, CurrencyPipe],
@@ -185,7 +185,6 @@ interface UpcomingExpense {
       </div>
     </div>
   `,
-  styles: ``,
 })
 export class DashboardComponent {
   protected readonly expenseStore = inject(ExpenseStore);

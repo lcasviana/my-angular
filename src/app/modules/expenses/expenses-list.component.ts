@@ -1,19 +1,19 @@
 import { CommonModule, DatePipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from "@angular/core";
 import { RouterLink } from "@angular/router";
+
 import { ExpenseStore } from "../../store/expense.store";
 import { ExpenseFilterComponent, ExpenseFilterCriteria } from "./expenses-filter.component";
 
 @Component({
-  selector: "my-expense-list",
-  standalone: true,
+  selector: "my-expenses-list",
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [CommonModule, DatePipe, RouterLink, ExpenseFilterComponent],
   template: `
     <div class="space-y-6">
       <!-- Filter Component -->
-      <my-expense-filter [categories]="expenseStore.uniqueCategories()" (filterChange)="handleFilterChange($event)" />
+      <my-expenses-filter [categories]="expenseStore.uniqueCategories()" (filterChange)="handleFilterChange($event)" />
 
       <div class="bg-white p-6 rounded-lg shadow">
         <div class="flex justify-between items-center mb-4">
@@ -83,7 +83,6 @@ import { ExpenseFilterComponent, ExpenseFilterCriteria } from "./expenses-filter
       </div>
     </div>
   `,
-  styles: ``,
 })
 export class ExpenseListComponent {
   protected readonly expenseStore = inject(ExpenseStore);

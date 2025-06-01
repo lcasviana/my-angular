@@ -1,13 +1,13 @@
 import { CommonModule, DatePipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, input } from "@angular/core";
 import { Router, RouterLink } from "@angular/router";
+
 import { Expense } from "../../models";
 import { ExpenseStore } from "../../store/expense.store";
 import { PaymentListComponent } from "./payments-list.component";
 
 @Component({
-  selector: "my-expense-detail",
-  standalone: true,
+  selector: "my-expenses-detail",
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [CommonModule, DatePipe, RouterLink, PaymentListComponent],
@@ -83,13 +83,12 @@ import { PaymentListComponent } from "./payments-list.component";
 
           <!-- Payment List -->
           @if (selectedExpense()) {
-            <my-payment-list [expense]="selectedExpense()!" (paymentsUpdated)="handlePaymentUpdate($event)" />
+            <my-payments-list [expense]="selectedExpense()!" (paymentsUpdated)="handlePaymentUpdate($event)" />
           }
         }
       </div>
     </div>
   `,
-  styles: ``,
 })
 export class ExpenseDetailComponent {
   private readonly router = inject(Router);

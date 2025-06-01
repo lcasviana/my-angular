@@ -3,12 +3,12 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, input } 
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Router, RouterLink } from "@angular/router";
 import { v4 as uuidv4 } from "uuid";
+
 import { Expense, ExpensePayment } from "../../models";
 import { ExpenseStore } from "../../store/expense.store";
 
 @Component({
-  selector: "my-payment-create",
-  standalone: true,
+  selector: "my-payments-create",
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
@@ -97,7 +97,6 @@ import { ExpenseStore } from "../../store/expense.store";
       </div>
     </div>
   `,
-  styles: ``,
 })
 export class PaymentCreateComponent {
   private readonly fb = inject(FormBuilder);
