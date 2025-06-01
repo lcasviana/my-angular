@@ -2,8 +2,8 @@ import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, effect, inject } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Expense } from "../models";
-import { ExpenseStore } from "../store/expense.store";
+import { Expense } from "../../models";
+import { ExpenseStore } from "../../store/expense.store";
 
 @Component({
   selector: "my-expense-update",

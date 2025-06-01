@@ -1,12 +1,6 @@
 import { Routes } from "@angular/router";
 
-import { ExpenseCreateComponent } from "./modules/expense-create.component";
-import { ExpenseDetailComponent } from "./modules/expense-detail.component";
-import { ExpenseListComponent } from "./modules/expense-list.component";
-import { ExpenseUpdateComponent } from "./modules/expense-update.component";
 import { LayoutComponent } from "./modules/layout/layout.component";
-import { PaymentCreateComponent } from "./modules/payment-create.component";
-import { PaymentUpdateComponent } from "./modules/payment-update.component";
 
 export const routes: Routes = [
   {
@@ -24,32 +18,7 @@ export const routes: Routes = [
       },
       {
         path: "expenses",
-        children: [
-          {
-            path: "",
-            component: ExpenseListComponent,
-          },
-          {
-            path: "new",
-            component: ExpenseCreateComponent,
-          },
-          {
-            path: ":id",
-            component: ExpenseDetailComponent,
-          },
-          {
-            path: ":id/edit",
-            component: ExpenseUpdateComponent,
-          },
-          {
-            path: ":expenseId/payments/new",
-            component: PaymentCreateComponent,
-          },
-          {
-            path: ":expenseId/payments/:paymentId/edit",
-            component: PaymentUpdateComponent,
-          },
-        ],
+        loadChildren: () => import("./modules/expenses/expenses.routes").then(m => m.expensesRoutes),
       },
     ],
   },

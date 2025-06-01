@@ -1,8 +1,8 @@
 import { CommonModule, DatePipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from "@angular/core";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
-import { Expense } from "../models";
-import { ExpenseStore } from "../store/expense.store";
+import { Expense } from "../../models";
+import { ExpenseStore } from "../../store/expense.store";
 import { PaymentListComponent } from "./payment-list.component";
 
 @Component({

@@ -1,8 +1,8 @@
 import { CommonModule, DatePipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation, inject } from "@angular/core";
 import { RouterLink } from "@angular/router";
-import { Expense, ExpensePayment } from "../models";
-import { ExpenseStore } from "../store/expense.store";
+import { Expense, ExpensePayment } from "../../models";
+import { ExpenseStore } from "../../store/expense.store";
 
 @Component({
   selector: "my-payment-list",

@@ -4,7 +4,7 @@ import { patchState, signalStore, withComputed, withHooks, withMethods, withStat
 import { rxMethod } from "@ngrx/signals/rxjs-interop";
 import { pipe, switchMap, tap } from "rxjs";
 import { Expense, ExpensePayment } from "../models";
-import { ExpenseFilterCriteria } from "../modules/expense-filter.component";
+import { ExpenseFilterCriteria } from "../modules/expenses/expense-filter.component";
 import { ExpenseService } from "../services/expense.service";
 
 /**

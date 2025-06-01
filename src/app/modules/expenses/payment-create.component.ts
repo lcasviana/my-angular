@@ -1,12 +1,13 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, effect, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Expense, ExpensePayment } from "../models";
-import { ExpenseStore } from "../store/expense.store";
+import { v4 as uuidv4 } from "uuid";
+import { Expense, ExpensePayment } from "../../models";
+import { ExpenseStore } from "../../store/expense.store";
 
 @Component({
-  selector: "my-payment-update",
+  selector: "my-payment-create",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -15,7 +16,7 @@ import { ExpenseStore } from "../store/expense.store";
     <div class="container mx-auto p-4">
       <div class="max-w-2xl mx-auto">
         <div class="flex justify-between items-center mb-6">
-          <h1 class="text-2xl font-bold">Edit Payment</h1>
+          <h1 class="text-2xl font-bold">Add Payment</h1>
           <button (click)="goBack()" class="text-gray-600 hover:text-gray-800">Cancel</button>
         </div>
 
@@ -26,8 +27,8 @@ import { ExpenseStore } from "../store/expense.store";
           </div>
         }
 
-        @if (expense() && payment()) {
-          <form [formGroup]="paymentForm" (ngSubmit)="updatePayment()" class="bg-white rounded-lg shadow p-6">
+        @if (expense()) {
+          <form [formGroup]="paymentForm" (ngSubmit)="savePayment()" class="bg-white rounded-lg shadow p-6">
             <div class="mb-6">
               <h2 class="text-lg font-semibold text-gray-700">Expense Details</h2>
               <p class="text-gray-600">{{ expense()?.title }}</p>
@@ -80,13 +81,13 @@ import { ExpenseStore } from "../store/expense.store";
                 [disabled]="paymentForm.invalid || expenseStore.isLoading()"
                 class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Update Payment
+                Add Payment
               </button>
             </div>
           </form>
         } @else {
           <div class="text-center py-8">
-            <p class="text-gray-500">Payment not found</p>
+            <p class="text-gray-500">Expense not found</p>
             <button (click)="goBack()" class="text-blue-600 hover:text-blue-800 mt-2">Back to Expenses</button>
           </div>
         }
@@ -95,14 +96,13 @@ import { ExpenseStore } from "../store/expense.store";
   `,
   styles: ``,
 })
-export class PaymentUpdateComponent {
+export class PaymentCreateComponent {
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   protected readonly expenseStore = inject(ExpenseStore);
 
   protected readonly expense = this.expenseStore.selectedExpense;
-  protected payment = this.expenseStore.selectedPayment;
 
   protected readonly paymentForm: FormGroup = this.fb.group({
     date: ["", Validators.required],
@@ -111,39 +111,26 @@ export class PaymentUpdateComponent {
 
   constructor() {
     const expenseId = this.route.snapshot.paramMap.get("expenseId");
-    const paymentId = this.route.snapshot.paramMap.get("paymentId");
-    if (expenseId && paymentId) {
+    if (expenseId) {
       this.expenseStore.selectExpense(expenseId);
-      this.expenseStore.selectPayment(paymentId);
     }
-
-    effect(() => {
-      const payment = this.payment();
-      if (payment) {
-        this.paymentForm.patchValue({
-          date: this.formatDateForInput(payment.date),
-          value: payment.value,
-        });
-      }
-    });
   }
 
-  protected updatePayment(): void {
-    if (this.paymentForm.invalid || !this.expense() || !this.payment()) return;
+  protected savePayment(): void {
+    if (this.paymentForm.invalid || !this.expense()) return;
 
     const formValue = this.paymentForm.value;
     const currentExpense = this.expense()!;
-    const currentPayment = this.payment()!;
 
-    const updatedPayment: ExpensePayment = {
-      ...currentPayment,
+    const newPayment: ExpensePayment = {
+      uuid: uuidv4(),
       date: this.createDateInUTC(formValue.date),
       value: formValue.value,
     };
 
     const updatedExpense: Expense = {
       ...currentExpense,
-      payments: currentExpense.payments?.map(p => (p.uuid === currentPayment.uuid ? updatedPayment : p)) || [],
+      payments: [...(currentExpense.payments || []), newPayment],
     };
 
     this.expenseStore.updateExpense(updatedExpense);
@@ -162,10 +149,5 @@ export class PaymentUpdateComponent {
   private createDateInUTC(dateString: string): Date {
     const [year, month, day] = dateString.split("-").map(Number);
     return new Date(Date.UTC(year, month - 1, day));
-  }
-
-  private formatDateForInput(date: Date): string {
-    const d = new Date(date);
-    return d.toISOString().split("T")[0];
   }
 }

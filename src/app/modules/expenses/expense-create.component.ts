@@ -3,8 +3,8 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from "@
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { v4 as uuidv4 } from "uuid";
-import { Expense } from "../models";
-import { ExpenseStore } from "../store/expense.store";
+import { Expense } from "../../models";
+import { ExpenseStore } from "../../store/expense.store";
 
 @Component({
   selector: "my-expense-create",
