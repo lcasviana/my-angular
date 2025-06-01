@@ -1,6 +1,5 @@
 import { Routes } from "@angular/router";
 
-import { DashboardComponent } from "./modules/dashboard.component";
 import { ExpenseCreateComponent } from "./modules/expense-create.component";
 import { ExpenseDetailComponent } from "./modules/expense-detail.component";
 import { ExpenseListComponent } from "./modules/expense-list.component";
@@ -21,7 +20,7 @@ export const routes: Routes = [
       },
       {
         path: "dashboard",
-        component: DashboardComponent,
+        loadChildren: () => import("./modules/dashboards/dashboards.routes").then(m => m.dashboardsRoutes),
       },
       {
         path: "expenses",
