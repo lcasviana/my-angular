@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, input, output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, input, output, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 
 import { Expense } from "../../models";
@@ -116,7 +116,7 @@ import { Expense } from "../../models";
     </form>
   `,
 })
-export class ExpenseFormComponent {
+export class ExpenseFormComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
 
   // Input signals

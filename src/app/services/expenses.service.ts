@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { from, Observable, of, throwError } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 
@@ -12,7 +12,7 @@ import { DatabaseService } from "./database.service";
 export class ExpenseService {
   private readonly STORE_NAME = "expenses";
 
-  constructor(private dbService: DatabaseService) {}
+  private readonly dbService = inject(DatabaseService);
 
   /**
    * Get all expenses from storage
