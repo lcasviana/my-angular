@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, input } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { Router, RouterLink } from "@angular/router";
+import { Router } from "@angular/router";
 import { v4 as uuidv4 } from "uuid";
 
 import { Expense, ExpensePayment } from "../../models";
@@ -11,7 +11,7 @@ import { ExpenseStore } from "../../store/expense.store";
   selector: "my-payments-create",
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule],
   template: `
     <div class="container mx-auto p-4">
       <div class="max-w-2xl mx-auto">

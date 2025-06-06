@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, input } from "@angular/core";
-import { Router, RouterLink } from "@angular/router";
+import { Router } from "@angular/router";
 
 import { Expense } from "../../models";
 import { ExpenseStore } from "../../store/expense.store";
@@ -10,7 +10,7 @@ import { ExpenseFormComponent } from "./expenses-form.component";
   selector: "my-expenses-update",
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule, RouterLink, ExpenseFormComponent],
+  imports: [CommonModule, ExpenseFormComponent],
   template: `
     <div class="container mx-auto p-4">
       <div class="max-w-2xl mx-auto">
@@ -37,7 +37,7 @@ import { ExpenseFormComponent } from "./expenses-form.component";
         } @else {
           <my-expenses-form
             [isLoading]="expenseStore.isLoading()"
-            [initialValue]="selectedExpense()"
+            [initialValue]="selectedExpense() ?? undefined"
             submitButtonText="Update Expense"
             (formSubmit)="updateExpense($event)"
           />
