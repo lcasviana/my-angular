@@ -197,14 +197,14 @@ const withExpenseMethods = withMethods((store, expenseService = inject(ExpenseSe
       switchMap(() =>
         expenseService.getExpenses().pipe(
           tapResponse({
-            next: expenses =>
+            next: (expenses) =>
               patchState(store, {
                 expenses,
                 loading: false,
                 loaded: true,
                 error: null,
               }),
-            error: error =>
+            error: (error) =>
               patchState(store, {
                 loading: false,
                 error: getErrorMessage(error),
@@ -221,17 +221,17 @@ const withExpenseMethods = withMethods((store, expenseService = inject(ExpenseSe
   createExpense: rxMethod<Expense>(
     pipe(
       tap(() => patchState(store, { loading: true, error: null })),
-      switchMap(expense =>
+      switchMap((expense) =>
         expenseService.createExpense(expense).pipe(
           tapResponse({
-            next: newExpense => {
+            next: (newExpense) => {
               patchState(store, (state: ExpenseState) => ({
                 expenses: [...state.expenses, newExpense],
                 loading: false,
                 error: null,
               }));
             },
-            error: error =>
+            error: (error) =>
               patchState(store, {
                 loading: false,
                 error: getErrorMessage(error),
@@ -248,17 +248,17 @@ const withExpenseMethods = withMethods((store, expenseService = inject(ExpenseSe
   updateExpense: rxMethod<Expense>(
     pipe(
       tap(() => patchState(store, { loading: true, error: null })),
-      switchMap(expense =>
+      switchMap((expense) =>
         expenseService.updateExpense(expense).pipe(
           tapResponse({
-            next: updatedExpense => {
+            next: (updatedExpense) => {
               patchState(store, (state: ExpenseState) => ({
                 expenses: state.expenses.map((e: Expense) => (e.uuid === updatedExpense.uuid ? updatedExpense : e)),
                 loading: false,
                 error: null,
               }));
             },
-            error: error =>
+            error: (error) =>
               patchState(store, {
                 loading: false,
                 error: getErrorMessage(error),
@@ -275,7 +275,7 @@ const withExpenseMethods = withMethods((store, expenseService = inject(ExpenseSe
   deleteExpense: rxMethod<string>(
     pipe(
       tap(() => patchState(store, { loading: true, error: null })),
-      switchMap(id =>
+      switchMap((id) =>
         expenseService.deleteExpense(id).pipe(
           tapResponse({
             next: () => {
@@ -289,7 +289,7 @@ const withExpenseMethods = withMethods((store, expenseService = inject(ExpenseSe
                 };
               });
             },
-            error: error =>
+            error: (error) =>
               patchState(store, {
                 loading: false,
                 error: getErrorMessage(error),
@@ -333,7 +333,7 @@ const withExpenseMethods = withMethods((store, expenseService = inject(ExpenseSe
 
 // Feature: lifecycle hooks
 const withExpenseHooks = withHooks({
-  onInit: store => {
+  onInit: (store) => {
     // Need to use explicit type cast to access the method
     const typedStore = store as unknown as { loadExpenses: () => void };
     typedStore.loadExpenses();

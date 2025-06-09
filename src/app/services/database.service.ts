@@ -18,17 +18,17 @@ export class DatabaseService {
     return new Promise((resolve, reject) => {
       const request = indexedDB.open(this.dbName, this.dbVersion);
 
-      request.onerror = event => {
+      request.onerror = (event) => {
         console.error("Database error:", event);
         reject("Error opening database");
       };
 
-      request.onsuccess = event => {
+      request.onsuccess = (event) => {
         this.db = (event.target as IDBOpenDBRequest).result;
         resolve();
       };
 
-      request.onupgradeneeded = event => {
+      request.onupgradeneeded = (event) => {
         const db = (event.target as IDBOpenDBRequest).result;
 
         // Create object stores

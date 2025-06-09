@@ -194,7 +194,7 @@ export class DashboardComponent {
 
   // Computed signals for dashboard metrics
   protected readonly activeExpenseCount = computed(() => {
-    return this.expenseStore.expenses().filter(expense => {
+    return this.expenseStore.expenses().filter((expense) => {
       // Expense is active if it has no end date or end date is in the future
       return !expense.endDate || new Date(expense.endDate) > this.currentDate;
     }).length;
@@ -217,7 +217,7 @@ export class DashboardComponent {
     if (totalExpenses === 0) return [];
 
     // Count expenses by category
-    expenses.forEach(expense => {
+    expenses.forEach((expense) => {
       const category = expense.category;
       categoryMap.set(category, (categoryMap.get(category) || 0) + 1);
     });
@@ -238,10 +238,10 @@ export class DashboardComponent {
   protected readonly recentPayments = computed(() => {
     const allPayments: PaymentSummary[] = [];
 
-    this.expenseStore.expenses().forEach(expense => {
+    this.expenseStore.expenses().forEach((expense) => {
       if (!expense.payments?.length) return;
 
-      expense.payments.forEach(payment => {
+      expense.payments.forEach((payment) => {
         allPayments.push({
           id: payment.uuid,
           date: new Date(payment.date),
@@ -267,10 +267,10 @@ export class DashboardComponent {
 
     const allPayments: PaymentSummary[] = [];
 
-    this.expenseStore.expenses().forEach(expense => {
+    this.expenseStore.expenses().forEach((expense) => {
       if (!expense.payments?.length) return;
 
-      expense.payments.forEach(payment => {
+      expense.payments.forEach((payment) => {
         const paymentDate = new Date(payment.date);
         if (paymentDate >= startOfMonth && paymentDate <= endOfMonth) {
           allPayments.push({
@@ -300,7 +300,7 @@ export class DashboardComponent {
     const thirtyDaysLater = new Date(today);
     thirtyDaysLater.setDate(today.getDate() + 30);
 
-    this.expenseStore.expenses().forEach(expense => {
+    this.expenseStore.expenses().forEach((expense) => {
       // Skip if expense has ended
       if (expense.endDate && new Date(expense.endDate) < today) {
         return;

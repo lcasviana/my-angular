@@ -143,7 +143,7 @@ export class PaymentUpdateComponent {
 
     const updatedExpense: Expense = {
       ...currentExpense,
-      payments: currentExpense.payments?.map(p => (p.uuid === currentPayment.uuid ? updatedPayment : p)) || [],
+      payments: currentExpense.payments?.map((p) => (p.uuid === currentPayment.uuid ? updatedPayment : p)) || [],
     };
 
     this.expenseStore.updateExpense(updatedExpense);

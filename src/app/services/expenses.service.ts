@@ -20,7 +20,7 @@ export class ExpenseService {
   getExpenses(): Observable<Expense[]> {
     return of(null).pipe(
       switchMap(() => from(this.dbService.getChangesByType(this.STORE_NAME))),
-      map(changes => changes.map(change => change.data as Expense)),
+      map((changes) => changes.map((change) => change.data as Expense)),
     );
   }
 
@@ -52,8 +52,8 @@ export class ExpenseService {
    */
   updateExpense(expense: Expense): Observable<Expense> {
     return this.getExpenses().pipe(
-      switchMap(expenses => {
-        const index = expenses.findIndex(e => e.uuid === expense.uuid);
+      switchMap((expenses) => {
+        const index = expenses.findIndex((e) => e.uuid === expense.uuid);
         if (index === -1) {
           return throwError(() => "Expense not found");
         }
@@ -73,8 +73,8 @@ export class ExpenseService {
    */
   deleteExpense(id: string): Observable<string> {
     return this.getExpenses().pipe(
-      switchMap(expenses => {
-        const expense = expenses.find(e => e.uuid === id);
+      switchMap((expenses) => {
+        const expense = expenses.find((e) => e.uuid === id);
         if (!expense) {
           return throwError(() => "Expense not found");
         }

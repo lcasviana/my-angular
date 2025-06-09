@@ -55,7 +55,7 @@ export class Uuid {
     try {
       const hex = atob(base64.replace(/-/g, "+").replace(/_/g, "/"))
         .split("")
-        .map(c => c.charCodeAt(0).toString(16).padStart(2, "0"))
+        .map((c) => c.charCodeAt(0).toString(16).padStart(2, "0"))
         .join("");
 
       return `${hex.substring(0, 8)}-${hex.substring(8, 12)}-${hex.substring(12, 16)}-${hex.substring(16, 20)}-${hex.substring(20)}`;
@@ -69,7 +69,7 @@ export class Uuid {
    */
   private uuid_to_base64(uuid: string): string {
     const hex = uuid.replace(/-/g, "");
-    const bytes = hex.match(/.{2}/g)?.map(byte => parseInt(byte, 16)) || [];
+    const bytes = hex.match(/.{2}/g)?.map((byte) => parseInt(byte, 16)) || [];
     const base64 = btoa(String.fromCharCode(...bytes));
     return base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
   }

@@ -9,7 +9,7 @@ bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(BrowserModule),
     provideBrowserGlobalErrorListeners(),
-    provideZonelessChangeDetection(),
     provideRouter(routes, withComponentInputBinding(), withHashLocation()),
+    provideZonelessChangeDetection(),
   ],
-}).catch(err => console.error(err));
+}).catch((err) => console.error(err));

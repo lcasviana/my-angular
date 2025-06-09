@@ -93,7 +93,7 @@ export class LayoutComponent {
     const id = this.selectedExpenseId();
     if (!id) return null;
 
-    return this.expenseStore.filteredExpenses().find(e => e.uuid === id) || null;
+    return this.expenseStore.filteredExpenses().find((e) => e.uuid === id) || null;
   }
 
   /**
