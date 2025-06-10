@@ -2,7 +2,7 @@ import { Routes } from "@angular/router";
 
 import { LayoutComponent } from "./modules/layout/layout.component";
 
-export const routes: Routes = [
+export const appRoutes: Routes = [
   {
     path: "",
     component: LayoutComponent,
