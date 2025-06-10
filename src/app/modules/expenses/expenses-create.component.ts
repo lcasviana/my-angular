@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from "@
 import { Router } from "@angular/router";
 
 import { Expense } from "../../models";
+import { generateUUID } from "../../services/expenses.service";
 import { ExpenseStore } from "../../store/expense.store";
 import { ExpenseFormComponent } from "./expenses-form.component";
 
@@ -35,18 +36,10 @@ export class ExpenseCreateComponent {
   private readonly router = inject(Router);
   protected readonly expenseStore = inject(ExpenseStore);
 
-  private generateUUID(): string {
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-      const r = (Math.random() * 16) | 0;
-      const v = c === "x" ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    });
-  }
-
   protected saveExpense(expense: Expense): void {
     const newExpense: Expense = {
       ...expense,
-      uuid: this.generateUUID(),
+      uuid: generateUUID(),
     };
 
     this.expenseStore.createExpense(newExpense);
