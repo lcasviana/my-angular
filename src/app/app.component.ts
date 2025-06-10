@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from "@angular/
 import { RouterOutlet } from "@angular/router";
 
 @Component({
-  selector: "my-root",
+  selector: "my-app",
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [RouterOutlet],
   template: `<router-outlet />`,
   host: { class: "block min-h-dvh min-w-dvw" },
 })
-export class AppComponent {}
+export class App {}

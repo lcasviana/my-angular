@@ -2,10 +2,10 @@ import { importProvidersFrom, provideBrowserGlobalErrorListeners, provideZoneles
 import { BrowserModule, bootstrapApplication } from "@angular/platform-browser";
 import { provideRouter, withComponentInputBinding, withHashLocation } from "@angular/router";
 
-import { AppComponent } from "./app/app.component";
+import { App } from "./app/app.component";
 import { routes } from "./app/app.routes";
 
-bootstrapApplication(AppComponent, {
+bootstrapApplication(App, {
   providers: [
     importProvidersFrom(BrowserModule),
     provideBrowserGlobalErrorListeners(),
