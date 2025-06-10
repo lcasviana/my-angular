@@ -3,7 +3,6 @@ import { from, Observable, of, throwError } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 
 import { Expense } from "../models";
-import { Uuid } from "../utils";
 import { DatabaseService } from "./database.service";
 
 @Injectable({
@@ -31,7 +30,7 @@ export class ExpenseService {
     // Ensure we always have a UUID
     const newExpense: Expense = {
       ...expense,
-      uuid: expense.uuid || Uuid.generate().uuid,
+      uuid: expense.uuid,
     };
 
     return of(null).pipe(
