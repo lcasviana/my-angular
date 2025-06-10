@@ -1,5 +1,11 @@
 import { Injectable } from "@angular/core";
-import { ChangeRecord } from "../models/change.interface";
+
+export interface ChangeRecord {
+  id?: number;
+  type: string;
+  data: unknown;
+  timestamp: string;
+}
 
 @Injectable({
   providedIn: "root",

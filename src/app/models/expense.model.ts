@@ -1,8 +1,12 @@
-import { ExpensePayment } from "./expense-payment.model";
-
 export type ExpenseRecurrenceType = "monthly" | "yearly";
 
-export interface Expense {
+export type ExpensePayment = {
+  uuid: string;
+  date: Date;
+  value: number;
+};
+
+export type Expense = {
   uuid: string;
   title: string;
   category: string;
@@ -12,4 +16,4 @@ export interface Expense {
   recurrence: ExpenseRecurrenceType;
   paymentMethod?: string | null;
   payments?: ExpensePayment[];
-}
+};
