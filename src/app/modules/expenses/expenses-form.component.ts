@@ -1,5 +1,4 @@
-import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, input, output, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation, inject, input, output } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 
 import { Expense } from "../../models";
@@ -8,7 +7,7 @@ import { Expense } from "../../models";
   selector: "my-expenses-form",
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   template: `
     <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()" class="bg-white rounded-lg shadow p-6">
       <div class="space-y-4">

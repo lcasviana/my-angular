@@ -1,8 +1,7 @@
-import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, signal } from "@angular/core";
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
-import { v4 as uuidv4 } from "uuid";
+
 import { Expense } from "../../models";
 import { ExpenseStore } from "../../store/expense.store";
 import { ExpenseFilterCriteria } from "../expenses/expenses-filter.component";
@@ -13,8 +12,7 @@ type AppView = "dashboard" | "expenses";
   selector: "my-layout",
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [FormsModule, ReactiveFormsModule, RouterOutlet, RouterLink, RouterLinkActive],
   template: `
     <div class="container mx-auto p-4">
       <header class="mb-8">
@@ -138,7 +136,7 @@ export class LayoutComponent {
 
     const formValue = this.expenseForm.value;
     const expense: Expense = {
-      uuid: formValue.uuid || uuidv4(),
+      uuid: formValue.uuid,
       title: formValue.title,
       category: formValue.category,
       startDate: this.createDateInUTC(formValue.startDate),

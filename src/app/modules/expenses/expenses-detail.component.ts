@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe } from "@angular/common";
+import { DatePipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, input } from "@angular/core";
 import { Router, RouterLink } from "@angular/router";
 
@@ -10,7 +10,7 @@ import { PaymentListComponent } from "./payments-list.component";
   selector: "my-expenses-detail",
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule, DatePipe, RouterLink, PaymentListComponent],
+  imports: [DatePipe, RouterLink, PaymentListComponent],
   template: `
     <div class="container mx-auto p-4">
       <div class="max-w-4xl mx-auto">

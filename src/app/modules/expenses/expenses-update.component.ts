@@ -1,4 +1,3 @@
-import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, input } from "@angular/core";
 import { Router } from "@angular/router";
 
@@ -10,7 +9,7 @@ import { ExpenseFormComponent } from "./expenses-form.component";
   selector: "my-expenses-update",
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule, ExpenseFormComponent],
+  imports: [ExpenseFormComponent],
   template: `
     <div class="container mx-auto p-4">
       <div class="max-w-2xl mx-auto">

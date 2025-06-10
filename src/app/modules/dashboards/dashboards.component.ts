@@ -1,4 +1,4 @@
-import { CommonModule, CurrencyPipe, DatePipe } from "@angular/common";
+import { CurrencyPipe, DatePipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, inject } from "@angular/core";
 
 import { Expense } from "../../models";
@@ -24,7 +24,7 @@ interface UpcomingExpense {
   selector: "my-dashboards",
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule, DatePipe, CurrencyPipe],
+  imports: [DatePipe, CurrencyPipe],
   template: `
     <div class="bg-white p-6 rounded-lg shadow mb-6">
       <h2 class="text-xl font-semibold mb-4">Financial Dashboard</h2>

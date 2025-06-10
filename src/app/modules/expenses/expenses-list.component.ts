@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe } from "@angular/common";
+import { DatePipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from "@angular/core";
 import { RouterLink } from "@angular/router";
 
@@ -9,7 +9,7 @@ import { ExpenseFilterComponent, ExpenseFilterCriteria } from "./expenses-filter
   selector: "my-expenses-list",
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule, DatePipe, RouterLink, ExpenseFilterComponent],
+  imports: [DatePipe, ExpenseFilterComponent, RouterLink],
   template: `
     <div class="space-y-6">
       <!-- Filter Component -->

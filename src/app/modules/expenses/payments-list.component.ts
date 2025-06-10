@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { DatePipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation, inject } from "@angular/core";
 import { RouterLink } from "@angular/router";
 
@@ -9,7 +9,7 @@ import { ExpenseStore } from "../../store/expense.store";
   selector: "my-payments-list",
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule, RouterLink],
+  imports: [DatePipe, RouterLink],
   template: `
     <div class="bg-white p-6 rounded-lg shadow">
       <div class="flex justify-between items-center mb-4">
@@ -19,40 +19,46 @@ import { ExpenseStore } from "../../store/expense.store";
         </a>
       </div>
 
-      <div *ngIf="!expense.payments || expense.payments.length === 0" class="text-center py-4">
-        <p class="text-gray-500">No payments recorded yet</p>
-      </div>
+      @if (!expense.payments || expense.payments.length === 0) {
+        <div class="text-center py-4">
+          <p class="text-gray-500">No payments recorded yet</p>
+        </div>
+      }
 
-      <div *ngIf="expense.payments && expense.payments.length > 0" class="overflow-x-auto">
-        <table class="min-w-full bg-white">
-          <thead>
-            <tr>
-              <th class="py-2 px-4 border-b text-left">Date</th>
-              <th class="py-2 px-4 border-b text-left">Amount</th>
-              <th class="py-2 px-4 border-b text-center">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let payment of expense.payments; trackBy: trackByPayment">
-              <td class="py-2 px-4 border-b">{{ payment.date | date: "shortDate" : "GMT" }}</td>
-              <td class="py-2 px-4 border-b">{{ payment.value.toFixed(2) }}</td>
-              <td class="py-2 px-4 border-b text-center">
-                <a [routerLink]="['/expenses', expense.uuid, 'payments', payment.uuid, 'edit']" class="text-blue-500 hover:text-blue-700 mr-2">
-                  Edit
-                </a>
-                <button (click)="deletePayment(payment)" class="text-red-500 hover:text-red-700">Delete</button>
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td class="py-2 px-4 border-t font-semibold">Total</td>
-              <td class="py-2 px-4 border-t font-semibold">{{ getTotalPayments().toFixed(2) }}</td>
-              <td class="py-2 px-4 border-t"></td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
+      @if (expense.payments && expense.payments.length > 0) {
+        <div class="overflow-x-auto">
+          <table class="min-w-full bg-white">
+            <thead>
+              <tr>
+                <th class="py-2 px-4 border-b text-left">Date</th>
+                <th class="py-2 px-4 border-b text-left">Amount</th>
+                <th class="py-2 px-4 border-b text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (payment of expense.payments; track payment.uuid) {
+                <tr>
+                  <td class="py-2 px-4 border-b">{{ payment.date | date: "shortDate" : "GMT" }}</td>
+                  <td class="py-2 px-4 border-b">{{ payment.value.toFixed(2) }}</td>
+                  <td class="py-2 px-4 border-b text-center">
+                    <a [routerLink]="['/expenses', expense.uuid, 'payments', payment.uuid, 'edit']" class="text-blue-500 hover:text-blue-700 mr-2">
+                      Edit
+                    </a>
+                    <button (click)="deletePayment(payment)" class="text-red-500 hover:text-red-700">Delete</button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+            <tfoot>
+              <tr>
+                <td class="py-2 px-4 border-t font-semibold">Total</td>
+                <td class="py-2 px-4 border-t font-semibold">{{ getTotalPayments().toFixed(2) }}</td>
+                <td class="py-2 px-4 border-t"></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      }
     </div>
   `,
 })
@@ -74,9 +80,5 @@ export class PaymentListComponent {
       };
       this.paymentsUpdated.emit(updatedExpense);
     }
-  }
-
-  protected trackByPayment(index: number, payment: ExpensePayment): string {
-    return payment.uuid;
   }
 }
