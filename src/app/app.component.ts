@@ -6,7 +6,7 @@ import { RouterOutlet } from "@angular/router";
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [RouterOutlet],
-  template: `<router-outlet />`,
   host: { class: "block min-h-dvh min-w-dvw" },
+  template: `<router-outlet />`,
 })
 export class App {}

@@ -12,4 +12,4 @@ bootstrapApplication(App, {
     provideRouter(appRoutes, withComponentInputBinding(), withHashLocation()),
     provideZonelessChangeDetection(),
   ],
-}).catch((err) => console.error(err));
+}).catch((error) => console.error(error));

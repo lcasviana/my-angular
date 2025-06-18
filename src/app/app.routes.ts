@@ -1,17 +1,12 @@
 import { Routes } from "@angular/router";
 
-import { LayoutComponent } from "./modules/layout/layout.component";
+import { Layout } from "./modules/layout/layout.component";
 
 export const appRoutes: Routes = [
   {
     path: "",
-    component: LayoutComponent,
+    component: Layout,
     children: [
-      {
-        path: "",
-        redirectTo: "dashboard",
-        pathMatch: "full",
-      },
       {
         path: "dashboard",
         loadChildren: () => import("./modules/dashboards/dashboards.routes").then((m) => m.dashboardsRoutes),
@@ -19,6 +14,11 @@ export const appRoutes: Routes = [
       {
         path: "expenses",
         loadChildren: () => import("./modules/expenses/expenses.routes").then((m) => m.expensesRoutes),
+      },
+      {
+        path: "",
+        redirectTo: "dashboard",
+        pathMatch: "full",
       },
     ],
   },

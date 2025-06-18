@@ -37,7 +37,7 @@
             "assets": ["src/favicon.ico"],
             "browser": "src/index.ts",
             "index": "src/index.html",
-            "inlineStyleLanguage": "scss",
+            "inlineStyleLanguage": "css",
             "outputPath": {
               "base": "dist/my-angular",
               "browser": ""
@@ -45,7 +45,7 @@
             "stylePreprocessorOptions": {
               "includePaths": ["src"]
             },
-            "styles": ["src/index.scss"],
+            "styles": ["src/index.css"],
             "tsConfig": "tsconfig.app.json"
           }
         },
@@ -70,16 +70,6 @@
       "root": "",
       "sourceRoot": "src"
     }
-  },
-  "schematics": {
-    "@schematics/angular:component": {},
-    "@schematics/angular:directive": {},
-    "@schematics/angular:guard": {},
-    "@schematics/angular:interceptor": {},
-    "@schematics/angular:module": {},
-    "@schematics/angular:pipe": {},
-    "@schematics/angular:resolver": {},
-    "@schematics/angular:service": {}
   },
   "version": 1
 }

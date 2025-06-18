@@ -10,8 +10,8 @@
     "postinstall": "bun run lint:write",
     "eslint:check": "eslint .",
     "eslint:write": "eslint . --fix",
-    "prettier:check": "prettier -c .",
-    "prettier:write": "prettier -lw .",
+    "prettier:check": "prettier -c --log-level=warn .",
+    "prettier:write": "prettier -lw --log-level=warn .",
     "lint:check": "bun run eslint:check & bun run prettier:check",
     "lint:write": "bun run eslint:write && bun run prettier:write"
   },
