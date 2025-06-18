@@ -22,7 +22,7 @@ import { ExpenseFilterComponent, ExpenseFilterCriteria } from "./expenses-filter
             <p class="text-sm text-gray-500">Showing {{ expenseStore.filteredExpenseCount() }} of {{ expenseStore.expenseCount() }} expenses</p>
           </div>
           <div class="flex gap-2">
-            <a routerLink="/expenses/new" class="bg-blue-500 hover:bg-blue-600 text-white text-sm py-1 px-2 rounded"> Add Expense </a>
+            <a routerLink="/expenses/create" class="bg-blue-500 hover:bg-blue-600 text-white text-sm py-1 px-2 rounded"> Add Expense </a>
             <button
               class="bg-green-500 hover:bg-green-600 text-white text-sm py-1 px-2 rounded"
               (click)="loadExpenses()"

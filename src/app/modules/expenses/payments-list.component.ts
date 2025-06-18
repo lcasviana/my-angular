@@ -14,7 +14,10 @@ import { ExpenseStore } from "../../store/expense.store";
     <div class="bg-white p-6 rounded-lg shadow">
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-xl font-semibold">Payment History</h2>
-        <a [routerLink]="['/expenses', expense.uuid, 'payments', 'new']" class="bg-blue-500 hover:bg-blue-600 text-white text-sm py-1 px-2 rounded">
+        <a
+          [routerLink]="['/expenses', expense.uuid, 'payments', 'create']"
+          class="bg-blue-500 hover:bg-blue-600 text-white text-sm py-1 px-2 rounded"
+        >
           Add Payment
         </a>
       </div>

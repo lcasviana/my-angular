@@ -6,7 +6,7 @@ export const expensesRoutes: Routes = [
     loadComponent: () => import("./expenses-list.component").then((m) => m.ExpenseListComponent),
   },
   {
-    path: "new",
+    path: "create",
     loadComponent: () => import("./expenses-create.component").then((m) => m.ExpenseCreateComponent),
   },
   {
@@ -18,7 +18,7 @@ export const expensesRoutes: Routes = [
     loadComponent: () => import("./expenses-update.component").then((m) => m.ExpenseUpdateComponent),
   },
   {
-    path: ":expenseId/payments/new",
+    path: ":expenseId/payments/create",
     loadComponent: () => import("./payments-create.component").then((m) => m.PaymentCreateComponent),
   },
   {
