@@ -14,18 +14,18 @@ export interface ExpenseFilterCriteria {
   encapsulation: ViewEncapsulation.None,
   imports: [FormsModule, ReactiveFormsModule],
   template: `
-    <div class="bg-white p-4 rounded-lg shadow mb-4">
-      <h3 class="text-lg font-semibold mb-3">Filter Expenses</h3>
+    <div class="mb-4 rounded-lg bg-white p-4 shadow">
+      <h3 class="mb-3 text-lg font-semibold">Filter Expenses</h3>
 
       <form [formGroup]="filterForm" (ngSubmit)="applyFilter()">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
           <!-- Category filter -->
           <div>
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="category"> Category </label>
+            <label class="mb-2 block text-sm font-bold text-gray-700" for="category"> Category </label>
             <select
               id="category"
               formControlName="category"
-              class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              class="focus:shadow-outline w-full rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
             >
               <option value="">All Categories</option>
               @for (category of categories(); track category) {
@@ -36,11 +36,11 @@ export interface ExpenseFilterCriteria {
 
           <!-- Recurrence Type filter -->
           <div>
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="recurrenceType"> Recurrence </label>
+            <label class="mb-2 block text-sm font-bold text-gray-700" for="recurrenceType"> Recurrence </label>
             <select
               id="recurrenceType"
               formControlName="recurrenceType"
-              class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              class="focus:shadow-outline w-full rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
             >
               <option value="">All Types</option>
               <option value="monthly">Monthly</option>
@@ -50,22 +50,22 @@ export interface ExpenseFilterCriteria {
 
           <!-- Date Range -->
           <div>
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="startDate"> From Date </label>
+            <label class="mb-2 block text-sm font-bold text-gray-700" for="startDate"> From Date </label>
             <input
               type="date"
               id="startDate"
               formControlName="startDate"
-              class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              class="focus:shadow-outline w-full rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
             />
           </div>
 
           <div>
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="endDate"> To Date </label>
+            <label class="mb-2 block text-sm font-bold text-gray-700" for="endDate"> To Date </label>
             <input
               type="date"
               id="endDate"
               formControlName="endDate"
-              class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              class="focus:shadow-outline w-full rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
             />
           </div>
         </div>
@@ -73,12 +73,12 @@ export interface ExpenseFilterCriteria {
         <div class="mt-4 flex justify-end space-x-2">
           <button
             type="button"
-            class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            class="focus:shadow-outline rounded bg-gray-500 px-4 py-2 font-bold text-white hover:bg-gray-700 focus:outline-none"
             (click)="clearFilter()"
           >
             Clear
           </button>
-          <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          <button type="submit" class="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none">
             Apply Filter
           </button>
         </div>

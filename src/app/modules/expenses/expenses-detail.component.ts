@@ -13,8 +13,8 @@ import { PaymentListComponent } from "./payments-list.component";
   imports: [DatePipe, RouterLink, PaymentListComponent],
   template: `
     <div class="container mx-auto p-4">
-      <div class="max-w-4xl mx-auto">
-        <div class="flex justify-between items-center mb-6">
+      <div class="mx-auto max-w-4xl">
+        <div class="mb-6 flex items-center justify-between">
           <h1 class="text-2xl font-bold">Expense Details</h1>
           <div class="space-x-2">
             <a [routerLink]="['/expenses', expenseId(), 'edit']" class="text-blue-500 hover:text-blue-700">Edit</a>
@@ -23,18 +23,18 @@ import { PaymentListComponent } from "./payments-list.component";
         </div>
 
         @if (expenseStore.isLoading()) {
-          <div class="flex justify-center items-center py-4">
+          <div class="flex items-center justify-center py-4">
             <p class="text-gray-500">Loading...</p>
           </div>
         } @else if (!selectedExpense()) {
-          <div class="flex justify-center items-center py-4">
+          <div class="flex items-center justify-center py-4">
             <p class="text-gray-500">Expense not found</p>
           </div>
         } @else {
-          <div class="bg-white rounded-lg shadow p-6 mb-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="mb-6 rounded-lg bg-white p-6 shadow">
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div>
-                <h2 class="text-xl font-semibold mb-4">{{ selectedExpense()?.title }}</h2>
+                <h2 class="mb-4 text-xl font-semibold">{{ selectedExpense()?.title }}</h2>
                 <dl class="space-y-2">
                   <div>
                     <dt class="text-sm font-medium text-gray-500">Category</dt>

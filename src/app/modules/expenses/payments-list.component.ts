@@ -11,19 +11,19 @@ import { ExpenseStore } from "../../store/expense.store";
   encapsulation: ViewEncapsulation.None,
   imports: [DatePipe, RouterLink],
   template: `
-    <div class="bg-white p-6 rounded-lg shadow">
-      <div class="flex justify-between items-center mb-4">
+    <div class="rounded-lg bg-white p-6 shadow">
+      <div class="mb-4 flex items-center justify-between">
         <h2 class="text-xl font-semibold">Payment History</h2>
         <a
           [routerLink]="['/expenses', expense.uuid, 'payments', 'create']"
-          class="bg-blue-500 hover:bg-blue-600 text-white text-sm py-1 px-2 rounded"
+          class="rounded bg-blue-500 px-2 py-1 text-sm text-white hover:bg-blue-600"
         >
           Add Payment
         </a>
       </div>
 
       @if (!expense.payments || expense.payments.length === 0) {
-        <div class="text-center py-4">
+        <div class="py-4 text-center">
           <p class="text-gray-500">No payments recorded yet</p>
         </div>
       }
@@ -33,18 +33,18 @@ import { ExpenseStore } from "../../store/expense.store";
           <table class="min-w-full bg-white">
             <thead>
               <tr>
-                <th class="py-2 px-4 border-b text-left">Date</th>
-                <th class="py-2 px-4 border-b text-left">Amount</th>
-                <th class="py-2 px-4 border-b text-center">Actions</th>
+                <th class="border-b px-4 py-2 text-left">Date</th>
+                <th class="border-b px-4 py-2 text-left">Amount</th>
+                <th class="border-b px-4 py-2 text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
               @for (payment of expense.payments; track payment.uuid) {
                 <tr>
-                  <td class="py-2 px-4 border-b">{{ payment.date | date: "shortDate" : "GMT" }}</td>
-                  <td class="py-2 px-4 border-b">{{ payment.value.toFixed(2) }}</td>
-                  <td class="py-2 px-4 border-b text-center">
-                    <a [routerLink]="['/expenses', expense.uuid, 'payments', payment.uuid, 'edit']" class="text-blue-500 hover:text-blue-700 mr-2">
+                  <td class="border-b px-4 py-2">{{ payment.date | date: "shortDate" : "GMT" }}</td>
+                  <td class="border-b px-4 py-2">{{ payment.value.toFixed(2) }}</td>
+                  <td class="border-b px-4 py-2 text-center">
+                    <a [routerLink]="['/expenses', expense.uuid, 'payments', payment.uuid, 'edit']" class="mr-2 text-blue-500 hover:text-blue-700">
                       Edit
                     </a>
                     <button (click)="deletePayment(payment)" class="text-red-500 hover:text-red-700">Delete</button>
@@ -54,9 +54,9 @@ import { ExpenseStore } from "../../store/expense.store";
             </tbody>
             <tfoot>
               <tr>
-                <td class="py-2 px-4 border-t font-semibold">Total</td>
-                <td class="py-2 px-4 border-t font-semibold">{{ getTotalPayments().toFixed(2) }}</td>
-                <td class="py-2 px-4 border-t"></td>
+                <td class="border-t px-4 py-2 font-semibold">Total</td>
+                <td class="border-t px-4 py-2 font-semibold">{{ getTotalPayments().toFixed(2) }}</td>
+                <td class="border-t px-4 py-2"></td>
               </tr>
             </tfoot>
           </table>

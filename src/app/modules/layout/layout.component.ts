@@ -11,15 +11,13 @@ import { MenubarModule } from "primeng/menubar";
   imports: [MenubarModule, RouterOutlet],
   host: { class: "block size-full" },
   template: `
-    <main class="container mx-auto p-4 space-y-4">
-      <header class="card">
-        <p-menubar [model]="menuBarItems">
-          <ng-template #start>Financial Tracker</ng-template>
-        </p-menubar>
-      </header>
+    <div class="container mx-auto space-y-4 p-4">
+      <p-menubar class="block" [model]="menuBarItems">
+        <ng-template #start>Financial Tracker</ng-template>
+      </p-menubar>
 
       <router-outlet />
-    </main>
+    </div>
   `,
 })
 export class Layout {

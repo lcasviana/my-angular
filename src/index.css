@@ -1,2 +1,6 @@
 @import "tailwindcss";
 @import "primeicons/primeicons.css";
+
+router-outlet {
+  @apply hidden;
+}

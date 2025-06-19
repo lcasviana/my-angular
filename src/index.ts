@@ -1,5 +1,6 @@
 import { importProvidersFrom, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from "@angular/core";
 import { BrowserModule, bootstrapApplication } from "@angular/platform-browser";
+import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
 import { provideRouter, withComponentInputBinding, withHashLocation } from "@angular/router";
 
 import Aura from "@primeng/themes/aura";
@@ -11,6 +12,7 @@ import { appRoutes } from "./app/app.routes";
 bootstrapApplication(App, {
   providers: [
     importProvidersFrom(BrowserModule),
+    provideAnimationsAsync(),
     provideBrowserGlobalErrorListeners(),
     provideRouter(appRoutes, withComponentInputBinding(), withHashLocation()),
     provideZonelessChangeDetection(),

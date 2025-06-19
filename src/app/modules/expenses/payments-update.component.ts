@@ -12,29 +12,29 @@ import { ExpenseStore } from "../../store/expense.store";
   imports: [ReactiveFormsModule],
   template: `
     <div class="container mx-auto p-4">
-      <div class="max-w-2xl mx-auto">
-        <div class="flex justify-between items-center mb-6">
+      <div class="mx-auto max-w-2xl">
+        <div class="mb-6 flex items-center justify-between">
           <h1 class="text-2xl font-bold">Edit Payment</h1>
           <button (click)="goBack()" class="text-gray-600 hover:text-gray-800">Cancel</button>
         </div>
 
         @if (expenseStore.error()) {
-          <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <div class="mb-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700">
             {{ expenseStore.error() }}
             <button class="ml-2 text-red-700 hover:text-red-900" (click)="expenseStore.clearError()">✕</button>
           </div>
         }
 
         @if (expenseStore.isLoading()) {
-          <div class="flex justify-center items-center py-4">
+          <div class="flex items-center justify-center py-4">
             <p class="text-gray-500">Loading...</p>
           </div>
         } @else if (!expense() || !payment()) {
-          <div class="flex justify-center items-center py-4">
+          <div class="flex items-center justify-center py-4">
             <p class="text-gray-500">Payment not found</p>
           </div>
         } @else {
-          <form [formGroup]="paymentForm" (ngSubmit)="updatePayment()" class="bg-white rounded-lg shadow p-6">
+          <form [formGroup]="paymentForm" (ngSubmit)="updatePayment()" class="rounded-lg bg-white p-6 shadow">
             <div class="mb-6">
               <h2 class="text-lg font-semibold text-gray-700">Expense Details</h2>
               <p class="text-gray-600">{{ expense()?.title }}</p>
@@ -44,12 +44,12 @@ import { ExpenseStore } from "../../store/expense.store";
             <div class="space-y-4">
               <!-- Date -->
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1" for="date"> Payment Date * </label>
+                <label class="mb-1 block text-sm font-medium text-gray-700" for="date"> Payment Date * </label>
                 <input
                   type="date"
                   id="date"
                   formControlName="date"
-                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  class="w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   [class.border-red-500]="paymentForm.get('date')?.invalid && paymentForm.get('date')?.touched"
                 />
                 @if (paymentForm.get("date")?.invalid && paymentForm.get("date")?.touched) {
@@ -59,16 +59,16 @@ import { ExpenseStore } from "../../store/expense.store";
 
               <!-- Value -->
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1" for="value"> Amount * </label>
+                <label class="mb-1 block text-sm font-medium text-gray-700" for="value"> Amount * </label>
                 <div class="relative">
-                  <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">$</span>
+                  <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">$</span>
                   <input
                     type="number"
                     id="value"
                     formControlName="value"
                     step="0.01"
                     min="0"
-                    class="w-full pl-7 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    class="w-full rounded-md border border-gray-300 py-2 pr-3 pl-7 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     [class.border-red-500]="paymentForm.get('value')?.invalid && paymentForm.get('value')?.touched"
                   />
                 </div>
@@ -79,13 +79,13 @@ import { ExpenseStore } from "../../store/expense.store";
             </div>
 
             <div class="mt-6 flex justify-end space-x-2">
-              <button type="button" (click)="goBack()" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+              <button type="button" (click)="goBack()" class="rounded-lg border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50">
                 Cancel
               </button>
               <button
                 type="submit"
                 [disabled]="paymentForm.invalid || expenseStore.isLoading()"
-                class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                class="rounded-lg bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Update Payment
               </button>

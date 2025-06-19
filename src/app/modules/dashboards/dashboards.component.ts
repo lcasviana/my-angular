@@ -26,19 +26,19 @@ interface UpcomingExpense {
   encapsulation: ViewEncapsulation.None,
   imports: [DatePipe, CurrencyPipe],
   template: `
-    <div class="bg-white p-6 rounded-lg shadow mb-6">
-      <h2 class="text-xl font-semibold mb-4">Financial Dashboard</h2>
+    <div class="mb-6 rounded-lg bg-white p-6 shadow">
+      <h2 class="mb-4 text-xl font-semibold">Financial Dashboard</h2>
 
       <!-- Summary Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div class="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
         <!-- Total Expenses Card -->
-        <div class="bg-blue-50 p-4 rounded-lg shadow-sm">
-          <h3 class="text-sm font-medium text-blue-800 mb-1">Total Active Expenses</h3>
+        <div class="rounded-lg bg-blue-50 p-4 shadow-sm">
+          <h3 class="mb-1 text-sm font-medium text-blue-800">Total Active Expenses</h3>
           <p class="text-2xl font-bold text-blue-900">{{ activeExpenseCount() }}</p>
-          <p class="text-sm text-blue-700 mt-1">
+          <p class="mt-1 text-sm text-blue-700">
             From {{ expenseStore.expenseCount() }} total expenses
             @if (activeExpenseCount() < expenseStore.expenseCount()) {
-              <span class="ml-1 text-xs px-2 py-0.5 bg-blue-200 rounded-full">
+              <span class="ml-1 rounded-full bg-blue-200 px-2 py-0.5 text-xs">
                 {{ expenseStore.expenseCount() - activeExpenseCount() }} inactive
               </span>
             }
@@ -46,20 +46,20 @@ interface UpcomingExpense {
         </div>
 
         <!-- Total Paid This Month Card -->
-        <div class="bg-green-50 p-4 rounded-lg shadow-sm">
-          <h3 class="text-sm font-medium text-green-800 mb-1">Paid in May 2025</h3>
+        <div class="rounded-lg bg-green-50 p-4 shadow-sm">
+          <h3 class="mb-1 text-sm font-medium text-green-800">Paid in May 2025</h3>
           <p class="text-2xl font-bold text-green-900">{{ totalPaidThisMonth() | currency }}</p>
-          <p class="text-sm text-green-700 mt-1">Across {{ paymentsThisMonth().length }} payments</p>
+          <p class="mt-1 text-sm text-green-700">Across {{ paymentsThisMonth().length }} payments</p>
         </div>
 
         <!-- Upcoming Payments Card -->
-        <div class="bg-amber-50 p-4 rounded-lg shadow-sm">
-          <h3 class="text-sm font-medium text-amber-800 mb-1">Active Categories</h3>
+        <div class="rounded-lg bg-amber-50 p-4 shadow-sm">
+          <h3 class="mb-1 text-sm font-medium text-amber-800">Active Categories</h3>
           <p class="text-2xl font-bold text-amber-900">{{ uniqueCategories().length }}</p>
-          <p class="text-sm text-amber-700 mt-1">
+          <p class="mt-1 text-sm text-amber-700">
             Expense categories being tracked
             @if (topCategory()) {
-              <span class="block mt-1">
+              <span class="mt-1 block">
                 Top: <span class="font-medium">{{ topCategory() }}</span>
               </span>
             }
@@ -68,30 +68,30 @@ interface UpcomingExpense {
       </div>
 
       <!-- Two-column layout for the rest of the dashboard -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
         <!-- Left column -->
         <div>
           <!-- Category Breakdown -->
           <div class="mb-6">
-            <h3 class="text-md font-semibold mb-3 text-gray-700">Expenses by Category</h3>
+            <h3 class="text-md mb-3 font-semibold text-gray-700">Expenses by Category</h3>
             <div class="overflow-x-auto">
               <table class="min-w-full">
                 <thead>
                   <tr class="bg-gray-50">
-                    <th class="py-2 px-4 text-left text-sm font-medium text-gray-500">Category</th>
-                    <th class="py-2 px-4 text-right text-sm font-medium text-gray-500">Count</th>
-                    <th class="py-2 px-4 text-right text-sm font-medium text-gray-500">% of Total</th>
+                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Category</th>
+                    <th class="px-4 py-2 text-right text-sm font-medium text-gray-500">Count</th>
+                    <th class="px-4 py-2 text-right text-sm font-medium text-gray-500">% of Total</th>
                   </tr>
                 </thead>
                 <tbody>
                   @for (category of categoryBreakdown(); track category.name) {
                     <tr class="border-b">
-                      <td class="py-2 px-4">{{ category.name }}</td>
-                      <td class="py-2 px-4 text-right">{{ category.count }}</td>
-                      <td class="py-2 px-4 text-right">
+                      <td class="px-4 py-2">{{ category.name }}</td>
+                      <td class="px-4 py-2 text-right">{{ category.count }}</td>
+                      <td class="px-4 py-2 text-right">
                         <div class="flex items-center justify-end">
-                          <div class="w-16 bg-gray-200 rounded-full h-2 mr-2">
-                            <div class="bg-blue-600 h-2 rounded-full" [style.width]="category.percentage + '%'"></div>
+                          <div class="mr-2 h-2 w-16 rounded-full bg-gray-200">
+                            <div class="h-2 rounded-full bg-blue-600" [style.width]="category.percentage + '%'"></div>
                           </div>
                           {{ category.percentage.toFixed(1) }}%
                         </div>
@@ -105,31 +105,31 @@ interface UpcomingExpense {
 
           <!-- Upcoming Expenses -->
           <div>
-            <h3 class="text-md font-semibold mb-3 text-gray-700">Upcoming Expenses</h3>
+            <h3 class="text-md mb-3 font-semibold text-gray-700">Upcoming Expenses</h3>
             @if (upcomingExpenses().length === 0) {
-              <p class="text-gray-500 italic py-3">No upcoming expenses found</p>
+              <p class="py-3 text-gray-500 italic">No upcoming expenses found</p>
             } @else {
               <div class="overflow-x-auto">
                 <table class="min-w-full">
                   <thead>
                     <tr class="bg-gray-50">
-                      <th class="py-2 px-4 text-left text-sm font-medium text-gray-500">Next Due</th>
-                      <th class="py-2 px-4 text-left text-sm font-medium text-gray-500">Title</th>
-                      <th class="py-2 px-4 text-left text-sm font-medium text-gray-500">Category</th>
-                      <th class="py-2 px-4 text-left text-sm font-medium text-gray-500">Recurrence</th>
+                      <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Next Due</th>
+                      <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Title</th>
+                      <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Category</th>
+                      <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Recurrence</th>
                     </tr>
                   </thead>
                   <tbody>
                     @for (expense of upcomingExpenses(); track expense.id) {
                       <tr class="border-b">
-                        <td class="py-2 px-4">
+                        <td class="px-4 py-2">
                           <span [class.font-medium]="isUpcomingSoon(expense.nextDueDate)" [class.text-red-600]="isUpcomingSoon(expense.nextDueDate)">
                             {{ expense.nextDueDate | date: "MMM d" : "GMT" }}
                           </span>
                         </td>
-                        <td class="py-2 px-4">{{ expense.title }}</td>
-                        <td class="py-2 px-4">{{ expense.category }}</td>
-                        <td class="py-2 px-4">{{ expense.recurrence }}</td>
+                        <td class="px-4 py-2">{{ expense.title }}</td>
+                        <td class="px-4 py-2">{{ expense.category }}</td>
+                        <td class="px-4 py-2">{{ expense.recurrence }}</td>
                       </tr>
                     }
                   </tbody>
@@ -143,35 +143,35 @@ interface UpcomingExpense {
         <div>
           <!-- Recent Payments -->
           <div>
-            <h3 class="text-md font-semibold mb-3 text-gray-700">Recent Payments</h3>
+            <h3 class="text-md mb-3 font-semibold text-gray-700">Recent Payments</h3>
             @if (recentPayments().length === 0) {
-              <p class="text-gray-500 italic py-3">No payment records found</p>
+              <p class="py-3 text-gray-500 italic">No payment records found</p>
             } @else {
               <div class="overflow-x-auto">
                 <table class="min-w-full">
                   <thead>
                     <tr class="bg-gray-50">
-                      <th class="py-2 px-4 text-left text-sm font-medium text-gray-500">Date</th>
-                      <th class="py-2 px-4 text-left text-sm font-medium text-gray-500">Expense</th>
-                      <th class="py-2 px-4 text-left text-sm font-medium text-gray-500">Category</th>
-                      <th class="py-2 px-4 text-right text-sm font-medium text-gray-500">Amount</th>
+                      <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Date</th>
+                      <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Expense</th>
+                      <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Category</th>
+                      <th class="px-4 py-2 text-right text-sm font-medium text-gray-500">Amount</th>
                     </tr>
                   </thead>
                   <tbody>
                     @for (payment of recentPayments(); track payment.id) {
                       <tr class="border-b">
-                        <td class="py-2 px-4">{{ payment.date | date: "mediumDate" : "GMT" }}</td>
-                        <td class="py-2 px-4">{{ payment.expenseTitle }}</td>
-                        <td class="py-2 px-4">{{ payment.category }}</td>
-                        <td class="py-2 px-4 text-right">{{ payment.amount | currency }}</td>
+                        <td class="px-4 py-2">{{ payment.date | date: "mediumDate" : "GMT" }}</td>
+                        <td class="px-4 py-2">{{ payment.expenseTitle }}</td>
+                        <td class="px-4 py-2">{{ payment.category }}</td>
+                        <td class="px-4 py-2 text-right">{{ payment.amount | currency }}</td>
                       </tr>
                     }
                   </tbody>
                   <tfoot>
                     @if (recentPayments().length > 0) {
                       <tr>
-                        <td colspan="3" class="py-2 px-4 text-right font-medium">Total:</td>
-                        <td class="py-2 px-4 text-right font-medium">
+                        <td colspan="3" class="px-4 py-2 text-right font-medium">Total:</td>
+                        <td class="px-4 py-2 text-right font-medium">
                           {{ recentPaymentsTotal() | currency }}
                         </td>
                       </tr>

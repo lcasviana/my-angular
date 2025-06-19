@@ -1,118 +1,69 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation, inject, input, output } from "@angular/core";
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 
-import { Expense } from "../../models";
+import { ButtonModule } from "primeng/button";
+import { CalendarModule } from "primeng/calendar";
+import { FloatLabelModule } from "primeng/floatlabel";
+import { InputTextModule } from "primeng/inputtext";
+import { SelectModule } from "primeng/select";
+
+import { Expense, ExpenseRecurrenceType } from "../../models";
 
 @Component({
   selector: "my-expenses-form",
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [ReactiveFormsModule],
+  imports: [ButtonModule, CalendarModule, FloatLabelModule, InputTextModule, ReactiveFormsModule, SelectModule],
   template: `
-    <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()" class="bg-white rounded-lg shadow p-6">
-      <div class="space-y-4">
-        <!-- Title -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1" for="title"> Title * </label>
-          <input
-            type="text"
-            id="title"
-            formControlName="title"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            [class.border-red-500]="expenseForm.get('title')?.invalid && expenseForm.get('title')?.touched"
-          />
-          @if (expenseForm.get("title")?.invalid && expenseForm.get("title")?.touched) {
-            <p class="mt-1 text-sm text-red-600">Title is required</p>
-          }
-        </div>
+    <div class="card">
+      <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()" class="@container/expenses-form grid grid-cols-12 items-start gap-3 p-3">
+        <p-floatlabel class="col-span-6" variant="in">
+          <input id="name" class="w-full" type="text" pInputText pSize="small" formControlName="name" />
+          <label for="name">Name*</label>
+        </p-floatlabel>
 
-        <!-- Category -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1" for="category"> Category * </label>
-          <input
-            type="text"
-            id="category"
-            formControlName="category"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            [class.border-red-500]="expenseForm.get('category')?.invalid && expenseForm.get('category')?.touched"
-          />
-          @if (expenseForm.get("category")?.invalid && expenseForm.get("category")?.touched) {
-            <p class="mt-1 text-sm text-red-600">Category is required</p>
-          }
-        </div>
+        <p-floatlabel class="col-span-6" variant="in">
+          <input id="category" class="w-full" type="text" pInputText pSize="small" formControlName="category" />
+          <label for="category">Category</label>
+        </p-floatlabel>
 
-        <!-- Start Date -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1" for="startDate"> Start Date * </label>
-          <input
-            type="date"
-            id="startDate"
-            formControlName="startDate"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            [class.border-red-500]="expenseForm.get('startDate')?.invalid && expenseForm.get('startDate')?.touched"
-          />
-          @if (expenseForm.get("startDate")?.invalid && expenseForm.get("startDate")?.touched) {
-            <p class="mt-1 text-sm text-red-600">Start date is required</p>
-          }
-        </div>
-
-        <!-- Recurrence -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1" for="recurrence"> Recurrence * </label>
-          <select
-            id="recurrence"
+        <p-floatlabel class="col-span-4" variant="in">
+          <p-select
+            inputId="recurrence"
+            class="w-full"
+            [options]="recurrenceOptions"
+            optionLabel="label"
+            optionValue="value"
             formControlName="recurrence"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="monthly">Monthly</option>
-            <option value="yearly">Yearly</option>
-          </select>
-        </div>
-
-        <!-- End Date -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1" for="endDate"> End Date (Optional) </label>
-          <input
-            type="date"
-            id="endDate"
-            formControlName="endDate"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-        </div>
+          <label for="recurrence">Recurrence*</label>
+        </p-floatlabel>
 
-        <!-- Description -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1" for="description"> Description (Optional) </label>
-          <textarea
-            id="description"
-            formControlName="description"
-            rows="3"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          ></textarea>
-        </div>
+        <p-floatlabel class="col-span-4" variant="in">
+          <p-calendar inputId="startDate" class="grid" showIcon iconDisplay="input" formControlName="startDate" />
+          <label for="startDate">Start Date*</label>
+        </p-floatlabel>
 
-        <!-- Payment Method -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1" for="paymentMethod"> Payment Method (Optional) </label>
-          <input
-            type="text"
-            id="paymentMethod"
-            formControlName="paymentMethod"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-      </div>
+        <p-floatlabel class="col-span-4" variant="in">
+          <p-calendar inputId="endDate" class="grid" showIcon iconDisplay="input" formControlName="endDate" />
+          <label for="endDate">End Date</label>
+        </p-floatlabel>
 
-      <div class="mt-6 flex justify-end">
-        <button
-          type="submit"
-          [disabled]="expenseForm.invalid || isLoading()"
-          class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {{ submitButtonText() }}
-        </button>
-      </div>
-    </form>
+        <p-floatlabel class="col-span-6" variant="in">
+          <input id="description" class="w-full" type="text" pInputText formControlName="description" />
+          <label for="description">Description</label>
+        </p-floatlabel>
+
+        <p-floatlabel class="col-span-6" variant="in">
+          <input id="paymentMethod" class="w-full" type="text" pInputText formControlName="paymentMethod" />
+          <label for="paymentMethod">Payment Method</label>
+        </p-floatlabel>
+
+        <div class="col-span-12 flex justify-end">
+          <button pButton type="submit" [disabled]="expenseForm.invalid || isLoading()">Submit</button>
+        </div>
+      </form>
+    </div>
   `,
 })
 export class ExpenseFormComponent implements OnInit {
@@ -126,12 +77,17 @@ export class ExpenseFormComponent implements OnInit {
   // Output signal
   readonly formSubmit = output<Expense>();
 
-  protected readonly expenseForm: FormGroup = this.fb.group({
-    title: ["", Validators.required],
+  protected readonly recurrenceOptions = [
+    { label: "Monthly", value: "monthly" },
+    { label: "Yearly", value: "yearly" },
+  ];
+
+  protected readonly expenseForm = this.fb.group({
+    name: ["", Validators.required],
     category: ["", Validators.required],
     startDate: ["", Validators.required],
-    recurrence: ["monthly", Validators.required],
-    endDate: [null],
+    recurrence: [null as ExpenseRecurrenceType | null, Validators.required],
+    endDate: [null as string | null],
     description: [""],
     paymentMethod: [""],
   });
@@ -140,7 +96,7 @@ export class ExpenseFormComponent implements OnInit {
     const initialValue = this.initialValue();
     if (initialValue) {
       this.expenseForm.patchValue({
-        title: initialValue.title,
+        name: initialValue.title,
         category: initialValue.category,
         startDate: this.formatDateForInput(initialValue.startDate),
         recurrence: initialValue.recurrence,
@@ -159,10 +115,10 @@ export class ExpenseFormComponent implements OnInit {
     const expense: Expense = {
       ...(initialValue || {}),
       uuid: initialValue?.uuid || "",
-      title: formValue.title,
-      category: formValue.category,
-      startDate: this.createDateInUTC(formValue.startDate),
-      recurrence: formValue.recurrence,
+      title: formValue.name ?? "",
+      category: formValue.category ?? "",
+      startDate: this.createDateInUTC(formValue.startDate ?? ""),
+      recurrence: formValue.recurrence ?? "monthly",
       endDate: formValue.endDate ? this.createDateInUTC(formValue.endDate) : null,
       description: formValue.description || null,
       paymentMethod: formValue.paymentMethod || null,
