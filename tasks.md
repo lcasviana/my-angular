@@ -9,7 +9,6 @@ This Angular project is a financial tracker application designed to help users m
 ### Expense
 
 - **Required Fields:**
-
   - `uuid`: Unique identifier for each expense
   - `title`: Name/title of the expense
   - `category`: Type/category of expense
@@ -17,7 +16,6 @@ This Angular project is a financial tracker application designed to help users m
   - `recurrence`: How often the expense occurs (monthly, yearly)
 
 - **Optional Fields:**
-
   - `description`: Additional notes about the expense
   - `endDate`: When the expense ends (null for ongoing expenses) (stored in GMT+0)
   - `paymentMethod`: Method of payment (credit card, bank transfer, etc.)
@@ -26,7 +24,6 @@ This Angular project is a financial tracker application designed to help users m
 ### Payment
 
 - **Required Fields:**
-
   - `uuid`: Unique identifier for each payment
   - `date`: Date when payment was made (stored in GMT+0)
   - `value`: Amount paid
