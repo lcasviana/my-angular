@@ -120,9 +120,6 @@ const withExpenseComputed = withComputed((store: object) => {
       return Array.from(categories).sort();
     }),
 
-    // Get current filter criteria
-    filterCriteria: computed(() => state.filterCriteria()),
-
     // Get selected expense
     selectedExpense: computed(() => {
       const selectedId = state.selectedExpenseId();
@@ -135,15 +132,6 @@ const withExpenseComputed = withComputed((store: object) => {
       const paymentId = state.selectedPaymentId();
       return expense && paymentId ? expense.payments?.find((p: ExpensePayment) => p.uuid === paymentId) : null;
     }),
-
-    // Get loading state
-    isLoading: computed(() => state.loading()),
-
-    // Get loaded state
-    isLoaded: computed(() => state.loaded()),
-
-    // Get error state
-    error: computed(() => state.error()),
 
     // Get active expenses (not ended or end date is in the future)
     activeExpenses: computed(() => {

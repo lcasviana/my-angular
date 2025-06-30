@@ -26,14 +26,14 @@ import { ExpenseFilterComponent, ExpenseFilterCriteria } from "./expenses-filter
             <button
               class="rounded bg-green-500 px-2 py-1 text-sm text-white hover:bg-green-600"
               (click)="loadExpenses()"
-              [disabled]="expenseStore.isLoading()"
+              [disabled]="expenseStore.loading()"
             >
               Refresh
             </button>
           </div>
         </div>
 
-        @if (expenseStore.isLoading()) {
+        @if (expenseStore.loading()) {
           <div class="flex items-center justify-center py-4">
             <p class="text-gray-500">Loading...</p>
           </div>

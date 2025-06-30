@@ -25,7 +25,7 @@ import { ExpenseStore } from "../../store/expense.store";
           </div>
         }
 
-        @if (expenseStore.isLoading()) {
+        @if (expenseStore.loading()) {
           <div class="flex items-center justify-center py-4">
             <p class="text-gray-500">Loading...</p>
           </div>
@@ -84,7 +84,7 @@ import { ExpenseStore } from "../../store/expense.store";
               </button>
               <button
                 type="submit"
-                [disabled]="paymentForm.invalid || expenseStore.isLoading()"
+                [disabled]="paymentForm.invalid || expenseStore.loading()"
                 class="rounded-lg bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Update Payment

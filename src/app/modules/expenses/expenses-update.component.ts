@@ -25,7 +25,7 @@ import { ExpenseFormComponent } from "./expenses-form.component";
           </div>
         }
 
-        @if (expenseStore.isLoading()) {
+        @if (expenseStore.loading()) {
           <div class="flex items-center justify-center py-4">
             <p class="text-gray-500">Loading...</p>
           </div>
@@ -35,7 +35,7 @@ import { ExpenseFormComponent } from "./expenses-form.component";
           </div>
         } @else {
           <my-expenses-form
-            [isLoading]="expenseStore.isLoading()"
+            [isLoading]="expenseStore.loading()"
             [initialValue]="selectedExpense() ?? undefined"
             submitButtonText="Update Expense"
             (formSubmit)="updateExpense($event)"

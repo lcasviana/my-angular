@@ -22,7 +22,7 @@ import { PaymentListComponent } from "./payments-list.component";
           </div>
         </div>
 
-        @if (expenseStore.isLoading()) {
+        @if (expenseStore.loading()) {
           <div class="flex items-center justify-center py-4">
             <p class="text-gray-500">Loading...</p>
           </div>

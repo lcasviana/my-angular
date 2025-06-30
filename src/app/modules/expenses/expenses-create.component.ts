@@ -13,7 +13,7 @@ import { ExpenseFormComponent } from "./expenses-form.component";
   imports: [ExpenseFormComponent],
   template: `
     <h1 class="px-3 text-2xl font-bold">Create New Expense</h1>
-    <my-expenses-form [isLoading]="expenseStore.isLoading()" submitButtonText="Create Expense" (formSubmit)="saveExpense($event)" />
+    <my-expenses-form [isLoading]="expenseStore.loading()" submitButtonText="Create Expense" (formSubmit)="saveExpense($event)" />
   `,
 })
 export class ExpenseCreateComponent {
