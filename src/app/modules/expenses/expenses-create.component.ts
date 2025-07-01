@@ -23,7 +23,7 @@ export class ExpenseCreateComponent {
   protected saveExpense(expense: Expense): void {
     const newExpense: Expense = {
       ...expense,
-      uuid: generateUUID(),
+      expenseId: generateUUID(),
     };
 
     this.expenseStore.createExpense(newExpense);

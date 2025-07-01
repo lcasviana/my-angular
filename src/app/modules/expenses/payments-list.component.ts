@@ -79,7 +79,7 @@ export class PaymentListComponent {
     if (confirm("Are you sure you want to delete this payment?")) {
       const updatedExpense: Expense = {
         ...this.expense,
-        payments: this.expense.payments?.filter((p) => p.uuid !== payment.uuid) || [],
+        payments: this.expense.payments?.filter((p) => p.paymentId !== payment.paymentId) || [],
       };
       this.paymentsUpdated.emit(updatedExpense);
     }

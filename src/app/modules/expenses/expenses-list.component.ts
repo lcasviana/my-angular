@@ -92,7 +92,7 @@ export class ExpenseListComponent {
   }
 
   protected loadExpenses(): void {
-    this.expenseStore.loadExpenses();
+    this.expenseStore.getExpenses();
   }
 
   protected deleteExpense(id: string): void {

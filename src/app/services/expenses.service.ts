@@ -1,98 +1,75 @@
-import { inject, Injectable } from "@angular/core";
-import { from, Observable, of, throwError } from "rxjs";
-import { map, switchMap } from "rxjs/operators";
+import { Injectable } from "@angular/core";
 
-import { Expense } from "../models";
-import { DatabaseService } from "./database.service";
+import { Expense, ExpenseRequest } from "../models";
 
 @Injectable({
   providedIn: "root",
 })
-export class ExpenseService {
-  private readonly STORE_NAME = "expenses";
+export class ExpensesService {
+  private readonly expensesStorageKey: string = "expenses";
 
-  private readonly dbService = inject(DatabaseService);
-
-  /**
-   * Get all expenses from storage
-   */
-  getExpenses(): Observable<Expense[]> {
-    return of(null).pipe(
-      switchMap(() => from(this.dbService.getChangesByType(this.STORE_NAME))),
-      map((changes) => changes.map((change) => change.data as Expense)),
-    );
+  public getExpenses(): Expense[] {
+    const expenses = this.getExpensesStorage();
+    return expenses;
   }
 
-  /**
-   * Add a new expense
-   */
-  createExpense(expense: Expense): Observable<Expense> {
-    // Ensure we always have a UUID
-    const newExpense: Expense = {
-      ...expense,
-      uuid: expense.uuid,
-    };
-
-    return of(null).pipe(
-      switchMap(() =>
-        from(
-          this.dbService.addChange({
-            type: this.STORE_NAME,
-            data: newExpense,
-          }),
-        ),
-      ),
-      map(() => newExpense),
-    );
+  public getExpense(expenseId: string): Expense | undefined {
+    const expenses = this.getExpensesStorage();
+    const expense = expenses.find((expense) => expense.expenseId === expenseId);
+    return expense;
   }
 
-  /**
-   * Update an existing expense
-   */
-  updateExpense(expense: Expense): Observable<Expense> {
-    return this.getExpenses().pipe(
-      switchMap((expenses) => {
-        const index = expenses.findIndex((e) => e.uuid === expense.uuid);
-        if (index === -1) {
-          return throwError(() => "Expense not found");
-        }
-
-        return from(
-          this.dbService.addChange({
-            type: this.STORE_NAME,
-            data: expense,
-          }),
-        ).pipe(map(() => expense));
-      }),
-    );
+  public createExpense(expenseRequest: ExpenseRequest): Expense {
+    const expenses = this.getExpensesStorage();
+    const expense: Expense = { ...expenseRequest, expenseId: crypto.randomUUID() };
+    this.setExpensesStorage([...expenses, expense]);
+    return expense;
   }
 
-  /**
-   * Delete an expense
-   */
-  deleteExpense(id: string): Observable<string> {
-    return this.getExpenses().pipe(
-      switchMap((expenses) => {
-        const expense = expenses.find((e) => e.uuid === id);
-        if (!expense) {
-          return throwError(() => "Expense not found");
-        }
+  public updateExpense(expenseId: string, expenseRequest: ExpenseRequest): Expense {
+    const expenses = this.getExpensesStorage();
+    const expenseIndex = expenses.findIndex(({ expenseId: uuid }) => uuid === expenseId);
+    if (expenseIndex === -1) throw new Error("Expense not found.");
 
-        return from(
-          this.dbService.addChange({
-            type: this.STORE_NAME,
-            data: { ...expense, deleted: true },
-          }),
-        ).pipe(map(() => id));
-      }),
-    );
+    const expense: Expense = { ...expenseRequest, expenseId };
+    expenses[expenseIndex] = expense;
+    this.setExpensesStorage(expenses);
+    return expense;
   }
-}
 
-export function generateUUID(): string {
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-    const r = (Math.random() * 16) | 0;
-    const v = c === "x" ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
+  public deleteExpense(expenseId: string): string {
+    const expenses = this.getExpensesStorage();
+    const expenseIndex = expenses.findIndex((expense) => expense.expenseId === expenseId);
+    if (expenseIndex === -1) throw new Error("Expense not found.");
+
+    expenses.splice(expenseIndex, 1);
+    this.setExpensesStorage(expenses);
+    return expenseId;
+  }
+
+  // Storage
+
+  private getExpensesStorage(): Expense[] {
+    const expensesStringified: string | null = localStorage.getItem(this.expensesStorageKey);
+    if (!expensesStringified) return [];
+
+    try {
+      const expenses: Expense[] = JSON.parse(expensesStringified);
+      return expenses;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Internal server error.");
+    }
+  }
+
+  private setExpensesStorage(expenses: Expense[]): void {
+    const expensesStringified: string = JSON.stringify(expenses);
+
+    try {
+      localStorage.setItem(this.expensesStorageKey, expensesStringified);
+    } catch (error) {
+      console.error(error);
+      throw new Error("Internal server error.");
+    }
+  }
 }

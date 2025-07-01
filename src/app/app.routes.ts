@@ -1,11 +1,9 @@
 import { Routes } from "@angular/router";
 
-import { Layout } from "./modules/layout/layout.component";
-
 export const appRoutes: Routes = [
   {
     path: "",
-    component: Layout,
+    loadComponent: () => import("./components/layout.component").then((m) => m.Layout),
     children: [
       {
         path: "dashboard",

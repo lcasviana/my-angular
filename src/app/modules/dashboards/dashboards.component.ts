@@ -243,7 +243,7 @@ export class DashboardComponent {
 
       expense.payments.forEach((payment) => {
         allPayments.push({
-          id: payment.uuid,
+          id: payment.paymentId,
           date: new Date(payment.date),
           amount: payment.value,
           expenseTitle: expense.title,
@@ -274,7 +274,7 @@ export class DashboardComponent {
         const paymentDate = new Date(payment.date);
         if (paymentDate >= startOfMonth && paymentDate <= endOfMonth) {
           allPayments.push({
-            id: payment.uuid,
+            id: payment.paymentId,
             date: paymentDate,
             amount: payment.value,
             expenseTitle: expense.title,
@@ -312,7 +312,7 @@ export class DashboardComponent {
       // Include if due date is within the next 30 days
       if (nextDueDate && nextDueDate <= thirtyDaysLater) {
         result.push({
-          id: expense.uuid,
+          id: expense.expenseId,
           title: expense.title,
           category: expense.category,
           nextDueDate,

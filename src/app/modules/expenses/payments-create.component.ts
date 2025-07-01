@@ -121,7 +121,7 @@ export class PaymentCreateComponent {
     const currentExpense = this.expense()!;
 
     const newPayment: ExpensePayment = {
-      uuid: generateUUID(),
+      paymentId: generateUUID(),
       date: this.createDateInUTC(formValue.date),
       value: formValue.value,
     };
@@ -132,7 +132,7 @@ export class PaymentCreateComponent {
     };
 
     this.expenseStore.updateExpense(updatedExpense);
-    this.router.navigate(["/expenses", currentExpense.uuid]);
+    this.router.navigate(["/expenses", currentExpense.expenseId]);
   }
 
   protected goBack(): void {

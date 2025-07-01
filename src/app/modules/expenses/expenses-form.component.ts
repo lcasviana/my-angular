@@ -114,7 +114,7 @@ export class ExpenseFormComponent implements OnInit {
     const initialValue = this.initialValue();
     const expense: Expense = {
       ...(initialValue || {}),
-      uuid: initialValue?.uuid || "",
+      expenseId: initialValue?.expenseId || "",
       title: formValue.name ?? "",
       category: formValue.category ?? "",
       startDate: this.createDateInUTC(formValue.startDate ?? ""),

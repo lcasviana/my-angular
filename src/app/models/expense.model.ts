@@ -1,19 +1,11 @@
 export type ExpenseRecurrenceType = "monthly" | "yearly";
 
-export type ExpensePayment = {
-  uuid: string;
-  date: Date;
-  value: number;
-};
-
 export type Expense = {
-  uuid: string;
+  expenseId: string;
   title: string;
-  category: string;
-  description?: string | null;
+  recurrence: ExpenseRecurrenceType;
   startDate: Date;
   endDate?: Date | null;
-  recurrence: ExpenseRecurrenceType;
-  paymentMethod?: string | null;
-  payments?: ExpensePayment[];
 };
+
+export type ExpenseRequest = Omit<Expense, "expenseId">;

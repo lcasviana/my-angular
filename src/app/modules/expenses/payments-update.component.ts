@@ -142,11 +142,11 @@ export class PaymentUpdateComponent {
 
     const updatedExpense: Expense = {
       ...currentExpense,
-      payments: currentExpense.payments?.map((p) => (p.uuid === currentPayment.uuid ? updatedPayment : p)) || [],
+      payments: currentExpense.payments?.map((p) => (p.paymentId === currentPayment.paymentId ? updatedPayment : p)) || [],
     };
 
     this.expenseStore.updateExpense(updatedExpense);
-    this.router.navigate(["/expenses", currentExpense.uuid]);
+    this.router.navigate(["/expenses", currentExpense.expenseId]);
   }
 
   protected goBack(): void {
