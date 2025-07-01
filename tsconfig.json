@@ -22,9 +22,6 @@
     "noImplicitReturns": true,
     "noPropertyAccessFromIndexSignature": true,
     "outDir": "./dist/out-tsc",
-    "paths": {
-      "@/*": ["./src/app/*"]
-    },
     "removeComments": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,

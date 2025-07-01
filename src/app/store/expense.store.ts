@@ -1,7 +1,7 @@
 import { computed, inject } from "@angular/core";
 import { patchState, signalStore, withComputed, withHooks, withMethods, withState } from "@ngrx/signals";
 
-import { Expense, ExpenseRequest } from "../models";
+import { Expense, ExpensePayment, ExpenseRequest } from "../models";
 import { ExpensesService } from "../services";
 
 export const ExpenseStore = signalStore(
@@ -9,10 +9,16 @@ export const ExpenseStore = signalStore(
 
   withState<{
     expenses: Expense[];
+    payments: ExpensePayment[];
+    expenseId: string | null;
+    paymentId: string | null;
     loading: boolean;
     error: unknown | null;
   }>({
     expenses: [],
+    payments: [],
+    expenseId: null,
+    paymentId: null,
     loading: true,
     error: null,
   }),
@@ -30,6 +36,21 @@ export const ExpenseStore = signalStore(
       });
       return expensesActive;
     }),
+
+    expense: computed<Expense | null>(() => {
+      const expenseId = store.expenseId();
+      if (!expenseId) return null;
+      const expense = store.expenses().find((e) => e.expenseId === expenseId);
+      return expense || null;
+    }),
+
+    payment: computed<ExpensePayment | null>(() => {
+      const expenseId = store.expenseId();
+      const paymentId = store.paymentId();
+      if (!expenseId || !paymentId) return null;
+      const payment = store.payments().find((p) => p.paymentId === paymentId && p.expenseId === expenseId);
+      return payment || null;
+    }),
   })),
 
   withMethods((store, expenseService = inject(ExpensesService)) => ({
@@ -41,6 +62,10 @@ export const ExpenseStore = signalStore(
       } catch (error) {
         patchState(store, { loading: false, error });
       }
+    },
+
+    selectExpense(expenseId: string): void {
+      patchState(store, { expenseId });
     },
 
     createExpense(expenseRequest: ExpenseRequest): void {
@@ -75,6 +100,7 @@ export const ExpenseStore = signalStore(
         patchState(store, (state) => ({
           ...state,
           expenses: state.expenses.filter((e) => e.expenseId !== expenseId),
+          expenseId: state.expenseId === expenseId ? null : state.expenseId,
           loading: false,
           error: null,
         }));
