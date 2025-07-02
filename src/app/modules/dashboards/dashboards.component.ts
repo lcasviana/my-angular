@@ -2,7 +2,7 @@ import { CurrencyPipe, DatePipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, inject } from "@angular/core";
 
 import { Expense } from "../../models";
-import { ExpenseStore } from "../../store/expense.store";
+import { ExpenseStore } from "../../stores/expenses.store";
 
 interface PaymentSummary {
   id: string;

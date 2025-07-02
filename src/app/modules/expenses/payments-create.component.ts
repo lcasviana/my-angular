@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, input } 
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 
-import { Expense, ExpensePayment } from "../../models";
+import { Expense, Payment } from "../../models";
 import { generateUUID } from "../../services/expenses.service";
-import { ExpenseStore } from "../../store/expense.store";
+import { ExpenseStore } from "../../stores/expenses.store";
 
 @Component({
   selector: "my-payments-create",
@@ -120,7 +120,7 @@ export class PaymentCreateComponent {
     const formValue = this.paymentForm.value;
     const currentExpense = this.expense()!;
 
-    const newPayment: ExpensePayment = {
+    const newPayment: Payment = {
       paymentId: generateUUID(),
       date: this.createDateInUTC(formValue.date),
       value: formValue.value,

@@ -2,8 +2,8 @@ import { DatePipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation, inject } from "@angular/core";
 import { RouterLink } from "@angular/router";
 
-import { Expense, ExpensePayment } from "../../models";
-import { ExpenseStore } from "../../store/expense.store";
+import { Expense, Payment } from "../../models";
+import { ExpenseStore } from "../../stores/expenses.store";
 
 @Component({
   selector: "my-payments-list",
@@ -75,7 +75,7 @@ export class PaymentListComponent {
     return this.expense.payments?.reduce((sum, payment) => sum + payment.value, 0) || 0;
   }
 
-  protected deletePayment(payment: ExpensePayment): void {
+  protected deletePayment(payment: Payment): void {
     if (confirm("Are you sure you want to delete this payment?")) {
       const updatedExpense: Expense = {
         ...this.expense,

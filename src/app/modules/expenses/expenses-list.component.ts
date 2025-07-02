@@ -2,7 +2,7 @@ import { DatePipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from "@angular/core";
 import { RouterLink } from "@angular/router";
 
-import { ExpenseStore } from "../../store/expense.store";
+import { ExpenseStore } from "../../stores/expenses.store";
 import { ExpenseFilterComponent, ExpenseFilterCriteria } from "./expenses-filter.component";
 
 @Component({

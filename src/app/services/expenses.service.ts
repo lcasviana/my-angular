@@ -28,7 +28,7 @@ export class ExpensesService {
 
   public updateExpense(expenseId: string, expenseRequest: ExpenseRequest): Expense {
     const expenses = this.getExpensesStorage();
-    const expenseIndex = expenses.findIndex(({ expenseId: uuid }) => uuid === expenseId);
+    const expenseIndex = expenses.findIndex((expense) => expense.expenseId === expenseId);
     if (expenseIndex === -1) throw new Error("Expense not found.");
 
     const expense: Expense = { ...expenseRequest, expenseId };

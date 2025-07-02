@@ -1,7 +1,7 @@
 import { computed, inject } from "@angular/core";
 import { patchState, signalStore, withComputed, withHooks, withMethods, withState } from "@ngrx/signals";
 
-import { Expense, ExpensePayment, ExpenseRequest } from "../models";
+import { Expense, ExpenseRequest } from "../models";
 import { ExpensesService } from "../services";
 
 export const ExpenseStore = signalStore(
@@ -9,16 +9,12 @@ export const ExpenseStore = signalStore(
 
   withState<{
     expenses: Expense[];
-    payments: ExpensePayment[];
     expenseId: string | null;
-    paymentId: string | null;
     loading: boolean;
     error: unknown | null;
   }>({
     expenses: [],
-    payments: [],
     expenseId: null,
-    paymentId: null,
     loading: true,
     error: null,
   }),
@@ -43,14 +39,6 @@ export const ExpenseStore = signalStore(
       const expense = store.expenses().find((e) => e.expenseId === expenseId);
       return expense || null;
     }),
-
-    payment: computed<ExpensePayment | null>(() => {
-      const expenseId = store.expenseId();
-      const paymentId = store.paymentId();
-      if (!expenseId || !paymentId) return null;
-      const payment = store.payments().find((p) => p.paymentId === paymentId && p.expenseId === expenseId);
-      return payment || null;
-    }),
   })),
 
   withMethods((store, expenseService = inject(ExpensesService)) => ({
@@ -64,7 +52,7 @@ export const ExpenseStore = signalStore(
       }
     },
 
-    selectExpense(expenseId: string): void {
+    selectExpense(expenseId: string | null): void {
       patchState(store, { expenseId });
     },
 
@@ -72,7 +60,7 @@ export const ExpenseStore = signalStore(
       patchState(store, { loading: true, error: null });
       try {
         const expense = expenseService.createExpense(expenseRequest);
-        patchState(store, (state) => ({ ...state, expenses: [...state.expenses, expense], loading: false, error: null }));
+        patchState(store, { expenses: [...store.expenses(), expense], loading: false, error: null });
       } catch (error) {
         patchState(store, { loading: false, error });
       }
@@ -82,12 +70,7 @@ export const ExpenseStore = signalStore(
       patchState(store, { loading: true, error: null });
       try {
         const expense = expenseService.updateExpense(expenseId, expenseRequest);
-        patchState(store, (state) => ({
-          ...state,
-          expenses: state.expenses.map((e) => (e.expenseId === expenseId ? expense : e)),
-          loading: false,
-          error: null,
-        }));
+        patchState(store, { expenses: [...store.expenses(), expense], loading: false, error: null });
       } catch (error) {
         patchState(store, { loading: false, error });
       }
@@ -97,13 +80,12 @@ export const ExpenseStore = signalStore(
       patchState(store, { loading: true, error: null });
       try {
         expenseService.deleteExpense(expenseId);
-        patchState(store, (state) => ({
-          ...state,
-          expenses: state.expenses.filter((e) => e.expenseId !== expenseId),
-          expenseId: state.expenseId === expenseId ? null : state.expenseId,
+        patchState(store, {
+          expenses: store.expenses().filter((e) => e.expenseId !== expenseId),
+          expenseId: store.expenseId() === expenseId ? null : store.expenseId(),
           loading: false,
           error: null,
-        }));
+        });
       } catch (error) {
         patchState(store, { loading: false, error });
       }

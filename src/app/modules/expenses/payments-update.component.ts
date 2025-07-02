@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, effect, inject, 
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 
-import { Expense, ExpensePayment } from "../../models";
-import { ExpenseStore } from "../../store/expense.store";
+import { Expense, Payment } from "../../models";
+import { ExpenseStore } from "../../stores/expenses.store";
 
 @Component({
   selector: "my-payments-update",
@@ -134,7 +134,7 @@ export class PaymentUpdateComponent {
     const currentExpense = this.expense()!;
     const currentPayment = this.payment()!;
 
-    const updatedPayment: ExpensePayment = {
+    const updatedPayment: Payment = {
       ...currentPayment,
       date: this.createDateInUTC(formValue.date),
       value: formValue.value,

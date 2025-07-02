@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 
 import { Expense } from "../../models";
 import { generateUUID } from "../../services/expenses.service";
-import { ExpenseStore } from "../../store/expense.store";
+import { ExpenseStore } from "../../stores/expenses.store";
 import { ExpenseFormComponent } from "./expenses-form.component";
 
 @Component({

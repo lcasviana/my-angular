@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, input } 
 import { Router } from "@angular/router";
 
 import { Expense } from "../../models";
-import { ExpenseStore } from "../../store/expense.store";
+import { ExpenseStore } from "../../stores/expenses.store";
 import { ExpenseFormComponent } from "./expenses-form.component";
 
 @Component({
