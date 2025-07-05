@@ -1,8 +1,13 @@
 import { CurrencyPipe, DatePipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, inject } from "@angular/core";
 
-import { Expense } from "../../models";
-import { ExpenseStore, PaymentsStore } from "../../stores";
+import { CardModule } from "primeng/card";
+import { ProgressBarModule } from "primeng/progressbar";
+import { TableModule } from "primeng/table";
+import { TagModule } from "primeng/tag";
+
+import { Expense } from "my-angular/models";
+import { ExpenseStore, PaymentsStore } from "my-angular/stores";
 
 interface PaymentSummary {
   id: string;
@@ -22,30 +27,30 @@ interface UpcomingExpense {
   selector: "my-dashboards",
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [DatePipe, CurrencyPipe],
+  imports: [CardModule, CurrencyPipe, DatePipe, ProgressBarModule, TableModule, TagModule],
   template: `
-    <div class="mb-6 rounded-lg bg-white p-6 shadow">
+    <p-card styleClass="mb-6">
       <h2 class="mb-4 text-xl font-semibold">Financial Dashboard</h2>
 
       <div class="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
-        <div class="rounded-lg bg-blue-50 p-4 shadow-sm">
+        <p-card styleClass="bg-blue-50">
           <h3 class="mb-1 text-sm font-medium text-blue-800">Total Active Expenses</h3>
           <p class="text-2xl font-bold text-blue-900">{{ activeExpenseCount() }}</p>
           <p class="mt-1 text-sm text-blue-700">
             From {{ totalExpenseCount() }} total expenses
             @if (activeExpenseCount() < totalExpenseCount()) {
-              <span class="ml-1 rounded-full bg-blue-200 px-2 py-0.5 text-xs"> {{ totalExpenseCount() - activeExpenseCount() }} inactive </span>
+              <p-tag styleClass="ml-1" severity="info" [value]="totalExpenseCount() - activeExpenseCount() + ' inactive'" />
             }
           </p>
-        </div>
+        </p-card>
 
-        <div class="rounded-lg bg-green-50 p-4 shadow-sm">
+        <p-card styleClass="bg-green-50">
           <h3 class="mb-1 text-sm font-medium text-green-800">Paid in May 2025</h3>
           <p class="text-2xl font-bold text-green-900">{{ totalPaidThisMonth() | currency }}</p>
           <p class="mt-1 text-sm text-green-700">Across {{ paymentsThisMonth().length }} payments</p>
-        </div>
+        </p-card>
 
-        <div class="rounded-lg bg-amber-50 p-4 shadow-sm">
+        <p-card styleClass="bg-amber-50">
           <h3 class="mb-1 text-sm font-medium text-amber-800">Total Payments</h3>
           <p class="text-2xl font-bold text-amber-900">{{ totalPaymentCount() }}</p>
           <p class="mt-1 text-sm text-amber-700">
@@ -56,116 +61,108 @@ interface UpcomingExpense {
               </span>
             }
           </p>
-        </div>
+        </p-card>
       </div>
 
       <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
         <div>
           <div class="mb-6">
             <h3 class="text-md mb-3 font-semibold text-gray-700">Expenses by Recurrence</h3>
-            <div class="overflow-x-auto">
-              <table class="min-w-full">
-                <thead>
-                  <tr class="bg-gray-50">
-                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Recurrence</th>
-                    <th class="px-4 py-2 text-right text-sm font-medium text-gray-500">Count</th>
-                    <th class="px-4 py-2 text-right text-sm font-medium text-gray-500">% of Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @for (recurrence of recurrenceBreakdown(); track recurrence.name) {
-                    <tr class="border-b">
-                      <td class="px-4 py-2">{{ recurrence.name }}</td>
-                      <td class="px-4 py-2 text-right">{{ recurrence.count }}</td>
-                      <td class="px-4 py-2 text-right">
-                        <div class="flex items-center justify-end">
-                          <div class="mr-2 h-2 w-16 rounded-full bg-gray-200">
-                            <div class="h-2 rounded-full bg-blue-600" [style.width]="recurrence.percentage + '%'"></div>
-                          </div>
-                          {{ recurrence.percentage.toFixed(1) }}%
-                        </div>
-                      </td>
-                    </tr>
-                  }
-                </tbody>
-              </table>
-            </div>
+            <p-table [value]="recurrenceBreakdown()" [tableStyle]="{ 'min-width': '30rem' }">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Recurrence</th>
+                  <th class="text-right">Count</th>
+                  <th class="text-right">% of Total</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-recurrence>
+                <tr>
+                  <td>{{ recurrence.name }}</td>
+                  <td class="text-right">{{ recurrence.count }}</td>
+                  <td class="text-right">
+                    <div class="flex items-center justify-end gap-2">
+                      <p-progressBar [value]="recurrence.percentage" [showValue]="false" styleClass="h-2 w-16" />
+                      <span>{{ recurrence.percentage.toFixed(1) }}%</span>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
           </div>
 
           <div>
             <h3 class="text-md mb-3 font-semibold text-gray-700">Upcoming Expenses</h3>
-            @if (upcomingExpenses().length === 0) {
-              <p class="py-3 text-gray-500 italic">No upcoming expenses found</p>
-            } @else {
-              <div class="overflow-x-auto">
-                <table class="min-w-full">
-                  <thead>
-                    <tr class="bg-gray-50">
-                      <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Next Due</th>
-                      <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Title</th>
-                      <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Recurrence</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @for (expense of upcomingExpenses(); track expense.id) {
-                      <tr class="border-b">
-                        <td class="px-4 py-2">
-                          <span [class.font-medium]="isUpcomingSoon(expense.nextDueDate)" [class.text-red-600]="isUpcomingSoon(expense.nextDueDate)">
-                            {{ expense.nextDueDate | date: "MMM d" : "GMT" }}
-                          </span>
-                        </td>
-                        <td class="px-4 py-2">{{ expense.title }}</td>
-                        <td class="px-4 py-2">{{ expense.recurrence }}</td>
-                      </tr>
-                    }
-                  </tbody>
-                </table>
-              </div>
-            }
+            <p-table [value]="upcomingExpenses()" [tableStyle]="{ 'min-width': '30rem' }">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Next Due</th>
+                  <th>Title</th>
+                  <th>Recurrence</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-expense>
+                <tr>
+                  <td>
+                    <span [class.font-medium]="isUpcomingSoon(expense.nextDueDate)" [class.text-red-600]="isUpcomingSoon(expense.nextDueDate)">
+                      {{ expense.nextDueDate | date: "MMM d" : "GMT" }}
+                    </span>
+                  </td>
+                  <td>{{ expense.title }}</td>
+                  <td>{{ expense.recurrence }}</td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="3">
+                    <p class="py-3 text-center text-gray-500 italic">No upcoming expenses found</p>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
           </div>
         </div>
 
         <div>
           <div>
             <h3 class="text-md mb-3 font-semibold text-gray-700">Recent Payments</h3>
-            @if (recentPayments().length === 0) {
-              <p class="py-3 text-gray-500 italic">No payment records found</p>
-            } @else {
-              <div class="overflow-x-auto">
-                <table class="min-w-full">
-                  <thead>
-                    <tr class="bg-gray-50">
-                      <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Date</th>
-                      <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Expense</th>
-                      <th class="px-4 py-2 text-right text-sm font-medium text-gray-500">Amount</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @for (payment of recentPayments(); track payment.id) {
-                      <tr class="border-b">
-                        <td class="px-4 py-2">{{ payment.date | date: "mediumDate" : "GMT" }}</td>
-                        <td class="px-4 py-2">{{ payment.expenseTitle }}</td>
-                        <td class="px-4 py-2 text-right">{{ payment.amount | currency }}</td>
-                      </tr>
-                    }
-                  </tbody>
-                  <tfoot>
-                    @if (recentPayments().length > 0) {
-                      <tr>
-                        <td colspan="2" class="px-4 py-2 text-right font-medium">Total:</td>
-                        <td class="px-4 py-2 text-right font-medium">
-                          {{ recentPaymentsTotal() | currency }}
-                        </td>
-                      </tr>
-                    }
-                  </tfoot>
-                </table>
-              </div>
-            }
+            <p-table [value]="recentPayments()" [tableStyle]="{ 'min-width': '30rem' }">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Date</th>
+                  <th>Expense</th>
+                  <th class="text-right">Amount</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-payment>
+                <tr>
+                  <td>{{ payment.date | date: "mediumDate" : "GMT" }}</td>
+                  <td>{{ payment.expenseTitle }}</td>
+                  <td class="text-right">{{ payment.amount | currency }}</td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="footer">
+                @if (recentPayments().length > 0) {
+                  <tr>
+                    <td colspan="2" class="text-right font-medium">Total:</td>
+                    <td class="text-right font-medium">
+                      {{ recentPaymentsTotal() | currency }}
+                    </td>
+                  </tr>
+                }
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="3">
+                    <p class="py-3 text-center text-gray-500 italic">No payment records found</p>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
           </div>
         </div>
       </div>
-    </div>
+    </p-card>
   `,
 })
 export class DashboardComponent {

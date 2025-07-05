@@ -34,8 +34,8 @@ import { ExpenseStore } from "my-angular/stores";
             <td>{{ expense.startDate | date: "MM/dd/yyyy" }}</td>
             <td>{{ expense.endDate | date: "MM/dd/yyyy" }}</td>
             <td>
-              <a [routerLink]="['/expenses', expense.expenseId]">View</a>
-              <a [routerLink]="['/expenses', expense.expenseId, 'update']">Update</a>
+              <a pButton [routerLink]="['/expenses', expense.expenseId]">View</a>
+              <a pButton [routerLink]="['/expenses', expense.expenseId, 'update']">Update</a>
               <button pButton type="button" (click)="deleteExpense(expense.expenseId)">Delete</button>
             </td>
           </tr>
