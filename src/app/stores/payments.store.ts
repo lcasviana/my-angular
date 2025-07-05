@@ -57,27 +57,31 @@ export const PaymentsStore = signalStore(
       patchState(store, { paymentId });
     },
 
-    createPayment(paymentRequest: PaymentRequest): void {
+    createPayment(paymentRequest: PaymentRequest): Payment | undefined {
       patchState(store, { loading: true, error: null });
       try {
         const payment = paymentsService.createPayment(paymentRequest);
         patchState(store, { payments: [...store.payments(), payment], loading: false, error: null });
+        return payment;
       } catch (error) {
         patchState(store, { loading: false, error });
+        return undefined;
       }
     },
 
-    updatePayment(paymentId: string, paymentRequest: PaymentRequest): void {
+    updatePayment(paymentId: string, paymentRequest: PaymentRequest): Payment | undefined {
       patchState(store, { loading: true, error: null });
       try {
         const payment = paymentsService.updatePayment(paymentId, paymentRequest);
         patchState(store, { payments: [...store.payments(), payment], loading: false, error: null });
+        return payment;
       } catch (error) {
         patchState(store, { loading: false, error });
+        return undefined;
       }
     },
 
-    deletePayment(paymentId: string): void {
+    deletePayment(paymentId: string): string | undefined {
       patchState(store, { loading: true, error: null });
       try {
         paymentsService.deletePayment(paymentId);
@@ -87,8 +91,10 @@ export const PaymentsStore = signalStore(
           loading: false,
           error: null,
         });
+        return paymentId;
       } catch (error) {
         patchState(store, { loading: false, error });
+        return undefined;
       }
     },
 

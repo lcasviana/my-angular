@@ -25,19 +25,20 @@ export const ExpenseStore = signalStore(
       const now = new Date();
       const expensesActive = expenses.filter(({ endDate }) => {
         if (!endDate) return true;
-        if (endDate.getFullYear() < now.getFullYear()) return false;
-        if (endDate.getMonth() < now.getMonth()) return false;
-        if (endDate.getDate() < now.getDate()) return false;
+        const _endDate = new Date(endDate);
+        if (_endDate.getFullYear() < now.getFullYear()) return false;
+        if (_endDate.getMonth() < now.getMonth()) return false;
+        if (_endDate.getDate() < now.getDate()) return false;
         return true;
       });
       return expensesActive;
     }),
 
-    expense: computed<Expense | null>(() => {
+    expense: computed<Expense | undefined>(() => {
       const expenseId = store.expenseId();
-      if (!expenseId) return null;
+      if (!expenseId) return undefined;
       const expense = store.expenses().find((e) => e.expenseId === expenseId);
-      return expense || null;
+      return expense;
     }),
   })),
 
@@ -56,27 +57,31 @@ export const ExpenseStore = signalStore(
       patchState(store, { expenseId });
     },
 
-    createExpense(expenseRequest: ExpenseRequest): void {
+    createExpense(expenseRequest: ExpenseRequest): Expense | undefined {
       patchState(store, { loading: true, error: null });
       try {
         const expense = expenseService.createExpense(expenseRequest);
         patchState(store, { expenses: [...store.expenses(), expense], loading: false, error: null });
+        return expense;
       } catch (error) {
         patchState(store, { loading: false, error });
+        return undefined;
       }
     },
 
-    updateExpense(expenseId: string, expenseRequest: ExpenseRequest): void {
+    updateExpense(expenseId: string, expenseRequest: ExpenseRequest): Expense | undefined {
       patchState(store, { loading: true, error: null });
       try {
         const expense = expenseService.updateExpense(expenseId, expenseRequest);
         patchState(store, { expenses: [...store.expenses(), expense], loading: false, error: null });
+        return expense;
       } catch (error) {
         patchState(store, { loading: false, error });
+        return undefined;
       }
     },
 
-    deleteExpense(expenseId: string): void {
+    deleteExpense(expenseId: string): string | undefined {
       patchState(store, { loading: true, error: null });
       try {
         expenseService.deleteExpense(expenseId);
@@ -86,8 +91,10 @@ export const ExpenseStore = signalStore(
           loading: false,
           error: null,
         });
+        return expenseId;
       } catch (error) {
         patchState(store, { loading: false, error });
+        return undefined;
       }
     },
 

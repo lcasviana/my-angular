@@ -4,8 +4,8 @@ export type Expense = {
   expenseId: string;
   title: string;
   recurrence: ExpenseRecurrenceType;
-  startDate: Date;
-  endDate?: Date | null;
+  startDate: string;
+  endDate?: string | null;
 };
 
 export type ExpenseRequest = Omit<Expense, "expenseId">;
