@@ -22,19 +22,18 @@ export const PaymentsStore = signalStore(
   }),
 
   withComputed((store) => ({
-    expensePayments: computed<Payment[] | null>(() => {
+    paymentsByExpense: computed<Payment[] | null>(() => {
       const expenseId = store.expenseId();
       if (!expenseId) return null;
       const expensePayments = store.payments().filter((p) => p.expenseId === expenseId);
       return expensePayments || null;
     }),
 
-    expensePayment: computed<Payment | null>(() => {
-      const expenseId = store.expenseId();
+    payment: computed<Payment | null>(() => {
       const paymentId = store.paymentId();
-      if (!expenseId || !paymentId) return null;
-      const expensePayment = store.payments().find((p) => p.expenseId === expenseId && p.paymentId === paymentId);
-      return expensePayment || null;
+      if (!paymentId) return null;
+      const payment = store.payments().find((p) => p.paymentId === paymentId);
+      return payment || null;
     }),
   })),
 
@@ -53,7 +52,7 @@ export const PaymentsStore = signalStore(
       patchState(store, { expenseId });
     },
 
-    selectExpensePayment(paymentId: string | null): void {
+    selectPayment(paymentId: string | null): void {
       patchState(store, { paymentId });
     },
 
@@ -73,7 +72,11 @@ export const PaymentsStore = signalStore(
       patchState(store, { loading: true, error: null });
       try {
         const payment = paymentsService.updatePayment(paymentId, paymentRequest);
-        patchState(store, { payments: [...store.payments(), payment], loading: false, error: null });
+        patchState(store, {
+          payments: store.payments().map((p) => (p.paymentId === paymentId ? payment : p)),
+          loading: false,
+          error: null,
+        });
         return payment;
       } catch (error) {
         patchState(store, { loading: false, error });

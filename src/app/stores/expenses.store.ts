@@ -73,7 +73,11 @@ export const ExpenseStore = signalStore(
       patchState(store, { loading: true, error: null });
       try {
         const expense = expenseService.updateExpense(expenseId, expenseRequest);
-        patchState(store, { expenses: [...store.expenses(), expense], loading: false, error: null });
+        patchState(store, {
+          expenses: store.expenses().map((e) => (e.expenseId === expenseId ? expense : e)),
+          loading: false,
+          error: null,
+        });
         return expense;
       } catch (error) {
         patchState(store, { loading: false, error });

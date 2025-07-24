@@ -1,7 +1,7 @@
 export type Payment = {
   paymentId: string;
   expenseId: string;
-  date: Date;
+  date: string;
   value: number;
 };
 
