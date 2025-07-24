@@ -23,15 +23,8 @@ export const ExpenseStore = signalStore(
     expensesActive: computed<Expense[]>(() => {
       const expenses = store.expenses();
       const now = new Date();
-      const expensesActive = expenses.filter(({ endDate }) => {
-        if (!endDate) return true;
-        const _endDate = new Date(endDate);
-        if (_endDate.getFullYear() < now.getFullYear()) return false;
-        if (_endDate.getMonth() < now.getMonth()) return false;
-        if (_endDate.getDate() < now.getDate()) return false;
-        return true;
-      });
-      return expensesActive;
+      now.setHours(0, 0, 0, 0);
+      return expenses.filter(({ endDate }) => !endDate || endDate.getTime() >= now.getTime());
     }),
 
     expense: computed<Expense | undefined>(() => {

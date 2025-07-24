@@ -86,7 +86,7 @@ export class ExpenseFormComponent {
     name: this.fb.control<string | null | undefined>(null, Validators.required),
     recurrence: this.fb.control<ExpenseRecurrenceType | null | undefined>(null, Validators.required),
     startDate: this.fb.control<string | null | undefined>(null, Validators.required),
-    endDate: this.fb.control<string | null | undefined>(null),
+    endDate: this.fb.control<Date | null | undefined>(null),
   });
 
   protected readonly expenseFormEffect: EffectRef = effect((): void => {
@@ -122,12 +122,12 @@ export type ExpenseForm = FormGroup<{
   name: FormControl<string | null | undefined>;
   recurrence: FormControl<ExpenseRecurrenceType | null | undefined>;
   startDate: FormControl<string | null | undefined>;
-  endDate: FormControl<string | null | undefined>;
+  endDate: FormControl<Date | null | undefined>;
 }>;
 
 export type ExpenseFormValue = Partial<{
   name: string | null | undefined;
   recurrence: ExpenseRecurrenceType | null | undefined;
   startDate: string | null | undefined;
-  endDate: string | null | undefined;
+  endDate: Date | null | undefined;
 }>;

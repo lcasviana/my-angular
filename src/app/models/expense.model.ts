@@ -5,7 +5,7 @@ export type Expense = {
   title: string;
   recurrence: ExpenseRecurrenceType;
   startDate: string;
-  endDate?: string | null;
+  endDate?: Date | null;
 };
 
 export type ExpenseRequest = Omit<Expense, "expenseId">;
