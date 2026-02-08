@@ -1,10 +1,10 @@
-import { importProvidersFrom, provideZonelessChangeDetection } from "@angular/core";
-import { BrowserModule, bootstrapApplication } from "@angular/platform-browser";
-import { provideRouter } from "@angular/router";
+import { provideZonelessChangeDetection } from "@angular/core";
+import { bootstrapApplication } from "@angular/platform-browser";
+import { provideRouter, withComponentInputBinding } from "@angular/router";
 
 import { App } from "./app/app.component";
 import { appRoutes } from "./app/app.routes";
 
 bootstrapApplication(App, {
-  providers: [importProvidersFrom(BrowserModule), provideRouter(appRoutes), provideZonelessChangeDetection()],
-}).catch((error) => console.error(error));
+  providers: [provideRouter(appRoutes, withComponentInputBinding()), provideZonelessChangeDetection()],
+}).catch(console.error);

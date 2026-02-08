@@ -3,7 +3,7 @@
   "cli": {
     "analytics": false,
     "cache": {
-      "enabled": false
+      "enabled": true
     },
     "packageManager": "bun",
     "schematicCollections": []
@@ -21,6 +21,18 @@
               "sourceMap": true
             },
             "prd": {
+              "budgets": [
+                {
+                  "maximumError": "1MB",
+                  "maximumWarning": "500kB",
+                  "type": "initial"
+                },
+                {
+                  "maximumError": "8kB",
+                  "maximumWarning": "4kB",
+                  "type": "anyComponentStyle"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/envs/env.ts",
@@ -37,7 +49,7 @@
             "assets": ["src/favicon.ico"],
             "browser": "src/index.ts",
             "index": "src/index.html",
-            "inlineStyleLanguage": "css",
+            "inlineStyleLanguage": "scss",
             "outputPath": {
               "base": "dist/my-angular",
               "browser": ""
@@ -59,10 +71,7 @@
               "buildTarget": "my-angular:build:prd"
             }
           },
-          "defaultConfiguration": "dev",
-          "options": {
-            "port": 58227
-          }
+          "defaultConfiguration": "dev"
         }
       },
       "prefix": "my",

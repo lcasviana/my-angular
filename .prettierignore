@@ -7,9 +7,6 @@
 # Angular
 /.angular
 
-# Environment
-.env*
-
 # System
 .DS_Store
 Thumbs.db

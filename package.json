@@ -2,17 +2,16 @@
   "name": "my-angular",
   "private": true,
   "scripts": {
-    "start": "ng serve --no-hmr",
+    "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch",
     "prepare": "husky",
-    "postinstall": "bun run lint:write",
     "eslint:check": "eslint .",
     "eslint:write": "eslint . --fix",
     "prettier:check": "prettier -c --log-level=warn .",
     "prettier:write": "prettier -lw --log-level=warn .",
-    "lint:check": "bun run eslint:check & bun run prettier:check",
-    "lint:write": "bun run eslint:write && bun run prettier:write",
+    "lint:check": "bun run --parallel eslint:check prettier:check",
+    "lint:write": "bun run --sequential eslint:write prettier:write",
     "npm:check": "bunx npm-check-updates"
   },
   "dependencies": {
@@ -24,7 +23,6 @@
     "@angular/forms": "^21",
     "@angular/material": "^21",
     "@angular/platform-browser": "^21",
-    "@angular/platform-browser-dynamic": "^21",
     "@angular/router": "^21",
     "@ngrx/signals": "^21",
     "rxjs": "^7",
