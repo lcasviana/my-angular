@@ -13,6 +13,7 @@ html {
       density: 0,
     )
   );
+  @include mat.strong-focus-indicators();
 }
 
 body.system,

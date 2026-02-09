@@ -32,7 +32,7 @@ import { BreakpointService } from "./services/breakpoint.service";
         <button matIconButton ariaLabel="Toggle Sidebar" (click)="sidenav.toggle()">
           <mat-icon>menu</mat-icon>
         </button>
-        Angular Material Theming
+        My Angular
       </mat-toolbar>
       <mat-sidenav-container (backdropClick)="sidenav.close()">
         <mat-sidenav
@@ -42,8 +42,8 @@ import { BreakpointService } from "./services/breakpoint.service";
           [opened]="!breakpointService.isTablet()"
         >
           <mat-nav-list>
-            <mat-list-item routerLink="/"> Home </mat-list-item>
-            <mat-list-item routerLink="/button"> Button </mat-list-item>
+            <mat-list-item routerLink="/theme-builder"> Theme Builder </mat-list-item>
+            <mat-list-item routerLink="/form-builder"> Form Builder </mat-list-item>
           </mat-nav-list>
         </mat-sidenav>
         <mat-sidenav-content>

@@ -1,0 +1,95 @@
+import type { ThemeTypography } from "../store/theme.models";
+
+/**
+ * Mirrors `core/tokens/m3/_md-sys-typescale.scss :: md-sys-typescale-values()`
+ *
+ * Brand family is used for: display, headline, title
+ * Plain family is used for: body, label
+ */
+export function buildTypographyVariables(typography: ThemeTypography): Record<string, string> {
+  const { brandFamily, plainFamily, boldWeight, mediumWeight, regularWeight } = typography;
+
+  return {
+    "body-large-font": plainFamily,
+    "body-large-line-height": "1.5rem",
+    "body-large-size": "1rem",
+    "body-large-tracking": "0.031rem",
+    "body-large-weight": `${regularWeight}`,
+    "body-medium-font": plainFamily,
+    "body-medium-line-height": "1.25rem",
+    "body-medium-size": "0.875rem",
+    "body-medium-tracking": "0.016rem",
+    "body-medium-weight": `${regularWeight}`,
+    "body-small-font": plainFamily,
+    "body-small-line-height": "1rem",
+    "body-small-size": "0.75rem",
+    "body-small-tracking": "0.025rem",
+    "body-small-weight": `${regularWeight}`,
+
+    "display-large-font": brandFamily,
+    "display-large-line-height": "4rem",
+    "display-large-size": "3.562rem",
+    "display-large-tracking": "-0.016rem",
+    "display-large-weight": `${regularWeight}`,
+    "display-medium-font": brandFamily,
+    "display-medium-line-height": "3.25rem",
+    "display-medium-size": "2.812rem",
+    "display-medium-tracking": "0",
+    "display-medium-weight": `${regularWeight}`,
+    "display-small-font": brandFamily,
+    "display-small-line-height": "2.75rem",
+    "display-small-size": "2.25rem",
+    "display-small-tracking": "0",
+    "display-small-weight": `${regularWeight}`,
+
+    "headline-large-font": brandFamily,
+    "headline-large-line-height": "2.5rem",
+    "headline-large-size": "2rem",
+    "headline-large-tracking": "0",
+    "headline-large-weight": `${regularWeight}`,
+    "headline-medium-font": brandFamily,
+    "headline-medium-line-height": "2.25rem",
+    "headline-medium-size": "1.75rem",
+    "headline-medium-tracking": "0",
+    "headline-medium-weight": `${regularWeight}`,
+    "headline-small-font": brandFamily,
+    "headline-small-line-height": "2rem",
+    "headline-small-size": "1.5rem",
+    "headline-small-tracking": "0",
+    "headline-small-weight": `${regularWeight}`,
+
+    "label-large-font": plainFamily,
+    "label-large-line-height": "1.25rem",
+    "label-large-size": "0.875rem",
+    "label-large-tracking": "0.006rem",
+    "label-large-weight": `${mediumWeight}`,
+    "label-large-weight-prominent": `${boldWeight}`,
+    "label-medium-font": plainFamily,
+    "label-medium-line-height": "1rem",
+    "label-medium-size": "0.75rem",
+    "label-medium-tracking": "0.031rem",
+    "label-medium-weight": `${mediumWeight}`,
+    "label-medium-weight-prominent": `${boldWeight}`,
+    "label-small-font": plainFamily,
+    "label-small-line-height": "1rem",
+    "label-small-size": "0.688rem",
+    "label-small-tracking": "0.031rem",
+    "label-small-weight": `${mediumWeight}`,
+
+    "title-large-font": brandFamily,
+    "title-large-line-height": "1.75rem",
+    "title-large-size": "1.375rem",
+    "title-large-tracking": "0",
+    "title-large-weight": `${regularWeight}`,
+    "title-medium-font": plainFamily,
+    "title-medium-line-height": "1.5rem",
+    "title-medium-size": "1rem",
+    "title-medium-tracking": "0.009rem",
+    "title-medium-weight": `${mediumWeight}`,
+    "title-small-font": plainFamily,
+    "title-small-line-height": "1.25rem",
+    "title-small-size": "0.875rem",
+    "title-small-tracking": "0.006rem",
+    "title-small-weight": `${mediumWeight}`,
+  };
+}
