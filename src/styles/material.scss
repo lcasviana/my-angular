@@ -16,20 +16,8 @@ html {
   @include mat.strong-focus-indicators();
 }
 
-body.system,
-body:not(.light):not(.dark) {
-  color-scheme: light dark;
-}
-
-body.light {
-  color-scheme: light;
-}
-
-body.dark {
-  color-scheme: dark;
-}
-
 body {
+  color-scheme: light dark;
   background-color: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);
   margin: 0;

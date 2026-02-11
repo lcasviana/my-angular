@@ -18,7 +18,7 @@ import { PreviewTypography } from "./preview-typography.component";
   encapsulation: ViewEncapsulation.None,
   imports: [MatTab, MatTabGroup, PreviewButtons, PreviewCards, PreviewDialogs, PreviewForms, PreviewNavigation, PreviewTable, PreviewTypography],
   template: `
-    <div #previewContainer class="min-h-full p-6" [style.background-color]="'var(--mat-sys-surface)'" [style.color]="'var(--mat-sys-on-surface)'">
+    <div #previewContainer class="min-h-full p-6">
       <h2 class="mb-4 text-2xl font-medium">Live Preview</h2>
       <mat-tab-group>
         <mat-tab label="Buttons">
@@ -62,7 +62,7 @@ import { PreviewTypography } from "./preview-typography.component";
 })
 export class PreviewArea {
   private readonly previewContainer = viewChild.required<ElementRef<HTMLElement>>("previewContainer");
-  private readonly themeStore = inject(ThemeStore);
+  readonly themeStore = inject(ThemeStore);
   private readonly cssApplier = inject(CssVariableApplierService);
 
   constructor() {
@@ -73,6 +73,9 @@ export class PreviewArea {
       this.cssApplier.clearAllVariables(el);
       this.cssApplier.applySystemVariables(el, vars);
       this.cssApplier.applyComponentVariables(el, densityVars);
+      el.style.setProperty("background-color", "var(--mat-sys-surface)");
+      el.style.setProperty("color", "var(--mat-sys-on-surface)");
+      el.style.setProperty("color-scheme", this.themeStore.themeType());
     });
   }
 }
